@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>James River Paddle Route: Glasgow to Snowden</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    html, body, #map { height: 100%; margin: 0; }
+    body { font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
+    .title, .legend, .condition-panel { background: rgba(255,255,250,.94); border-radius: 10px; padding: 12px 14px; box-shadow: 0 2px 10px rgba(0,0,0,.18); }
+    .title h1 { font-size: 20px; margin: 0 0 4px; }
+    .title p { font-size: 13px; margin: 0; color: #42505a; }
+    .route-label { color: #0b4e86; font-size: 14px; font-weight: 800; text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff; white-space: nowrap; }
+    .route-arrow { width: 0; height: 0; border-left: 9px solid transparent; border-right: 9px solid transparent; border-bottom: 22px solid #106ab6; filter: drop-shadow(0 1px 1px rgba(255,255,255,.95)) drop-shadow(0 2px 3px rgba(0,0,0,.25)); }
+    .legend { color: #243642; font-size: 13px; line-height: 1.35; }
+    .legend-row { display: flex; align-items: center; gap: 8px; margin: 3px 0; }
+    .swatch { display: inline-block; width: 28px; height: 0; border-top: 5px solid #106ab6; border-radius: 3px; }
+    .swatch-moving { border-top-color: #106ab6; }
+    .swatch-whitewater { border-top-color: #f5a623; }
+    .swatch-dash { display: inline-block; width: 28px; height: 0; border-top: 4px dashed #207d46; }
+    .landmark-pin { display: flex; align-items: center; gap: 7px; filter: drop-shadow(0 2px 4px rgba(0,0,0,.28)); white-space: nowrap; }
+    .pin-dot { display: grid; place-items: center; width: 31px; height: 31px; border: 3px solid #fff; border-radius: 50%; color: #fff; font-size: 11px; font-weight: 900; line-height: 1; box-shadow: 0 0 0 1px rgba(0,0,0,.28); }
+    .pin-label { background: rgba(255,255,250,.95); border: 1px solid rgba(35, 49, 58, .25); border-radius: 8px; color: #1b2d3c; font-size: 14px; font-weight: 800; padding: 5px 8px; }
+    .pin-start .pin-dot { background: #269757; }
+    .pin-end .pin-dot { background: #cd3a3a; }
+    .pin-falls .pin-dot { background: #f5a623; color: #402900; }
+    .condition-panel { color: #243642; font-size: 13px; line-height: 1.35; max-width: 330px; }
+    .condition-panel h2 { font-size: 15px; margin: 0 0 6px; }
+    .condition-panel p { margin: 4px 0; }
+    .condition-label { background: rgba(255,255,250,.94); border: 1px solid rgba(35,49,58,.25); border-radius: 8px; box-shadow: 0 1px 5px rgba(0,0,0,.18); color: #1b2d3c; font-size: 13px; font-weight: 800; padding: 5px 8px; white-space: nowrap; }
+    .condition-label.whitewater { color: #6a4100; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  const route = [[37.6233703, -79.4453503], [37.6231007, -79.4447086], [37.6227717, -79.444158], [37.6208187, -79.4411926], [37.6199806, -79.4398916], [37.61942, -79.439095], [37.6188065, -79.4383532], [37.6181746, -79.4376583], [37.6177117, -79.4372298], [37.6172935, -79.4369756], [37.6156733, -79.436191], [37.6142676, -79.4354905], [37.6119888, -79.434692], [37.610944, -79.4343005], [37.610361, -79.4342717], [37.6092401, -79.4345145], [37.6079822, -79.4348461], [37.6073052, -79.4349819], [37.607098, -79.4350235], [37.6064321, -79.435257], [37.6052038, -79.4348461], [37.6041605, -79.434253], [37.6033576, -79.4334357], [37.6027989, -79.4321748], [37.602588, -79.4312782], [37.602477, -79.4293121], [37.6021885, -79.4275749], [37.6017889, -79.4257115], [37.6017149, -79.4243899], [37.6018518, -79.4229796], [37.6025288, -79.4216627], [37.6036129, -79.4201823], [37.6038579, -79.4198941], [37.6045378, -79.4190942], [37.6053777, -79.4180995], [37.6063063, -79.4168386], [37.6070092, -79.4152227], [37.6070449, -79.415016], [37.6072941, -79.4135742], [37.6076715, -79.4123927], [37.6078835, -79.4118443], [37.6082682, -79.4112189], [37.6085179, -79.4105912], [37.6086058, -79.4098784], [37.6085519, -79.4088357], [37.6083486, -79.4068266], [37.6080155, -79.4054251], [37.6072949, -79.4039962], [37.6070758, -79.4035618], [37.6064312, -79.4025089], [37.6053344, -79.4007173], [37.6051002, -79.4003348], [37.6046747, -79.3997185], [37.6041716, -79.3989898], [37.6028433, -79.398336], [37.6012384, -79.3976906], [37.5990427, -79.3967021], [37.5971045, -79.394685], [37.5956764, -79.391005]];
+  const map = L.map('map').fitBounds(route, { padding: [60, 60] });
+  const startPoint = [37.6254441, -79.4444505];
+  const endPoint = [37.5958328, -79.3910215];
+  const balconyFallsPoint = [37.6181746, -79.4376583];
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+  const titleControl = L.control({ position: 'topleft' });
+  titleControl.onAdd = function() {
+    const div = L.DomUtil.create('div', 'title');
+    div.innerHTML = '<h1>James River Paddle Route</h1><p>Glasgow / Balcony Falls to Snowden, Virginia</p>';
+    return div;
+  };
+  titleControl.addTo(map);
+
+  const legendControl = L.control({ position: 'bottomleft' });
+  legendControl.onAdd = function() {
+    const div = L.DomUtil.create('div', 'legend');
+    div.innerHTML = `
+      <div class="legend-row"><span class="swatch swatch-moving"></span><strong>Class I-II moving water</strong></div>
+      <div class="legend-row"><span class="swatch swatch-whitewater"></span><strong>Balcony Falls Class II/III</strong></div>
+      <div class="legend-row"><span class="swatch-dash"></span><span>Appalachian Trail crossing cue</span></div>
+    `;
+    return div;
+  };
+  legendControl.addTo(map);
+
+  const conditionControl = L.control({ position: 'topright' });
+  conditionControl.onAdd = function() {
+    const div = L.DomUtil.create('div', 'condition-panel');
+    div.innerHTML = `
+      <h2>Water Character</h2>
+      <p><strong>Overall:</strong> mostly Class I-II moving water.</p>
+      <p><strong>Balcony Falls:</strong> main whitewater feature, Class II/III depending on level.</p>
+      <p><strong>Gauge snapshot:</strong> Buchanan 2.29 ft / 588 cfs on Jun 17, 2026 at 2:00 PM ET, low-runnable/normal-low.</p>
+    `;
+    return div;
+  };
+  conditionControl.addTo(map);
+
+  const routeCasing = L.polyline(route, { color: '#ffffff', weight: 12, opacity: 0.94 }).addTo(map);
+  const whitewaterRoute = route.slice(6, 21);
+  const movingWaterRoutes = [route.slice(0, 7), route.slice(20)];
+  movingWaterRoutes.forEach((segment) => {
+    L.polyline(segment, { color: '#106ab6', weight: 7, opacity: 0.96 })
+      .addTo(map)
+      .bindPopup('Class I-II moving water section of the James River paddling route');
+  });
+  L.polyline(whitewaterRoute, { color: '#f5a623', weight: 8, opacity: 0.98 })
+    .addTo(map)
+    .bindPopup('Balcony Falls whitewater section: Class II/III depending on level');
+
+  function bearing(from, to) {
+    const lat1 = from[0] * Math.PI / 180;
+    const lat2 = to[0] * Math.PI / 180;
+    const dLon = (to[1] - from[1]) * Math.PI / 180;
+    const y = Math.sin(dLon) * Math.cos(lat2);
+    const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+    return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+  }
+
+  function segmentAtFraction(points, fraction) {
+    const lengths = [];
+    let total = 0;
+    for (let i = 0; i < points.length - 1; i += 1) {
+      const a = map.project(points[i]);
+      const b = map.project(points[i + 1]);
+      const length = a.distanceTo(b);
+      lengths.push(length);
+      total += length;
+    }
+    let target = total * fraction;
+    for (let i = 0; i < lengths.length; i += 1) {
+      if (target <= lengths[i]) {
+        const a = points[i];
+        const b = points[i + 1];
+        const t = lengths[i] === 0 ? 0 : target / lengths[i];
+        return {
+          latlng: [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t],
+          angle: bearing(a, b)
+        };
+      }
+      target -= lengths[i];
+    }
+    return { latlng: points[points.length - 1], angle: bearing(points[points.length - 2], points[points.length - 1]) };
+  }
+
+  [0.22, 0.48, 0.73].forEach((fraction) => {
+    const marker = segmentAtFraction(route, fraction);
+    L.marker(marker.latlng, {
+      interactive: false,
+      icon: L.divIcon({
+        className: '',
+        html: `<div class="route-arrow" style="transform: rotate(${marker.angle}deg);"></div>`,
+        iconSize: [22, 28],
+        iconAnchor: [11, 14]
+      })
+    }).addTo(map);
+  });
+
+  const routeLabel = segmentAtFraction(route, 0.5);
+  L.marker(routeLabel.latlng, {
+    interactive: false,
+    icon: L.divIcon({
+      className: 'route-label',
+      html: 'Paddling route',
+      iconSize: [110, 20],
+      iconAnchor: [55, 10]
+    })
+  }).addTo(map);
+
+  const movingWaterLabel = segmentAtFraction(route, 0.64);
+  L.marker(movingWaterLabel.latlng, {
+    interactive: false,
+    icon: L.divIcon({
+      className: '',
+      html: '<div class="condition-label">Mostly Class I-II moving water</div>',
+      iconSize: [210, 28],
+      iconAnchor: [105, 14]
+    })
+  }).addTo(map);
+
+  L.marker([37.6181746, -79.4376583], {
+    interactive: false,
+    icon: L.divIcon({
+      className: '',
+      html: '<div class="condition-label whitewater">Main whitewater: Class II/III</div>',
+      iconSize: [205, 28],
+      iconAnchor: [-22, 36]
+    })
+  }).addTo(map);
+
+  function landmark(latlng, pinClass, dotText, label, popup) {
+    return L.marker(latlng, {
+      icon: L.divIcon({
+        className: '',
+        html: `<div class="landmark-pin ${pinClass}"><span class="pin-dot">${dotText}</span><span class="pin-label">${label}</span></div>`,
+        iconSize: [260, 38],
+        iconAnchor: [15, 19],
+        popupAnchor: [0, -19]
+      })
+    }).addTo(map).bindPopup(popup);
+  }
+
+  landmark(startPoint, 'pin-start', 'S', 'Start: Locher Landing / Glasgow', '<b>Start / put-in</b><br>Locher Landing / Glasgow');
+  landmark(endPoint, 'pin-end', 'E', 'End: Snowden Foot Bridge', '<b>End / take-out</b><br>Snowden, Appalachian Trail / James River Foot Bridge');
+  landmark(balconyFallsPoint, 'pin-falls', 'BF', 'Balcony Falls', '<b>Balcony Falls section</b><br>James River cuts through the Blue Ridge');
+  L.polyline([[37.6085,-79.3978],[37.602,-79.3946],[37.5958,-79.3910],[37.588,-79.3874]], { color: '#207d46', weight: 4, dashArray: '8,8', opacity: 0.9 }).addTo(map).bindPopup('Appalachian Trail crossing cue');
+</script>
+</body>
+</html>
