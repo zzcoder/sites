@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DC Night Fountain Tour</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    :root {
+      --ink:#101a2b; --muted:#607089; --panel:#fbfbf6; --line:#d8d4c5;
+      --gold:#c69a45; --blue:#1b5790; --blue-dark:#0f2949; --aqua:#51a7bd;
+      --green:#1c8b57; --yellow:#f2c04f; --orange:#e56b3f; --silver:#a7b3c3;
+    }
+    * { box-sizing:border-box; }
+    html, body { height:100%; margin:0; }
+    body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:var(--ink); background:#101727; }
+    a { color:#155f9d; }
+    .site-header { height:86px; display:flex; align-items:center; justify-content:space-between; gap:18px; padding:14px 20px; background:linear-gradient(90deg,#f9f6ec 0%,#fffdf7 56%,#e8f0f3 100%); border-bottom:1px solid rgba(35,40,51,.18); }
+    .brand { display:flex; align-items:center; gap:14px; min-width:0; }
+    .brand img { width:58px; height:58px; object-fit:contain; border-radius:10px; background:white; box-shadow:0 5px 18px rgba(15,28,48,.12); }
+    .brand h1 { margin:0; font-size:28px; line-height:1.02; letter-spacing:0; color:#111c2f; }
+    .brand p { margin:5px 0 0; color:#526279; font-size:14px; }
+    .stats { display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .stat { border:1px solid rgba(40,54,72,.16); background:rgba(255,255,255,.7); padding:8px 11px; border-radius:8px; min-width:82px; }
+    .stat b { display:block; font-size:17px; line-height:1.1; }
+    .stat span { font-size:11px; color:#607089; text-transform:uppercase; letter-spacing:.06em; }
+    .shell { height:calc(100vh - 86px); display:grid; grid-template-columns:minmax(0,1fr) 390px; }
+    #map { height:100%; min-height:460px; background:#dbe2dc; }
+    .panel { overflow:auto; background:var(--panel); border-left:1px solid rgba(36,44,54,.18); box-shadow:-10px 0 30px rgba(8,13,24,.15); }
+    .panel-section { padding:20px; border-bottom:1px solid var(--line); }
+    .panel h2 { margin:0 0 8px; font-size:20px; line-height:1.2; }
+    .panel p { margin:0; color:#526279; font-size:14px; line-height:1.55; }
+    .action-row { display:flex; gap:9px; margin-top:14px; flex-wrap:wrap; }
+    .button { border:1px solid rgba(20,47,75,.22); background:#11284a; color:white; border-radius:8px; padding:9px 12px; font-weight:750; font-size:13px; cursor:pointer; text-decoration:none; }
+    .button.secondary { background:white; color:#173658; }
+    .stop-card { display:grid; grid-template-columns:92px 1fr; gap:12px; width:100%; padding:14px 20px; border:0; border-bottom:1px solid var(--line); background:transparent; color:inherit; text-align:left; font:inherit; cursor:pointer; transition:background .16s ease; }
+    .stop-card:hover, .stop-card.is-active { background:#f0efe4; }
+    .stop-card:focus-visible { outline:3px solid rgba(27,87,144,.45); outline-offset:-3px; }
+    .stop-card img { width:92px; height:84px; object-fit:cover; border-radius:7px; box-shadow:0 2px 8px rgba(0,0,0,.18); }
+    .stop-card h3 { margin:0 0 4px; font-size:15px; line-height:1.22; }
+    .stop-card p { font-size:12.5px; line-height:1.38; }
+    .tag { display:inline-flex; align-items:center; gap:5px; margin:0 0 6px; padding:3px 7px; border-radius:999px; background:#e7f1f5; color:#15566e; font-size:11px; font-weight:800; }
+    .credits { font-size:12px; color:#667386; line-height:1.45; }
+    .credits p { font-size:12px; margin:8px 0 0; }
+    .leaflet-popup-content-wrapper { border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,.28); }
+    .leaflet-popup-content { margin:0; width:300px !important; }
+    .popup { overflow:hidden; border-radius:10px; }
+    .popup img { display:block; width:100%; height:170px; object-fit:cover; background:#d6d1c2; }
+    .popup-body { padding:12px 13px 13px; }
+    .popup h3 { margin:0 0 5px; font-size:18px; line-height:1.15; }
+    .popup p { margin:7px 0; font-size:13px; line-height:1.42; color:#425168; }
+    .popup small { display:block; color:#6b7381; line-height:1.35; }
+    .source-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:9px; }
+    .source-row a { font-size:12px; font-weight:700; }
+    .fountain-icon { width:34px; height:34px; border-radius:50% 50% 50% 10px; transform:rotate(-45deg); display:grid; place-items:center; background:#176aa0; color:white; border:3px solid white; box-shadow:0 3px 10px rgba(0,0,0,.35); }
+    .fountain-icon span { transform:rotate(45deg); font-weight:900; font-size:14px; }
+    .start-icon, .end-icon, .metro-icon { display:grid; place-items:center; width:34px; height:34px; border-radius:9px; border:3px solid white; color:white; font-weight:900; box-shadow:0 3px 10px rgba(0,0,0,.32); }
+    .start-icon { background:var(--green); } .end-icon { background:var(--orange); } .metro-icon { background:#273a5a; border-radius:50%; }
+    .line-badges { display:flex; gap:5px; flex-wrap:wrap; margin:7px 0 0; }
+    .line { display:inline-grid; place-items:center; width:24px; height:24px; border-radius:50%; color:white; font-size:12px; font-weight:900; }
+    .line.Green { background:#18864b; } .line.Yellow { background:#f4c84c; color:#202020; } .line.Blue { background:#2365a8; } .line.Orange { background:#df6e2e; } .line.Silver { background:#a8b3c1; color:#162236; }
+    .legend { background:rgba(255,255,250,.95); padding:10px 12px; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,.18); color:#273246; font-size:13px; line-height:1.35; }
+    .legend-row { display:flex; align-items:center; gap:8px; margin:4px 0; }
+    .swatch { width:32px; height:0; border-top:6px solid #1b5790; border-radius:3px; }
+    .swatch.walk { border-top-color:#c69a45; border-top-style:dashed; }
+    .swatch.metro { border-top-color:#273a5a; }
+    @media (max-width: 980px) {
+      .site-header { height:auto; align-items:flex-start; flex-direction:column; padding:12px 14px; }
+      .brand h1 { font-size:24px; } .brand img { width:50px; height:50px; }
+      .stats { justify-content:flex-start; }
+      .shell { height:auto; grid-template-columns:1fr; }
+      #map { height:62vh; min-height:420px; }
+      .panel { border-left:0; box-shadow:none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <img src="assets/hh-logo.png" alt="Healthy Hiker logo" />
+      <div>
+        <h1>DC Night Fountain Tour</h1>
+        <p>Meridian Hill Park to the FDR Memorial, with four water-feature stops.</p>
+      </div>
+    </div>
+    <div class="stats" aria-label="Route stats">
+      <div class="stat"><b>3.2</b><span>miles</span></div>
+      <div class="stat"><b>4</b><span>fountains</span></div>
+      <div class="stat"><b>2</b><span>Metro cues</span></div>
+    </div>
+  </header>
+  <main class="shell">
+    <section id="map" aria-label="DC Night Fountain Tour map"></section>
+    <aside class="panel" aria-label="Tour details">
+      <section class="panel-section">
+        <h2>Route Overview</h2>
+        <p>The GPX track runs south from Meridian Hill Park through Dupont Circle and the National Mall to the FDR Memorial. Click any fountain or Metro marker on the map for route notes, photos, and source links.</p>
+        <div class="action-row">
+          <button class="button" id="fitRoute">Fit route</button>
+          <a class="button secondary" href="data/DC_Night_Fountain_Tour.gpx" download>Download GPX</a>
+        </div>
+      </section>
+      <div id="stopList"></div>
+      <section class="panel-section credits">
+        <h2>Photo & Data Credits</h2>
+        <p>Map data © OpenStreetMap contributors. Route source: <code>input/DC_Night_Fountain_Tour.gpx</code>.</p>
+        <p>Night photos are used where reliable open-licensed images were found. Meridian Hill and Dupont Circle use open Commons reference photos because no reliable open-licensed night fountain photos were found during this pass.</p>
+        <p>Fountain background links point to National Park Service pages. Metro line information links point to WMATA Rider Tools.</p>
+      </section>
+    </aside>
+  </main>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const DATA = {"track": [[38.92048, -77.03565], [38.92048, -77.03565], [38.92048, -77.03561], [38.92051, -77.03558], [38.92055, -77.03558], [38.92056, -77.03514], [38.92055, -77.0351], [38.92052, -77.03502], [38.92051, -77.03485], [38.92051, -77.03485], [38.92052, -77.03472], [38.91927, -77.03464], [38.91927, -77.03484], [38.91902, -77.03481], [38.91818, -77.0356], [38.91807, -77.03569], [38.91734, -77.03638], [38.91724, -77.03637], [38.9172, -77.0365], [38.91719, -77.03663], [38.91712, -77.03664], [38.9171, -77.03666], [38.9169, -77.0367], [38.91689, -77.03674], [38.91689, -77.03683], [38.91686, -77.03683], [38.91657, -77.0371], [38.91552, -77.03807], [38.91446, -77.03909], [38.91417, -77.03935], [38.91416, -77.03937], [38.91403, -77.03951], [38.91402, -77.0395], [38.914, -77.03951], [38.91345, -77.04003], [38.91342, -77.04008], [38.9134, -77.04008], [38.91336, -77.04011], [38.9128, -77.04064], [38.91257, -77.04086], [38.91188, -77.0415], [38.91184, -77.04153], [38.91182, -77.04153], [38.91162, -77.04175], [38.91159, -77.04176], [38.9112, -77.04214], [38.91109, -77.04226], [38.91105, -77.04227], [38.91062, -77.04267], [38.91029, -77.04299], [38.91021, -77.04292], [38.91006, -77.04305], [38.90999, -77.04312], [38.90996, -77.04307], [38.90996, -77.04307], [38.90989, -77.04299], [38.90975, -77.04292], [38.90961, -77.0429], [38.90947, -77.04295], [38.90939, -77.04302], [38.90932, -77.04312], [38.90927, -77.04323], [38.90904, -77.04309], [38.90899, -77.0432], [38.90892, -77.04327], [38.90884, -77.04319], [38.90862, -77.04307], [38.90732, -77.04231], [38.9073, -77.04231], [38.9072, -77.04225], [38.90718, -77.04224], [38.90717, -77.04222], [38.90673, -77.04196], [38.90651, -77.04184], [38.90642, -77.04181], [38.90634, -77.04179], [38.90577, -77.0418], [38.90574, -77.0418], [38.90384, -77.0418], [38.90366, -77.04182], [38.90272, -77.04181], [38.90271, -77.04182], [38.90269, -77.04182], [38.90235, -77.04182], [38.90234, -77.04181], [38.90145, -77.04181], [38.90144, -77.04182], [38.9014, -77.0418], [38.90032, -77.04181], [38.90029, -77.04179], [38.90014, -77.04179], [38.90013, -77.04181], [38.90011, -77.0418], [38.89978, -77.0418], [38.8998, -77.04185], [38.89978, -77.04186], [38.89953, -77.04185], [38.89949, -77.04185], [38.89947, -77.04183], [38.89945, -77.04182], [38.89841, -77.04181], [38.89838, -77.04182], [38.89828, -77.04182], [38.89825, -77.04179], [38.89746, -77.04179], [38.89742, -77.04181], [38.89731, -77.04182], [38.89725, -77.0418], [38.89611, -77.04181], [38.89607, -77.04181], [38.8959, -77.04187], [38.89588, -77.04185], [38.89554, -77.04185], [38.89552, -77.04186], [38.89287, -77.04186], [38.89284, -77.04191], [38.89259, -77.04187], [38.89229, -77.04186], [38.892, -77.04176], [38.892, -77.04172], [38.89174, -77.04172], [38.89173, -77.04163], [38.89169, -77.04151], [38.89157, -77.04129], [38.8915, -77.04121], [38.89143, -77.04115], [38.89139, -77.04103], [38.89137, -77.04091], [38.89135, -77.04056], [38.89086, -77.04055], [38.89086, -77.04059], [38.89086, -77.04059], [38.89086, -77.04055], [38.8899, -77.04053], [38.88988, -77.04065], [38.88985, -77.04072], [38.88981, -77.04078], [38.88976, -77.04082], [38.8897, -77.04086], [38.88961, -77.04089], [38.8894, -77.04088], [38.8894, -77.04082], [38.88921, -77.04081], [38.88912, -77.04075], [38.88906, -77.04069], [38.88903, -77.04063], [38.88901, -77.04056], [38.88901, -77.0405], [38.88901, -77.0405], [38.88901, -77.04056], [38.88903, -77.04063], [38.88906, -77.04069], [38.88912, -77.04075], [38.88921, -77.04081], [38.8894, -77.04082], [38.8894, -77.04088], [38.8892, -77.04088], [38.88912, -77.04085], [38.88907, -77.04083], [38.88901, -77.04079], [38.88897, -77.04074], [38.88894, -77.04069], [38.88892, -77.04061], [38.8889, -77.04054], [38.8889, -77.0405], [38.88842, -77.04048], [38.88832, -77.04077], [38.88813, -77.04122], [38.88804, -77.04125], [38.88785, -77.04138], [38.8877, -77.04143], [38.88728, -77.04234], [38.88722, -77.0425], [38.88715, -77.04281], [38.88711, -77.04309], [38.8871, -77.04324], [38.8871, -77.04357], [38.88714, -77.0448], [38.88673, -77.04481], [38.88672, -77.04485], [38.88635, -77.04485], [38.88635, -77.04497], [38.88629, -77.04495], [38.88616, -77.04495], [38.88569, -77.04502], [38.88497, -77.04495], [38.88479, -77.04497], [38.88473, -77.04487], [38.88463, -77.04472], [38.88432, -77.04435], [38.8843, -77.04434], [38.88425, -77.04432], [38.88418, -77.04432], [38.88418, -77.04422], [38.88417, -77.04417], [38.88394, -77.04387], [38.88361, -77.04366], [38.88357, -77.04343], [38.88335, -77.04307]], "waypoints": [{"lat": 38.91907, "lon": -77.035605, "name": "Meridian Hill Park", "desc": "Cascades fountain", "kind": "13-basin cascade", "summary": "One of North America's longest cascading fountains: thirteen progressively wider basins step from the upper wall down to the lower plaza.", "photoKey": "meridian", "note": "Open Commons reference photo; a reliable open-licensed night fountain photo was not found in this pass.", "source": "https://www.nps.gov/places/000/cascading-fountain.htm", "sourceLabel": "NPS Cascading Fountain", "index": 1, "photo": {"file": "assets/meridian.jpg", "title": "Cascading water fountain at Meridian Hill Park", "credit": "Katy Van Every / Wikimedia Commons", "license": "CC BY-SA 4.0", "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0", "source": "https://commons.wikimedia.org/wiki/File:Cascading_water_fountain_at_Meridian_Hill_Park.jpg", "tone": "Reference photo"}}, {"lat": 38.909573, "lon": -77.043439, "name": "DuPont Circle", "desc": "Fountain", "kind": "Memorial fountain", "summary": "The Rear Admiral Samuel Francis Dupont Memorial Fountain anchors the circle and honors the Civil War naval officer; the fountain was designed by Henry Bacon with figures by Daniel Chester French.", "photoKey": "dupont", "note": "Open Commons reference photo; a reliable open-licensed night fountain photo was not found in this pass.", "source": "https://www.nps.gov/nama/planyourvisit/dupont.htm", "sourceLabel": "NPS Dupont Memorial Fountain", "index": 2, "photo": {"file": "assets/dupont.jpg", "title": "Fountain at Dupont Circle", "credit": "AgnosticPreachersKid / Wikimedia Commons", "license": "CC BY-SA 3.0", "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0", "source": "https://commons.wikimedia.org/wiki/File:Fountain_at_Dupont_Circle.JPG", "tone": "Reference photo"}}, {"lat": 38.889268, "lon": -77.040146, "name": "World War II Memorial", "desc": "Huge fountains", "kind": "Rainbow Pool fountains", "summary": "The memorial's sunken plaza centers on the Rainbow Pool, ringed by fountains and the 56 state and territory pillars.", "photoKey": "wwii", "note": "Night photo from Wikimedia Commons.", "source": "https://www.nps.gov/wwii/learn/historyculture/index.htm", "sourceLabel": "NPS World War II Memorial", "index": 3, "photo": {"file": "assets/wwii.jpg", "title": "World War II Memorial Fountain in DC", "credit": "Lukascolashop / Wikimedia Commons", "license": "CC BY-SA 4.0", "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0", "source": "https://commons.wikimedia.org/wiki/File:World_War_II_Memorial_Fountain_in_DC.jpg", "tone": "Night photo"}}, {"lat": 38.883401, "lon": -77.042762, "name": "FDR Memorial", "desc": "Waterfalls", "kind": "Memorial waterfalls", "summary": "Water features shape the mood of the FDR Memorial; the Room Three waterfall crashes over boulders to evoke the violence of World War II.", "photoKey": "fdr", "note": "Night photo from Wikimedia Commons.", "source": "https://www.nps.gov/places/franklin-delano-roosevelt-memorial.htm", "sourceLabel": "NPS FDR Memorial", "index": 4, "photo": {"file": "assets/fdr.jpg", "title": "Fountain at FDR Memorial", "credit": "Ben Schumin / Wikimedia Commons", "license": "CC BY-SA 2.0", "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0", "source": "https://commons.wikimedia.org/wiki/File:Fountain_at_FDR_Memorial_-02-_(50849924746).png", "tone": "Night photo"}}], "metro": [{"id": "start-metro", "name": "U Street / African-Amer Civil War Memorial / Cardozo", "lat": 38.916995, "lon": -77.028108, "near": "nearest Metro to the start", "lines": ["Green", "Yellow"], "instructions": "Walk southeast from Meridian Hill Park to U Street station. To reach the Silver Line, take Green or Yellow toward L'Enfant Plaza, then transfer at L'Enfant Plaza to a Silver Line train.", "source": "https://www.wmata.com/ridertools/lines?linesTransitMode=rail%2Csubway"}, {"id": "end-metro", "name": "Smithsonian", "lat": 38.888022, "lon": -77.028232, "near": "nearest Silver Line station to the end", "lines": ["Blue", "Orange", "Silver"], "instructions": "Walk east/northeast from the FDR Memorial to Smithsonian station. Smithsonian is on the Silver Line, so board Silver directly toward Ashburn, Largo, or New Carrollton as needed.", "source": "https://www.wmata.com/ridertools/us-en/station/smithsonian"}], "routeMiles": 3.23, "start": [38.92048, -77.03565], "end": [38.88335, -77.04307]};
+    const map = L.map('map', { scrollWheelZoom: true, zoomControl: true });
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const route = L.polyline(DATA.track, { color:'#ffffff', weight:10, opacity:.92 }).addTo(map);
+    L.polyline(DATA.track, { color:'#1b5790', weight:5, opacity:.96, lineJoin:'round' }).addTo(map);
+    map.fitBounds(route.getBounds(), { padding:[40,40] });
+
+    const startWalk = L.polyline([DATA.start, [DATA.metro[0].lat, DATA.metro[0].lon]], { color:'#c69a45', weight:4, opacity:.9, dashArray:'7,8' }).addTo(map);
+    const endWalk = L.polyline([DATA.end, [DATA.metro[1].lat, DATA.metro[1].lon]], { color:'#c69a45', weight:4, opacity:.9, dashArray:'7,8' }).addTo(map);
+
+    function icon(html, size=[34,34], anchor=[17,17]) { return L.divIcon({ className:'', html, iconSize:size, iconAnchor:anchor, popupAnchor:[0,-15] }); }
+    function lineBadges(lines) { return `<div class="line-badges">${lines.map(l=>`<span class="line ${l}">${l[0]}</span>`).join('')}</div>`; }
+    function fountainPopup(stop) {
+      const p = stop.photo;
+      return `<div class="popup">
+        <img src="${p.file}" alt="${stop.name} photo">
+        <div class="popup-body">
+          <span class="tag">${p.tone}</span>
+          <h3>${stop.index}. ${stop.name}</h3>
+          <p><strong>${stop.kind}</strong> · ${stop.summary}</p>
+          <p>${stop.note}</p>
+          <small>Photo: ${p.title} · ${p.credit} · <a href="${p.licenseUrl}" target="_blank" rel="noopener">${p.license}</a></small>
+          <div class="source-row"><a href="${stop.source}" target="_blank" rel="noopener">${stop.sourceLabel}</a><a href="${p.source}" target="_blank" rel="noopener">Photo source</a></div>
+        </div>
+      </div>`;
+    }
+    function metroPopup(m) {
+      return `<div class="popup"><div class="popup-body">
+        <span class="tag">Metro cue</span>
+        <h3>${m.name}</h3>
+        <p><strong>${m.near}</strong></p>
+        ${lineBadges(m.lines)}
+        <p>${m.instructions}</p>
+        <div class="source-row"><a href="${m.source}" target="_blank" rel="noopener">WMATA Rider Tools</a></div>
+      </div></div>`;
+    }
+
+    const markers = new Map();
+    DATA.waypoints.forEach(stop => {
+      const marker = L.marker([stop.lat, stop.lon], { icon: icon(`<div class="fountain-icon"><span>${stop.index}</span></div>`) }).addTo(map).bindPopup(fountainPopup(stop));
+      markers.set(stop.name, marker);
+    });
+    L.marker(DATA.start, { icon: icon('<div class="start-icon">S</div>') }).addTo(map).bindPopup('<strong>Start</strong><br>Meridian Hill Park area');
+    L.marker(DATA.end, { icon: icon('<div class="end-icon">E</div>') }).addTo(map).bindPopup('<strong>End</strong><br>FDR Memorial area');
+    DATA.metro.forEach(m => {
+      L.marker([m.lat, m.lon], { icon: icon('<div class="metro-icon">M</div>') }).addTo(map).bindPopup(metroPopup(m));
+    });
+
+    const legend = L.control({ position:'bottomleft' });
+    legend.onAdd = () => {
+      const div = L.DomUtil.create('div','legend');
+      div.innerHTML = '<div class="legend-row"><span class="swatch"></span><strong>GPX walking track</strong></div><div class="legend-row"><span class="swatch walk"></span><strong>Walk to Metro</strong></div><div class="legend-row"><span class="swatch metro"></span><strong>Metro station</strong></div>';
+      return div;
+    };
+    legend.addTo(map);
+
+    document.getElementById('fitRoute').addEventListener('click', () => map.fitBounds(route.getBounds(), { padding:[40,40] }));
+    const stopList = document.getElementById('stopList');
+    function closeVisiblePopups() {
+      map.closePopup();
+      document.querySelectorAll('.leaflet-popup').forEach(popup => popup.remove());
+    }
+    DATA.waypoints.forEach(stop => {
+      const p = stop.photo;
+      const card = document.createElement('button');
+      card.className = 'stop-card';
+      card.type = 'button';
+      card.innerHTML = `<img src="${p.file}" alt=""><div><span class="tag">${p.tone}</span><h3>${stop.index}. ${stop.name}</h3><p>${stop.kind} · ${stop.desc}</p></div>`;
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.stop-card').forEach(c => c.classList.remove('is-active'));
+        card.classList.add('is-active');
+        closeVisiblePopups();
+        const marker = markers.get(stop.name);
+        map.once('moveend', () => marker.openPopup());
+        map.flyTo([stop.lat, stop.lon], 15, { duration:.7 });
+      });
+      stopList.appendChild(card);
+    });
+  </script>
+</body>
+</html>
