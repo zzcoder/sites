@@ -603,6 +603,34 @@ h1 span {
   font-weight: 900;
 }
 
+.qr-actions {
+  display: grid;
+  gap: 10px;
+  width: min(100%, 270px);
+}
+
+.qr-actions a {
+  display: grid;
+  place-items: center;
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: white;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.qr-actions a:hover,
+.qr-actions a:focus-visible {
+  background: rgba(255, 255, 255, 0.18);
+  outline: none;
+}
+
 .gear-table {
   border: 1px solid var(--line);
   border-radius: 8px;
