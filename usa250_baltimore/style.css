@@ -497,6 +497,10 @@ h1 {
   font-size: 15px;
 }
 
+.airshow-audio-link {
+  margin-top: 18px;
+}
+
 .performer-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
