@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plane Pull Team Healthy Hikers</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="Plane Pull Team Healthy Hikers home">
+          <img src="/assets/hh-logo.png" alt="Healthy Hikers logo">
+          <span>
+            <strong>Plane Pull Team</strong>
+            <em>Healthy Hikers</em>
+          </span>
+        </a>
+        <nav class="top-actions" aria-label="Primary actions">
+          <a class="link-button" href="https://impact.specialolympicsva.org/team/832142" target="_blank" rel="noreferrer">
+            Donate to Team
+          </a>
+          <button class="ghost-button" id="adminToggle" type="button">Admin</button>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero-section" aria-labelledby="pageTitle">
+          <div>
+            <h1 id="pageTitle">Plane Pull Team Healthy Hikers</h1>
+            <p class="lede">Track pullers, backup teammates, and donations for the Special Olympics Virginia Plane Pull.</p>
+          </div>
+          <div class="stats-grid" aria-live="polite">
+            <article class="stat">
+              <span>Total Pullers</span>
+              <strong id="pullerCount">0</strong>
+            </article>
+            <article class="stat">
+              <span>Total Donation</span>
+              <strong id="donationTotal">$0</strong>
+            </article>
+          </div>
+        </section>
+
+        <p class="status" id="status" role="status">Loading team roster...</p>
+
+        <section class="lists-grid" aria-label="Team lists">
+          <article class="list-panel">
+            <header class="panel-header">
+              <h2>Pullers</h2>
+              <span id="pullersSummary">0 members</span>
+            </header>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                  </tr>
+                </thead>
+                <tbody id="pullersBody"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="list-panel">
+            <header class="panel-header">
+              <h2>Backup</h2>
+              <span id="backupSummary">0 members</span>
+            </header>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                  </tr>
+                </thead>
+                <tbody id="backupBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section class="admin-panel" id="adminPanel" aria-labelledby="adminTitle" hidden>
+          <header class="admin-header">
+            <div>
+              <h2 id="adminTitle">Admin</h2>
+              <p>Edit the Supabase <code>plane-pull</code> table.</p>
+            </div>
+            <a class="small-link" href="https://impact.specialolympicsva.org/team/832142" target="_blank" rel="noreferrer">
+              Team donation page
+            </a>
+          </header>
+
+          <form class="password-row" id="passwordForm">
+            <label for="adminPassword">Admin password</label>
+            <input id="adminPassword" name="password" type="password" autocomplete="current-password" required>
+            <button class="primary-button" type="submit">Unlock</button>
+          </form>
+
+          <div id="editor" hidden>
+            <form class="member-form" id="memberForm">
+              <input id="memberId" name="id" type="hidden">
+              <label>
+                Name
+                <input id="memberName" name="name" type="text" required>
+              </label>
+              <label>
+                Role
+                <select id="memberRole" name="role" required>
+                  <option value="puller">Puller</option>
+                  <option value="backup">Backup</option>
+                </select>
+              </label>
+              <label>
+                Donation
+                <input id="memberDonation" name="donation" type="number" min="0" step="0.01" value="0" required>
+              </label>
+              <label class="wide-field">
+                Comment (optional)
+                <input id="memberComment" name="comment" type="text">
+              </label>
+              <div class="form-actions">
+                <button class="primary-button" type="submit">Save Member</button>
+                <button class="ghost-button" id="resetForm" type="button">New Member</button>
+              </div>
+            </form>
+
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th class="amount">Donation</th>
+                    <th>Comment</th>
+                    <th class="actions-col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="adminBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

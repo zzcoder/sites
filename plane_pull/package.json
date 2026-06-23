@@ -1,0 +1,15 @@
+{
+  "name": "plane-pull-healthy-hikers",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx vercel dev",
+    "start": "npx vercel dev",
+    "local": "node scripts/local-dev.mjs",
+    "check": "node --check api/members.js"
+  },
+  "dependencies": {
+    "pg": "^8.22.0"
+  }
+}
