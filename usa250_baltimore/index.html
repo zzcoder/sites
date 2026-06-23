@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>USA 250 Special Event | Sail250 Maryland</title>
+    <meta
+      name="description"
+      content="Healthy Hikers guide for Sail250 Maryland in Baltimore: map, schedule, parking, airshow details, photography tips, and official links."
+    >
+    <link rel="preconnect" href="https://unpkg.com">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    >
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Healthy Hikers USA 250 Baltimore home">
+        <img src="assets/hh-logo.png" alt="Healthy Hikers logo">
+        <span>
+          <strong>Healthy Hikers</strong>
+          <em>USA 250 Baltimore</em>
+        </span>
+      </a>
+      <nav aria-label="Page sections">
+        <a href="#map">Map</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#airshow">Airshow</a>
+        <a href="#parking">Parking</a>
+        <a class="nav-cta" href="#official-links">Official Links</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero section-band">
+        <div class="hero-copy">
+          <h1>USA 250 Special Event</h1>
+          <p class="subtitle">Sail250 Maryland</p>
+          <p class="tagline">Tall Ships • Blue Angels • Fort McHenry</p>
+
+          <div class="event-facts" aria-label="Event facts">
+            <div>
+              <span>Date</span>
+              <strong>Sunday, June 28, 2026</strong>
+            </div>
+            <div>
+              <span>Start</span>
+              <strong>10:00 AM</strong>
+            </div>
+            <div>
+              <span>Meet</span>
+              <strong>Federal Hill Park, 300 Warren Ave, Baltimore, MD</strong>
+            </div>
+          </div>
+
+          <div class="critical-alert">
+            <strong>Don’t miss the main show.</strong>
+            <span>Return to Federal Hill by 1:30 PM. Official airshow window is 12:00–4:00 PM. Blue Angels are expected around 3:00 PM.</span>
+          </div>
+        </div>
+
+        <figure class="poster-frame">
+          <img src="assets/usa250-baltimore-poster.png" alt="USA 250 Baltimore poster reference with harbor, fireworks, flags, and patriotic event styling">
+        </figure>
+      </section>
+
+      <section class="highlights section-pad" aria-labelledby="highlights-title">
+        <div class="section-heading">
+          <h2 id="highlights-title">Event Highlights</h2>
+          <p>A full day around the harbor: tall ships, aviation, waterfront history, and sunset photography.</p>
+        </div>
+        <div class="highlight-grid">
+          <article>
+            <span>01</span>
+            <h3>International Tall Ships</h3>
+            <p>Harbor views, dockside details, rigging, flags, and skyline compositions from Federal Hill and Inner Harbor.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Blue Angels Air Show</h3>
+            <p>Protect the viewing window. Return early, settle in, and keep the afternoon focused on the main performance.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Fort McHenry</h3>
+            <p>End the day at the Star-Spangled Banner site with USA 250 history and late-day harbor light.</p>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>Fells Point</h3>
+            <p>Historic waterfront streets, lunch options, brick textures, boats, and candid travel-photo opportunities.</p>
+          </article>
+          <article>
+            <span>05</span>
+            <h3>Baltimore Harbor Sunset</h3>
+            <p>Return to Federal Hill for tall ships, city lights, and a final wide panorama over the water.</p>
+          </article>
+          <article>
+            <span>06</span>
+            <h3>USA 250 Celebration</h3>
+            <p>Celebrate 250 years of American independence with maritime history, aviation, and public spaces.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="map-section section-pad" id="map" aria-labelledby="map-title">
+        <div class="section-heading split">
+          <div>
+            <h2 id="map-title">Trip Map</h2>
+            <p>Parking, meeting point, harbor stops, and the recommended day route.</p>
+          </div>
+          <a class="button-link" href="https://www.google.com/maps/dir/40+E+West+St,+Baltimore,+MD/Federal+Hill+Park,+300+Warren+Ave,+Baltimore,+MD" target="_blank" rel="noreferrer">
+            Open Parking Walk
+          </a>
+        </div>
+        <div class="map-layout">
+          <div id="eventMap" aria-label="Map of USA 250 Baltimore event stops"></div>
+          <aside class="route-card" aria-label="Map marker list">
+            <h3>Key Stops</h3>
+            <ol>
+              <li><strong>West Street Garage</strong><span>40 E West St, about 10-minute walk</span></li>
+              <li><strong>Federal Hill Park</strong><span>Meeting point, panorama, airshow, sunset</span></li>
+              <li><strong>Inner Harbor</strong><span>Tall ships and dockside experience</span></li>
+              <li><strong>Fells Point</strong><span>Lunch and waterfront photography</span></li>
+              <li><strong>Fort McHenry</strong><span>USA 250 history stop</span></li>
+            </ol>
+          </aside>
+        </div>
+      </section>
+
+      <section class="airshow section-pad" id="airshow" aria-labelledby="airshow-title">
+        <div class="section-heading">
+          <h2 id="airshow-title">Airshow Details</h2>
+          <p>Published windows: Friday practice 1:00–4:00 PM; Saturday and Sunday main airshow 12:00–4:00 PM.</p>
+        </div>
+        <div class="airshow-grid">
+          <article class="airshow-main">
+            <h3>Group Timing Plan</h3>
+            <ul class="time-checklist">
+              <li><strong>Friday</strong><span>Practice window is listed as 1:00–4:00 PM.</span></li>
+              <li><strong>12:00 PM</strong><span>Official airshow window begins.</span></li>
+              <li><strong>1:30 PM</strong><span>Healthy Hikers should be back at Federal Hill and positioned.</span></li>
+              <li><strong>~3:00 PM</strong><span>Blue Angels expected around this time; exact day-of timing can shift.</span></li>
+              <li><strong>4:00 PM</strong><span>Official airshow window ends.</span></li>
+            </ul>
+            <p class="note">Sail250 says the exact performer list and set times are announced as available. Use the official airshow page and live narration on event day for final minute-by-minute timing.</p>
+          </article>
+
+          <div class="performer-list">
+            <article>
+              <span>Squadron</span>
+              <h3>U.S. Navy Blue Angels</h3>
+              <p>Main headline demonstration team. Expected around 3:00 PM during the 12:00–4:00 PM airshow window.</p>
+            </article>
+            <article>
+              <span>Squadron</span>
+              <h3>Royal Air Force Red Arrows</h3>
+              <p>British aerobatic team joining the international Sail250 airshow lineup.</p>
+            </article>
+            <article>
+              <span>Squadron</span>
+              <h3>Patrouille de France</h3>
+              <p>French Air and Space Force demonstration team in the international lineup.</p>
+            </article>
+            <article>
+              <span>Demo Team</span>
+              <h3>F-16 Viper Demo Team</h3>
+              <p>U.S. Air Force tactical fighter demonstration, listed on Sail250’s airshow performer page.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="schedule section-pad" id="schedule" aria-labelledby="schedule-title">
+        <div class="section-heading split">
+          <div>
+            <h2 id="schedule-title">Schedule</h2>
+            <p>Plan the day around the 1:30 PM return to Federal Hill.</p>
+          </div>
+          <a class="button-link" href="#airshow">Airshow Timing</a>
+        </div>
+        <div class="timeline">
+          <article><time>10:00 AM</time><div><h3>Federal Hill</h3><p>Tall Ships panorama, harbor and skyline views.</p></div></article>
+          <article><time>11:00 AM</time><div><h3>Inner Harbor</h3><p>Explore tall ships and dockside experience.</p></div></article>
+          <article><time>12:30 PM</time><div><h3>Lunch at Fells Point</h3><p>Great food and waterfront charm.</p></div></article>
+          <article class="must"><time>1:30 PM</time><div><h3>Return to Federal Hill</h3><p>Airshow positioning. Secure viewing spots before the main window.</p></div></article>
+          <article class="must"><time>2:00–4:00 PM</time><div><h3>Blue Angels Air Show Window</h3><p>Main show period. Do not miss this.</p></div></article>
+          <article><time>4:00 PM</time><div><h3>Fells Point & Harbor East</h3><p>Photography walk after the airshow.</p></div></article>
+          <article><time>5:30 PM</time><div><h3>Fort McHenry</h3><p>USA 250 history and Star-Spangled Banner site.</p></div></article>
+          <article><time>Sunset</time><div><h3>Federal Hill</h3><p>Baltimore Harbor sunset, tall ships, and city lights.</p></div></article>
+        </div>
+      </section>
+
+      <section class="parking section-pad" id="parking" aria-labelledby="parking-title">
+        <div class="parking-card">
+          <div>
+            <h2 id="parking-title">Parking</h2>
+            <p class="parking-name">West Street Garage</p>
+            <p class="parking-address">40 E West St, Baltimore, MD</p>
+            <p>约10分钟步行到 Federal Hill. Arrive early because Sail250 traffic and street closures can change access around the harbor.</p>
+          </div>
+          <a class="button-link" href="https://www.google.com/maps/search/?api=1&query=40+E+West+St,+Baltimore,+MD" target="_blank" rel="noreferrer">
+            Open Garage Map
+          </a>
+        </div>
+      </section>
+
+      <section class="photo-gear section-pad" aria-label="Photography tips and gear">
+        <div class="photo-panel">
+          <div>
+            <h2>Photography Tips</h2>
+            <ul>
+              <li>Federal Hill: panorama, airshow, sunset, and skyline.</li>
+              <li>Inner Harbor: tall ships, deck details, flags, and crowds.</li>
+              <li>Fells Point: historic waterfront street photography.</li>
+              <li>Fort McHenry: USA 250 history and late-day light.</li>
+            </ul>
+          </div>
+          <figure>
+            <img src="assets/usa250-night-group.jpg" alt="Healthy Hikers patriotic night group photo mood reference">
+          </figure>
+        </div>
+
+        <div class="gear-strip">
+          <h2>Recommended Gear</h2>
+          <ul>
+            <li>Camera</li>
+            <li>Wide-angle lens</li>
+            <li>Telephoto lens, preferably 100–400mm</li>
+            <li>Hat</li>
+            <li>Water</li>
+            <li>Folding chair</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="official-links section-pad" id="official-links" aria-labelledby="official-title">
+        <div class="section-heading">
+          <h2 id="official-title">Official Links</h2>
+          <p>Use these pages for the latest event notices, performer updates, closures, and transportation changes.</p>
+        </div>
+        <div class="link-grid">
+          <a href="https://www.sail250md.org/" target="_blank" rel="noreferrer"><strong>Sail250 Maryland</strong><span>Official event homepage</span></a>
+          <a href="https://www.sail250md.org/copy-of-airshow-and-flyovers" target="_blank" rel="noreferrer"><strong>Airshow & Flyovers</strong><span>Official performer and timing updates</span></a>
+          <a href="https://www.sail250md.org/faq" target="_blank" rel="noreferrer"><strong>Sail250 FAQ</strong><span>Transportation, viewing, and event guidance</span></a>
+          <a href="https://baltimore.org/event/sail250-maryland-air-show-baltimore/" target="_blank" rel="noreferrer"><strong>Visit Baltimore Schedule</strong><span>Visitor-facing event schedule</span></a>
+          <a href="https://www.baltimorecity.gov/transportation/news/city-of-baltimore-prepares-for-sail-250-maryland-airshow-baltimore" target="_blank" rel="noreferrer"><strong>Baltimore DOT Advisory</strong><span>Traffic, road closures, and parking updates</span></a>
+          <a href="https://www.nps.gov/fomc/index.htm" target="_blank" rel="noreferrer"><strong>Fort McHenry</strong><span>National Park Service official page</span></a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Healthy Hikers</span>
+      <span>Exploring America at 250</span>
+      <span>1776–2026</span>
+    </footer>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>
