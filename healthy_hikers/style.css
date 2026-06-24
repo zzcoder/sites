@@ -117,7 +117,8 @@ nav a:focus-visible {
   outline: none;
 }
 
-section {
+section,
+.waiver-document {
   scroll-margin-top: 96px;
 }
 
@@ -257,7 +258,10 @@ h1 span {
 .section-heading h2,
 .section-copy h2,
 .video-copy h2,
-.gear h2 {
+.gear h2,
+.waiver-callout h2,
+.waiver-document h2,
+.share-card h2 {
   color: var(--forest);
   font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
   font-size: clamp(36px, 4.5vw, 64px);
@@ -270,7 +274,10 @@ h1 span {
 .section-copy p,
 .event-card p,
 .video-copy p,
-.gear p {
+.gear p,
+.waiver-callout p,
+.waiver-document p,
+.share-card p {
   color: var(--muted);
   font-size: 18px;
   line-height: 1.66;
@@ -287,6 +294,29 @@ h1 span {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.waiver-callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 34px;
+  background:
+    linear-gradient(90deg, rgba(31, 107, 75, 0.1), transparent 42%),
+    rgba(255, 255, 255, 0.86);
+  box-shadow: 0 16px 44px rgba(15, 36, 26, 0.08);
+}
+
+.waiver-callout h2 {
+  font-size: clamp(30px, 3.4vw, 48px);
+}
+
+.waiver-callout p {
+  max-width: 760px;
+  margin-top: 12px;
 }
 
 .intro-panel li {
@@ -703,6 +733,117 @@ h1 span {
   text-decoration: none;
 }
 
+.footer-links {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.waiver-page {
+  background:
+    linear-gradient(180deg, #f7fbfd 0, var(--paper) 36%, #f6f8f1 100%);
+}
+
+.waiver-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 420px;
+  gap: 36px;
+  align-items: end;
+  width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 86px 0 44px;
+}
+
+.waiver-hero h1 {
+  max-width: 860px;
+  font-size: clamp(44px, 5.8vw, 82px);
+}
+
+.eyebrow {
+  color: var(--gold) !important;
+  font-size: 13px !important;
+  font-weight: 950;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.waiver-subtitle {
+  margin-top: 18px;
+  color: var(--blue);
+  font-size: clamp(22px, 2.5vw, 34px);
+  font-weight: 850;
+  line-height: 1.25;
+}
+
+.share-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 26px;
+  background:
+    linear-gradient(135deg, rgba(11, 61, 38, 0.08), transparent 60%),
+    rgba(255, 255, 255, 0.88);
+  box-shadow: 0 16px 44px rgba(15, 36, 26, 0.08);
+}
+
+.share-card h2 {
+  font-size: 28px;
+}
+
+.share-card p {
+  margin-top: 10px;
+}
+
+.share-card a {
+  display: block;
+  margin-top: 16px;
+  border: 1px solid rgba(11, 61, 38, 0.18);
+  border-radius: 8px;
+  padding: 14px;
+  color: var(--forest);
+  font-weight: 900;
+  line-height: 1.45;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  background: white;
+}
+
+.waiver-document {
+  width: min(1040px, calc(100% - 40px));
+  margin: 26px auto 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 46px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 16px 44px rgba(15, 36, 26, 0.08);
+}
+
+.waiver-document h2 {
+  margin-top: 10px;
+  font-size: clamp(34px, 4vw, 58px);
+}
+
+.waiver-document header p:not(.eyebrow) {
+  margin-top: 18px;
+  color: var(--ink);
+  font-size: 20px;
+}
+
+.waiver-section {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.waiver-section h3 {
+  color: var(--forest);
+  font-size: 22px;
+  line-height: 1.35;
+}
+
+.waiver-section p {
+  margin-top: 10px;
+}
+
 @media (max-width: 1040px) {
   .site-header {
     align-items: flex-start;
@@ -720,7 +861,8 @@ h1 span {
 
   .intro-panel,
   .about,
-  .videos {
+  .videos,
+  .waiver-hero {
     grid-template-columns: 1fr;
   }
 
@@ -746,6 +888,11 @@ h1 span {
 }
 
 @media (max-width: 720px) {
+  section,
+  .waiver-document {
+    scroll-margin-top: 190px;
+  }
+
   .site-header {
     padding: 12px;
   }
@@ -845,6 +992,12 @@ h1 span {
     align-items: start;
   }
 
+  .waiver-callout {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 26px;
+  }
+
   .about-photo img {
     aspect-ratio: 1 / 0.78;
   }
@@ -884,5 +1037,24 @@ h1 span {
   .site-footer {
     align-items: start;
     flex-direction: column;
+  }
+
+  .footer-links {
+    flex-direction: column;
+  }
+
+  .waiver-hero {
+    width: min(100% - 24px, 1200px);
+    padding: 42px 0 24px;
+  }
+
+  .share-card,
+  .waiver-document {
+    width: min(100% - 24px, 1040px);
+    padding: 24px;
+  }
+
+  .waiver-document {
+    margin-top: 16px;
   }
 }
