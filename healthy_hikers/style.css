@@ -356,6 +356,10 @@ h1 span {
   padding: 92px 0 0;
 }
 
+section {
+  scroll-margin-top: 112px;
+}
+
 .about {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(360px, 1.08fr);
@@ -672,11 +676,11 @@ h1 span {
 .gear-table a,
 .gear-table div {
   display: grid;
-  grid-template-columns: minmax(190px, 0.35fr) minmax(0, 1fr) auto;
+  grid-template-columns: 86px minmax(170px, 0.32fr) minmax(0, 1fr) auto;
   gap: 18px;
   align-items: center;
-  min-height: 66px;
-  padding: 16px 24px;
+  min-height: 98px;
+  padding: 14px 24px;
   border-bottom: 1px solid var(--line);
   text-decoration: none;
 }
@@ -693,6 +697,28 @@ h1 span {
 .gear-table strong {
   color: var(--ink);
   font-size: 18px;
+}
+
+.gear-photo {
+  width: 72px;
+  height: 72px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  object-fit: contain;
+  padding: 6px;
+  background: var(--white);
+  box-shadow: 0 8px 18px rgba(15, 36, 26, 0.08);
+}
+
+.gear-photo--placeholder {
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.15;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .site-footer {
@@ -845,6 +871,10 @@ h1 span {
 }
 
 @media (max-width: 1040px) {
+  section {
+    scroll-margin-top: 180px;
+  }
+
   .site-header {
     align-items: flex-start;
     flex-direction: column;
@@ -890,7 +920,7 @@ h1 span {
 @media (max-width: 720px) {
   section,
   .waiver-document {
-    scroll-margin-top: 190px;
+    scroll-margin-top: 284px;
   }
 
   .site-header {
