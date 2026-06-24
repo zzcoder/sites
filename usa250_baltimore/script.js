@@ -1,5 +1,6 @@
 const stops = [
   {
+    id: "parking",
     label: "Parking",
     name: "West Street Garage",
     detail: "40 E West St. About 10-minute walk to Federal Hill.",
@@ -7,13 +8,15 @@ const stops = [
     color: "#b4322d"
   },
   {
+    id: "federal-hill",
     label: "Meet",
     name: "Federal Hill Park",
-    detail: "10:00 AM meeting point. Return by 1:30 PM for airshow positioning.",
+    detail: "10:00 AM meeting point. Return by 1:30 PM or move to an official viewing area.",
     coords: [39.27963, -76.60865],
     color: "#113f7a"
   },
   {
+    id: "inner-harbor",
     label: "Tall Ships",
     name: "Inner Harbor",
     detail: "11:00 AM tall ships and dockside experience.",
@@ -21,6 +24,7 @@ const stops = [
     color: "#d4a642"
   },
   {
+    id: "fells-point",
     label: "Lunch",
     name: "Fells Point",
     detail: "12:30 PM lunch and waterfront street photography.",
@@ -28,21 +32,47 @@ const stops = [
     color: "#113f7a"
   },
   {
+    id: "baltimore-peninsula",
+    label: "Official Viewing",
+    name: "Baltimore Peninsula",
+    detail: "Official land viewing area for Airshow Baltimore.",
+    coords: [39.26798, -76.60294],
+    color: "#d4a642"
+  },
+  {
+    id: "fort-mchenry",
     label: "History",
     name: "Fort McHenry",
-    detail: "5:30 PM USA 250 history and Star-Spangled Banner site.",
+    detail: "History stop and airshow viewing guidance area. Use transit or walk; no public parking.",
     coords: [39.26308, -76.57996],
     color: "#b4322d"
+  },
+  {
+    id: "canton",
+    label: "Official Viewing",
+    name: "Canton Waterfront Park",
+    detail: "Official land viewing area for the Blue Angels and Airshow Baltimore.",
+    coords: [39.27865, -76.57277],
+    color: "#d4a642"
   }
 ];
 
+const stopById = Object.fromEntries(stops.map((stop) => [stop.id, stop]));
+
 const route = [
-  stops[0].coords,
-  stops[1].coords,
-  stops[2].coords,
-  stops[3].coords,
-  stops[4].coords,
-  stops[1].coords
+  stopById.parking.coords,
+  stopById["federal-hill"].coords,
+  stopById["inner-harbor"].coords,
+  stopById["fells-point"].coords,
+  stopById["federal-hill"].coords,
+  stopById["fort-mchenry"].coords,
+  stopById["federal-hill"].coords
+];
+
+const officialViewingRoute = [
+  stopById["baltimore-peninsula"].coords,
+  stopById["fort-mchenry"].coords,
+  stopById.canton.coords
 ];
 
 function createMarkerIcon(stop, index) {
@@ -82,6 +112,13 @@ function initMap() {
     opacity: 0.9,
     dashArray: "8 8"
   }).addTo(map).bindTooltip("Parking walk to Federal Hill");
+
+  L.polyline(officialViewingRoute, {
+    color: "#d4a642",
+    weight: 3,
+    opacity: 0.8,
+    dashArray: "5 10"
+  }).addTo(map).bindTooltip("Official airshow viewing corridor");
 
   stops.forEach((stop, index) => {
     const marker = L.marker(stop.coords, {
