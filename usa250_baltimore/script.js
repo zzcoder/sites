@@ -88,6 +88,35 @@ const officialViewingRoute = [
   stopById.canton.coords
 ];
 
+const transitRouteService =
+  "https://services3.arcgis.com/ZTvQ9NuONePFYofE/arcgis/rest/services/ccchcNetwork/FeatureServer/1/query";
+
+const transitRouteGroups = [
+  {
+    name: "Free Charm City Circulator",
+    where: "RouteName NOT IN ('Harbor Connector 1','Harbor Connector 2','Harbor Connector 3')",
+    fallbackColor: "#1f7a5a",
+    dashArray: null
+  },
+  {
+    name: "Free Harbor Connector",
+    where: "RouteName IN ('Harbor Connector 1','Harbor Connector 2','Harbor Connector 3')",
+    fallbackColor: "#1b8cc8",
+    dashArray: "10 8"
+  }
+];
+
+const transitRouteColors = {
+  Orange: "#f47b20",
+  Banner: "#113f7a",
+  Purple: "#7b5bb0",
+  Cherry: "#d23b40",
+  Green: "#2f8f5b",
+  "Harbor Connector 1": "#1b8cc8",
+  "Harbor Connector 2": "#40a9e0",
+  "Harbor Connector 3": "#76c9f2"
+};
+
 function createMarkerIcon(stop, index) {
   return L.divIcon({
     className: "custom-marker",
@@ -96,6 +125,46 @@ function createMarkerIcon(stop, index) {
     iconAnchor: [15, 15],
     popupAnchor: [0, -14]
   });
+}
+
+function buildTransitRouteUrl(where) {
+  const params = new URLSearchParams({
+    f: "geojson",
+    where,
+    outFields: "RouteName",
+    returnGeometry: "true",
+    outSR: "4326",
+    geometryPrecision: "5"
+  });
+  return `${transitRouteService}?${params.toString()}`;
+}
+
+async function loadTransitRoutes(map) {
+  await Promise.all(transitRouteGroups.map(async (group) => {
+    const response = await fetch(buildTransitRouteUrl(group.where));
+    if (!response.ok) {
+      throw new Error(`${group.name} route request failed: ${response.status}`);
+    }
+    const data = await response.json();
+    const layer = L.geoJSON(data, {
+      style: (feature) => {
+        const routeName = feature?.properties?.RouteName;
+        return {
+          color: transitRouteColors[routeName] || group.fallbackColor,
+          weight: 4,
+          opacity: 0.86,
+          dashArray: group.dashArray,
+          lineCap: "round",
+          lineJoin: "round"
+        };
+      },
+      onEachFeature: (feature, featureLayer) => {
+        const routeName = feature?.properties?.RouteName || group.name;
+        featureLayer.bindTooltip(`${group.name}: ${routeName}`);
+      }
+    });
+    layer.addTo(map);
+  }));
 }
 
 function initMap() {
@@ -139,6 +208,10 @@ function initMap() {
     opacity: 0.8,
     dashArray: "5 10"
   }).addTo(map).bindTooltip("Official airshow viewing corridor");
+
+  loadTransitRoutes(map).catch(() => {
+    mapElement.dataset.transitRoutes = "unavailable";
+  });
 
   stops.forEach((stop, index) => {
     const marker = L.marker(stop.coords, {
