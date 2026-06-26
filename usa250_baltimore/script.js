@@ -88,6 +88,45 @@ const officialViewingRoute = [
   stopById.canton.coords
 ];
 
+const moonrise = {
+  label: "Moonrise Photo Line",
+  bearingDegrees: 127.6572,
+  lineDistanceKm: 2.25,
+  riseTime: "8:07 PM EDT",
+  date: "June 28, 2026"
+};
+
+const moonPhotoPorts = [
+  {
+    name: "Inner Harbor Piers",
+    coords: stopById["inner-harbor"].coords
+  },
+  {
+    name: "Fells Point / Broadway Pier",
+    coords: stopById["fells-point"].coords
+  },
+  {
+    name: "Baltimore Peninsula",
+    coords: stopById["baltimore-peninsula"].coords
+  },
+  {
+    name: "Fort McHenry Channel",
+    coords: stopById["fort-mchenry"].coords
+  },
+  {
+    name: "Canton Waterfront / Pier 13",
+    coords: stopById.canton.coords
+  },
+  {
+    name: "Tide Point",
+    coords: [39.27306, -76.59114]
+  },
+  {
+    name: "Locust Point",
+    coords: [39.26862, -76.59835]
+  }
+];
+
 const transitRouteService =
   "https://services3.arcgis.com/ZTvQ9NuONePFYofE/arcgis/rest/services/ccchcNetwork/FeatureServer/1/query";
 
@@ -124,6 +163,35 @@ function createMarkerIcon(stop, index) {
     iconSize: [30, 30],
     iconAnchor: [15, 15],
     popupAnchor: [0, -14]
+  });
+}
+
+function destinationPoint([lat, lon], bearingDegrees, distanceKm) {
+  const earthRadiusKm = 6371.0088;
+  const bearing = bearingDegrees * Math.PI / 180;
+  const angularDistance = distanceKm / earthRadiusKm;
+  const lat1 = lat * Math.PI / 180;
+  const lon1 = lon * Math.PI / 180;
+
+  const lat2 = Math.asin(
+    Math.sin(lat1) * Math.cos(angularDistance) +
+    Math.cos(lat1) * Math.sin(angularDistance) * Math.cos(bearing)
+  );
+  const lon2 = lon1 + Math.atan2(
+    Math.sin(bearing) * Math.sin(angularDistance) * Math.cos(lat1),
+    Math.cos(angularDistance) - Math.sin(lat1) * Math.sin(lat2)
+  );
+
+  return [lat2 * 180 / Math.PI, lon2 * 180 / Math.PI];
+}
+
+function createPhotoPortIcon() {
+  return L.divIcon({
+    className: "photo-port-marker",
+    html: "<span></span>",
+    iconSize: [16, 16],
+    iconAnchor: [8, 8],
+    popupAnchor: [0, -8]
   });
 }
 
@@ -209,6 +277,34 @@ function initMap() {
     dashArray: "5 10"
   }).addTo(map).bindTooltip("Official airshow viewing corridor");
 
+  const moonriseReverseBearing = (moonrise.bearingDegrees + 180) % 360;
+  const moonPhotoLineEnds = moonPhotoPorts.map((port) => ({
+    ...port,
+    photoLineEnd: destinationPoint(port.coords, moonriseReverseBearing, moonrise.lineDistanceKm)
+  }));
+
+  moonPhotoLineEnds.forEach((port) => {
+    const photoLine = L.polyline([port.coords, port.photoLineEnd], {
+      color: "#7d4ac7",
+      weight: 3,
+      opacity: 0.86,
+      dashArray: "8 8",
+      lineCap: "round",
+      lineJoin: "round"
+    }).addTo(map);
+
+    photoLine.bindPopup(`
+      <strong>${port.name}</strong>
+      <br>Moonrise photo line
+      <br>Stand on this line northwest of the port and look back toward the boats.
+      <br>${moonrise.date}, ${moonrise.riseTime}; moon azimuth ${Math.round(moonrise.bearingDegrees)} deg
+    `);
+
+    L.marker(port.coords, {
+      icon: createPhotoPortIcon()
+    }).addTo(map).bindTooltip(`${port.name}: moonrise photo alignment`);
+  });
+
   loadTransitRoutes(map).catch(() => {
     mapElement.dataset.transitRoutes = "unavailable";
   });
@@ -225,7 +321,10 @@ function initMap() {
     `);
   });
 
-  map.fitBounds(route, {
+  map.fitBounds([
+    ...route,
+    ...moonPhotoLineEnds.flatMap((port) => [port.coords, port.photoLineEnd])
+  ], {
     padding: [28, 28]
   });
 
