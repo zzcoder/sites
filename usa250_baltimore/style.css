@@ -655,7 +655,7 @@ h1 {
   font-weight: 850;
 }
 
-.parking-card p:last-child {
+.parking-primary p:last-child {
   max-width: 720px;
   margin-top: 12px;
 }
@@ -676,6 +676,48 @@ h1 {
   margin: 14px 0 0;
   padding-left: 20px;
   color: var(--ink);
+}
+
+.free-parking-list {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(17, 63, 122, 0.14);
+}
+
+.free-parking-list h4 {
+  margin: 0 0 10px;
+  color: var(--blue);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.free-parking-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 18px;
+}
+
+.free-parking-grid p {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.free-parking-grid strong,
+.free-parking-grid span {
+  display: block;
+}
+
+.free-parking-grid strong {
+  color: var(--ink);
+}
+
+.free-parking-grid span {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 14px;
 }
 
 .parking-links {
@@ -894,6 +936,10 @@ footer {
   }
 
   .parking-card {
+    grid-template-columns: 1fr;
+  }
+
+  .free-parking-grid {
     grid-template-columns: 1fr;
   }
 
