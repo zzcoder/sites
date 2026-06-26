@@ -11,7 +11,7 @@ const stops = [
     id: "south-baltimore-parking",
     label: "Backup Parking",
     name: "South Baltimore Parking",
-    detail: "First-come Sail250 public lots near Key Highway and Hull Street: free Cheer, Tide, Dawn, and Joy lots; paid Triangle Lot.",
+    detail: "First-come Sail250 public lots near Key Highway and Hull Street: free Cherry, Tide, Dawn, and Joy lots; paid Triangle Lot.",
     coords: [39.27022, -76.60012],
     color: "#7b5bb0"
   },
