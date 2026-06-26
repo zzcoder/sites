@@ -8,6 +8,14 @@ const stops = [
     color: "#b4322d"
   },
   {
+    id: "south-baltimore-parking",
+    label: "Backup Parking",
+    name: "South Baltimore Parking",
+    detail: "First-come Sail250 public lots near Key Highway and Hull Street: free Cheer, Tide, Dawn, and Joy lots; paid Triangle Lot.",
+    coords: [39.27022, -76.60012],
+    color: "#7b5bb0"
+  },
+  {
     id: "federal-hill",
     label: "Meet",
     name: "Federal Hill Park",
@@ -69,6 +77,11 @@ const route = [
   stopById["federal-hill"].coords
 ];
 
+const backupParkingRoute = [
+  stopById["south-baltimore-parking"].coords,
+  stopById["federal-hill"].coords
+];
+
 const officialViewingRoute = [
   stopById["baltimore-peninsula"].coords,
   stopById["fort-mchenry"].coords,
@@ -106,12 +119,19 @@ function initMap() {
     opacity: 0.78
   }).addTo(map);
 
-  L.polyline([stops[0].coords, stops[1].coords], {
+  L.polyline([stopById.parking.coords, stopById["federal-hill"].coords], {
     color: "#b4322d",
     weight: 4,
     opacity: 0.9,
     dashArray: "8 8"
   }).addTo(map).bindTooltip("Parking walk to Federal Hill");
+
+  L.polyline(backupParkingRoute, {
+    color: "#7b5bb0",
+    weight: 4,
+    opacity: 0.9,
+    dashArray: "2 8"
+  }).addTo(map).bindTooltip("Backup parking walk to Federal Hill");
 
   L.polyline(officialViewingRoute, {
     color: "#d4a642",

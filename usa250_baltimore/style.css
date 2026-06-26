@@ -624,14 +624,22 @@ h1 {
 }
 
 .parking-card {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
   gap: 20px;
   padding: 28px;
   background:
     linear-gradient(90deg, rgba(212, 166, 66, 0.18), transparent 38%),
     rgba(255, 255, 255, 0.82);
+}
+
+.parking-primary {
+  min-width: 0;
+}
+
+.parking-actions {
+  align-self: start;
 }
 
 .parking-name {
@@ -650,6 +658,37 @@ h1 {
 .parking-card p:last-child {
   max-width: 720px;
   margin-top: 12px;
+}
+
+.parking-contingency {
+  grid-column: 1 / -1;
+  padding: 20px;
+  border: 1px solid rgba(17, 63, 122, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.parking-contingency h3 {
+  margin-top: 0;
+}
+
+.parking-contingency ul {
+  margin: 14px 0 0;
+  padding-left: 20px;
+  color: var(--ink);
+}
+
+.parking-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.secondary-link {
+  background: white;
+  color: var(--blue);
+  border: 1px solid rgba(17, 63, 122, 0.18);
 }
 
 .photo-gear {
@@ -852,6 +891,10 @@ footer {
   .parking-card {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .parking-card {
+    grid-template-columns: 1fr;
   }
 
   #eventMap {
