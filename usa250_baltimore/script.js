@@ -195,6 +195,20 @@ function createPhotoPortIcon() {
   });
 }
 
+function addMoonPhotoNote(map) {
+  const note = L.control({
+    position: "bottomleft"
+  });
+
+  note.onAdd = () => {
+    const element = L.DomUtil.create("div", "moon-photo-map-note");
+    element.innerHTML = "<strong>Moon photo lines</strong><span>Stand on a purple dashed line and face the matching port.</span>";
+    return element;
+  };
+
+  note.addTo(map);
+}
+
 function buildTransitRouteUrl(where) {
   const params = new URLSearchParams({
     f: "geojson",
@@ -286,9 +300,9 @@ function initMap() {
   moonPhotoLineEnds.forEach((port) => {
     const photoLine = L.polyline([port.coords, port.photoLineEnd], {
       color: "#7d4ac7",
-      weight: 3,
-      opacity: 0.86,
-      dashArray: "8 8",
+      weight: 4,
+      opacity: 0.95,
+      dashArray: "12 8",
       lineCap: "round",
       lineJoin: "round"
     }).addTo(map);
@@ -304,6 +318,8 @@ function initMap() {
       icon: createPhotoPortIcon()
     }).addTo(map).bindTooltip(`${port.name}: moonrise photo alignment`);
   });
+
+  addMoonPhotoNote(map);
 
   loadTransitRoutes(map).catch(() => {
     mapElement.dataset.transitRoutes = "unavailable";

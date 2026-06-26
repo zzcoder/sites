@@ -470,6 +470,29 @@ h1 {
   box-shadow: 0 5px 14px rgba(36, 19, 71, 0.3);
 }
 
+.moon-photo-map-note {
+  display: grid;
+  gap: 3px;
+  max-width: 260px;
+  border: 1px solid rgba(125, 74, 199, 0.35);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 12px 28px rgba(16, 35, 63, 0.16);
+}
+
+.moon-photo-map-note strong {
+  color: #5b3197;
+  font-size: 13px;
+  line-height: 1.1;
+}
+
+.moon-photo-map-note span {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.28;
+}
+
 .route-card {
   padding: 24px;
 }
