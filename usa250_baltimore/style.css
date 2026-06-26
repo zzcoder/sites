@@ -672,6 +672,25 @@ h1 {
   padding-left: 20px;
 }
 
+.moon-video-callout {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid rgba(17, 63, 122, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.moon-video-callout p {
+  flex: 1 1 260px;
+  margin: 0;
+  color: var(--muted);
+  font-weight: 650;
+}
+
 .photo-panel figure {
   margin: 0;
 }
