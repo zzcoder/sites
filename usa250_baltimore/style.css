@@ -712,6 +712,69 @@ h1 {
   margin-top: 18px;
 }
 
+.schedule-parking-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.schedule-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 22px 24px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 12px 30px rgba(16, 35, 63, 0.07);
+}
+
+.schedule-card.recommended {
+  border-color: rgba(38, 95, 56, 0.28);
+  background:
+    linear-gradient(135deg, rgba(38, 95, 56, 0.1), transparent 44%),
+    rgba(255, 255, 255, 0.84);
+}
+
+.schedule-card span {
+  display: block;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.schedule-card h3 {
+  margin-top: 9px;
+  color: var(--blue);
+  font-size: 23px;
+  line-height: 1.08;
+}
+
+.schedule-card address,
+.timeline address {
+  margin-top: 10px;
+  color: var(--ink);
+  font-style: normal;
+  font-weight: 850;
+  line-height: 1.45;
+}
+
+.schedule-card p {
+  margin-top: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.schedule-card a,
+.timeline a {
+  display: inline-flex;
+  margin-top: 12px;
+  color: var(--blue);
+  font-size: 14px;
+  font-weight: 950;
+}
+
 .timeline {
   display: grid;
   gap: 12px;
@@ -733,6 +796,13 @@ h1 {
   background: rgba(255, 247, 238, 0.9);
 }
 
+.timeline article.decision {
+  border-left-color: var(--gold);
+  background:
+    linear-gradient(90deg, rgba(212, 166, 66, 0.16), transparent 42%),
+    rgba(255, 255, 255, 0.82);
+}
+
 .timeline time {
   color: var(--red);
   font-size: 18px;
@@ -741,6 +811,51 @@ h1 {
 
 .timeline h3 {
   margin-top: 0;
+}
+
+.timeline ul {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0 0;
+  padding-left: 19px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.schedule-checklist {
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 24px;
+  background:
+    linear-gradient(135deg, rgba(17, 63, 122, 0.08), transparent 42%),
+    rgba(255, 255, 255, 0.76);
+  box-shadow: 0 12px 30px rgba(16, 35, 63, 0.07);
+}
+
+.schedule-checklist h3 {
+  margin: 0;
+  color: var(--blue);
+  font-size: 24px;
+}
+
+.schedule-checklist ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.schedule-checklist li {
+  border: 1px solid rgba(17, 63, 122, 0.13);
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 900;
 }
 
 .parking-card {
@@ -1373,6 +1488,7 @@ footer {
   .transport-grid,
   .performer-list,
   .link-grid,
+  .schedule-parking-grid,
   .ship-card-grid,
   .ship-port-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1428,6 +1544,7 @@ footer {
   .transport-grid,
   .performer-list,
   .link-grid,
+  .schedule-parking-grid,
   .ship-card-grid,
   .ship-port-list,
   .ship-stat-panel {
