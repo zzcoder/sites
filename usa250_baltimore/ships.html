@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ship Berths & Moonrise Photo Lines | Sail250 Maryland</title>
+    <title>Ships, Berths & Moonrise Photo Lines | Sail250 Maryland</title>
     <meta
       name="description"
-      content="Sail250 Maryland Baltimore ship berth map showing which boats are at which ports, with moonrise photo composition guide lines."
+      content="Sail250 Maryland Baltimore ship guide with tall ship photos, berth assignments, basic information, and moonrise photo composition lines."
     >
     <link rel="preconnect" href="https://unpkg.com">
     <link
@@ -15,7 +15,7 @@
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
       crossorigin=""
     >
-    <link rel="stylesheet" href="style.css?v=20260626-ships-map">
+    <link rel="stylesheet" href="style.css?v=20260627-ship-directory">
   </head>
   <body class="ships-page">
     <header class="site-header">
@@ -23,7 +23,7 @@
         <img src="assets/hh-logo.png" alt="Healthy Hikers logo">
         <span>
           <strong>Healthy Hikers</strong>
-          <em>Ship Berths</em>
+          <em>Ship Guide</em>
         </span>
       </a>
       <nav aria-label="Page navigation">
@@ -40,11 +40,12 @@
       <section class="ships-hero section-band">
         <div class="ships-hero-copy">
           <p class="eyebrow">Sail250 Maryland</p>
-          <h1>Which Boat Is At Which Port</h1>
+          <h1>Sail250 Ship Guide</h1>
           <p class="ships-intro">
-            A focused harbor map for ship berths and moonrise photo planning. Purple dashed guide lines show where to stand northwest of a berth and look back toward the ship to place the June 28 moonrise behind it.
+            Tall ships, visiting vessels, berth assignments, and moonrise photo planning. Purple dashed guide lines show where to stand northwest of a berth and look back toward the ship to place the June 28 moonrise behind it.
           </p>
           <div class="ship-actions">
+            <a class="button-link" href="#shipDirectory">Open Ship List</a>
             <a class="button-link" href="#shipsMap">Open Ship Map</a>
             <a class="button-link secondary-link" href="https://www.sail250md.org/copy-of-visiting-ships" target="_blank" rel="noreferrer">
               Official Visiting Ships
@@ -69,6 +70,19 @@
             <strong id="shipCount">Loading</strong>
           </div>
         </aside>
+      </section>
+
+      <section class="ship-directory-section section-pad" aria-labelledby="ship-directory-title">
+        <div class="section-heading split">
+          <div>
+            <h2 id="ship-directory-title">Tall Ships & Visiting Vessels</h2>
+            <p>Photos and facts are summarized from the official Sail250 visiting-ships page. Berth details are listed on each card.</p>
+          </div>
+          <a class="button-link" href="https://www.sail250md.org/copy-of-visiting-ships" target="_blank" rel="noreferrer">
+            Official Ship Page
+          </a>
+        </div>
+        <div id="shipDirectory" class="ship-directory" aria-live="polite"></div>
       </section>
 
       <section class="ship-map-section section-pad" aria-labelledby="ship-map-title">
@@ -96,7 +110,7 @@
 
       <section class="ship-list-section section-pad" aria-labelledby="ship-list-title">
         <div class="section-heading">
-          <h2 id="ship-list-title">Boat By Port</h2>
+          <h2 id="ship-list-title">Berths By Port</h2>
           <p>Use this list to decide which berth to visit or which photo line to scout before moonrise.</p>
         </div>
         <div id="shipPortList" class="ship-port-list" aria-live="polite"></div>
@@ -114,6 +128,6 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
-    <script src="ships.js?v=20260626-ships-map"></script>
+    <script src="ships.js?v=20260627-ship-directory"></script>
   </body>
 </html>
