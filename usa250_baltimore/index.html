@@ -15,7 +15,7 @@
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
       crossorigin=""
     >
-    <link rel="stylesheet" href="style.css?v=20260627-schedule-v2">
+    <link rel="stylesheet" href="style.css?v=20260628-mobile-header">
   </head>
   <body>
     <header class="site-header">
@@ -26,7 +26,7 @@
           <em>USA 250 Baltimore</em>
         </span>
       </a>
-      <nav aria-label="Page sections">
+      <nav class="desktop-nav" aria-label="Page sections">
         <a href="#map">Map</a>
         <a href="#schedule">Schedule</a>
         <a href="#airshow">Airshow</a>
@@ -35,6 +35,21 @@
         <a href="#parking">Parking</a>
         <a class="nav-cta" href="#official-links">Official Links</a>
       </nav>
+      <details class="mobile-nav">
+        <summary aria-label="Open page menu">
+          <span>Menu</span>
+          <i aria-hidden="true"></i>
+        </summary>
+        <nav aria-label="Mobile page sections">
+          <a href="#map">Map</a>
+          <a href="#schedule">Schedule</a>
+          <a href="#airshow">Airshow</a>
+          <a href="#transportation">Transit</a>
+          <a href="ships.html">Ship Map</a>
+          <a href="#parking">Parking</a>
+          <a class="nav-cta" href="#official-links">Official Links</a>
+        </nav>
+      </details>
     </header>
 
     <main id="top">
@@ -511,6 +526,7 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
+    <script src="nav.js?v=20260628-mobile-header"></script>
     <script src="script.js?v=20260626-moon-photo-lines"></script>
   </body>
 </html>

@@ -15,7 +15,7 @@
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
       crossorigin=""
     >
-    <link rel="stylesheet" href="style.css?v=20260627-ship-directory">
+    <link rel="stylesheet" href="style.css?v=20260628-mobile-header">
   </head>
   <body class="ships-page">
     <header class="site-header">
@@ -26,7 +26,7 @@
           <em>Ship Guide</em>
         </span>
       </a>
-      <nav aria-label="Page navigation">
+      <nav class="desktop-nav" aria-label="Page navigation">
         <a href="index.html#map">Trip Map</a>
         <a href="index.html#schedule">Schedule</a>
         <a href="index.html#airshow">Airshow</a>
@@ -34,6 +34,20 @@
         <a href="ships.html" aria-current="page">Ship Map</a>
         <a class="nav-cta" href="index.html#official-links">Official Links</a>
       </nav>
+      <details class="mobile-nav">
+        <summary aria-label="Open page menu">
+          <span>Menu</span>
+          <i aria-hidden="true"></i>
+        </summary>
+        <nav aria-label="Mobile page navigation">
+          <a href="index.html#map">Trip Map</a>
+          <a href="index.html#schedule">Schedule</a>
+          <a href="index.html#airshow">Airshow</a>
+          <a href="index.html#transportation">Transit</a>
+          <a href="ships.html" aria-current="page">Ship Map</a>
+          <a class="nav-cta" href="index.html#official-links">Official Links</a>
+        </nav>
+      </details>
     </header>
 
     <main>
@@ -128,6 +142,7 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
+    <script src="nav.js?v=20260628-mobile-header"></script>
     <script src="ships.js?v=20260627-ship-directory"></script>
   </body>
 </html>
