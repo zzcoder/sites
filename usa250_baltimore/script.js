@@ -1,85 +1,152 @@
 const stops = [
   {
-    id: "parking",
-    label: "Parking",
-    name: "West Street Garage",
-    detail: "40 E West St. About 10-minute walk to Federal Hill.",
-    coords: [39.27685, -76.61348],
+    id: "south-baltimore-park-ride",
+    label: "Free Parking",
+    name: "South Baltimore Park & Ride",
+    detail: "1000 Hull St. 8:45 AM; about a 15-minute walk to Federal Hill Park.",
+    coords: [39.2747585, -76.5907319],
     color: "#b4322d"
   },
   {
-    id: "south-baltimore-parking",
-    label: "Backup Parking",
-    name: "South Baltimore Parking",
-    detail: "First-come Sail250 public lots near Key Highway and Hull Street: free Cherry, Tide, Dawn, and Joy lots; paid Triangle Lot.",
-    coords: [39.27022, -76.60012],
+    id: "triangle-lot",
+    label: "Paid Parking",
+    name: "Triangle Lot",
+    detail: "1113 Hull St. 8:50 AM; about a 10-minute walk to Federal Hill Park.",
+    coords: [39.2732713, -76.5910609],
     color: "#7b5bb0"
+  },
+  {
+    id: "west-street-garage",
+    label: "Paid Parking",
+    name: "West Street Garage",
+    detail: "40 E West St. 9:00 AM; about a 5-minute walk to Federal Hill Park.",
+    coords: [39.2761706, -76.6132987],
+    color: "#b4322d"
   },
   {
     id: "federal-hill",
     label: "Meet",
     name: "Federal Hill Park",
-    detail: "10:00 AM meeting point. Return by 1:30 PM or move to an official viewing area.",
-    coords: [39.27963, -76.60865],
+    detail: "300 Warren Ave. 9:30 AM gathering, group photo, introductions, and harbor panorama photography.",
+    coords: [39.2796148, -76.6084642],
     color: "#113f7a"
   },
   {
-    id: "inner-harbor",
+    id: "visitor-center",
     label: "Tall Ships",
-    name: "Inner Harbor",
-    detail: "11:00 AM tall ships and dockside experience.",
-    coords: [39.28503, -76.61076],
+    name: "Baltimore Visitor Center",
+    detail: "401 Light St. 10:00 AM start for the waterfront walk into Sail250.",
+    coords: [39.2839019, -76.6122999],
     color: "#d4a642"
   },
   {
-    id: "fells-point",
-    label: "Lunch",
-    name: "Fells Point",
-    detail: "12:30 PM lunch and waterfront street photography.",
-    coords: [39.28238, -76.59375],
+    id: "harborplace",
+    label: "Sail250",
+    name: "Harborplace",
+    detail: "Inner Harbor festival area, tall ships, waterfront exhibits, and harbor photography.",
+    coords: [39.286555, -76.610989],
     color: "#113f7a"
   },
   {
-    id: "baltimore-peninsula",
-    label: "Official Viewing",
-    name: "Baltimore Peninsula",
-    detail: "Official land viewing area for Airshow Baltimore.",
-    coords: [39.26798, -76.60294],
+    id: "historic-ships",
+    label: "Historic Ships",
+    name: "Historic Ships in Baltimore",
+    detail: "USS Constellation area and nearby Sail250 dockside activity.",
+    coords: [39.2851107, -76.6117824],
     color: "#d4a642"
   },
   {
-    id: "fort-mchenry",
-    label: "History",
-    name: "Fort McHenry",
-    detail: "History stop and airshow viewing guidance area. Use transit or walk; no public parking.",
-    coords: [39.26308, -76.57996],
-    color: "#b4322d"
+    id: "harbor-east",
+    label: "Waterfront Walk",
+    name: "Harbor East",
+    detail: "Waterfront route segment between Inner Harbor and Fells Point.",
+    coords: [39.2834572, -76.599964],
+    color: "#113f7a"
+  },
+  {
+    id: "broadway-square",
+    label: "Lunch",
+    name: "Broadway Square / Fells Point",
+    detail: "1637 Thames St. 12:00 PM lunch area and Fells Point waterfront photography.",
+    coords: [39.2815048, -76.5937752],
+    color: "#d4a642"
   },
   {
     id: "canton",
     label: "Official Viewing",
     name: "Canton Waterfront Park",
-    detail: "Official land viewing area for the Blue Angels and Airshow Baltimore.",
-    coords: [39.27865, -76.57277],
+    detail: "3001 Boston St. 12:30 PM walk destination and Blue Angels viewing area.",
+    coords: [39.2771962, -76.5727014],
     color: "#d4a642"
+  },
+  {
+    id: "harbor-point",
+    label: "Moon Option",
+    name: "Harbor Point",
+    detail: "Optional moon photography area along the harbor after dinner.",
+    coords: [39.2805596, -76.598348],
+    color: "#7b5bb0"
+  },
+  {
+    id: "domino-sugar",
+    label: "Moon Option",
+    name: "Domino Sugar Overlook",
+    detail: "Optional moon photography area near the Domino Sugar waterfront.",
+    coords: [39.2753127, -76.5953103],
+    color: "#7b5bb0"
+  },
+  {
+    id: "baltimore-peninsula",
+    label: "Optional Viewing",
+    name: "Baltimore Peninsula",
+    detail: "Official land viewing area for Airshow Baltimore if the group changes viewing location.",
+    coords: [39.2640487, -76.6077287],
+    color: "#d4a642"
+  },
+  {
+    id: "fort-mchenry",
+    label: "Optional Viewing",
+    name: "Fort McHenry",
+    detail: "Official airshow guidance area and history stop; use transit or walk access.",
+    coords: [39.2637084, -76.5803328],
+    color: "#b4322d"
   }
 ];
 
 const stopById = Object.fromEntries(stops.map((stop) => [stop.id, stop]));
 
 const route = [
-  stopById.parking.coords,
+  stopById["south-baltimore-park-ride"].coords,
   stopById["federal-hill"].coords,
-  stopById["inner-harbor"].coords,
-  stopById["fells-point"].coords,
-  stopById["federal-hill"].coords,
-  stopById["fort-mchenry"].coords,
-  stopById["federal-hill"].coords
+  stopById["visitor-center"].coords,
+  stopById.harborplace.coords,
+  stopById["historic-ships"].coords,
+  stopById["harbor-east"].coords,
+  stopById["broadway-square"].coords,
+  stopById.canton.coords,
+  stopById["harbor-point"].coords,
+  stopById["domino-sugar"].coords
 ];
 
-const backupParkingRoute = [
-  stopById["south-baltimore-parking"].coords,
-  stopById["federal-hill"].coords
+const parkingWalkRoutes = [
+  {
+    name: "South Baltimore Park & Ride walk to Federal Hill",
+    coords: [stopById["south-baltimore-park-ride"].coords, stopById["federal-hill"].coords],
+    color: "#b4322d",
+    dashArray: "8 8"
+  },
+  {
+    name: "Triangle Lot walk to Federal Hill",
+    coords: [stopById["triangle-lot"].coords, stopById["federal-hill"].coords],
+    color: "#7b5bb0",
+    dashArray: "3 8"
+  },
+  {
+    name: "West Street Garage walk to Federal Hill",
+    coords: [stopById["west-street-garage"].coords, stopById["federal-hill"].coords],
+    color: "#d4a642",
+    dashArray: "3 8"
+  }
 ];
 
 const officialViewingRoute = [
@@ -99,11 +166,11 @@ const moonrise = {
 const moonPhotoPorts = [
   {
     name: "Inner Harbor Piers",
-    coords: stopById["inner-harbor"].coords
+    coords: stopById["historic-ships"].coords
   },
   {
-    name: "Fells Point / Broadway Pier",
-    coords: stopById["fells-point"].coords
+    name: "Fells Point / Broadway Square",
+    coords: stopById["broadway-square"].coords
   },
   {
     name: "Baltimore Peninsula",
@@ -116,6 +183,14 @@ const moonPhotoPorts = [
   {
     name: "Canton Waterfront / Pier 13",
     coords: stopById.canton.coords
+  },
+  {
+    name: "Harbor Point",
+    coords: stopById["harbor-point"].coords
+  },
+  {
+    name: "Domino Sugar Overlook",
+    coords: stopById["domino-sugar"].coords
   },
   {
     name: "Tide Point",
@@ -270,19 +345,14 @@ function initMap() {
     opacity: 0.78
   }).addTo(map);
 
-  L.polyline([stopById.parking.coords, stopById["federal-hill"].coords], {
-    color: "#b4322d",
-    weight: 4,
-    opacity: 0.9,
-    dashArray: "8 8"
-  }).addTo(map).bindTooltip("Parking walk to Federal Hill");
-
-  L.polyline(backupParkingRoute, {
-    color: "#7b5bb0",
-    weight: 4,
-    opacity: 0.9,
-    dashArray: "2 8"
-  }).addTo(map).bindTooltip("Backup parking walk to Federal Hill");
+  parkingWalkRoutes.forEach((parkingRoute) => {
+    L.polyline(parkingRoute.coords, {
+      color: parkingRoute.color,
+      weight: 4,
+      opacity: 0.9,
+      dashArray: parkingRoute.dashArray
+    }).addTo(map).bindTooltip(parkingRoute.name);
+  });
 
   L.polyline(officialViewingRoute, {
     color: "#d4a642",
@@ -339,6 +409,7 @@ function initMap() {
 
   map.fitBounds([
     ...route,
+    ...stops.map((stop) => stop.coords),
     ...moonPhotoLineEnds.flatMap((port) => [port.coords, port.photoLineEnd])
   ], {
     padding: [28, 28]
