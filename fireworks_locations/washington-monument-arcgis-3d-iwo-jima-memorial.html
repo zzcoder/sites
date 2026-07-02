@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Washington Monument 3D View</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.33/esri/themes/dark/main.css">
+  <script src="https://js.arcgis.com/4.33/"></script>
+  <style>
+    html, body, #viewDiv {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      background: #07111a;
+      overflow: hidden;
+      font-family: Inter, "Aptos", "Segoe UI", Arial, sans-serif;
+    }
+    .title {
+      position: absolute;
+      left: 24px;
+      top: 22px;
+      z-index: 10;
+      width: min(720px, calc(100vw - 48px));
+      padding: 16px 18px 15px;
+      color: #f7fbff;
+      background: rgba(5, 16, 27, 0.76);
+      border: 1px solid rgba(180, 220, 255, 0.34);
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.34);
+      backdrop-filter: blur(6px);
+    }
+    .title h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.05;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+    .title p {
+      margin: 8px 0 0;
+      font-size: 15px;
+      line-height: 1.35;
+      color: #d7e9f8;
+    }
+    .status {
+      position: absolute;
+      left: 24px;
+      bottom: 22px;
+      z-index: 10;
+      color: #e8f4ff;
+      background: rgba(6, 19, 30, 0.70);
+      border: 1px solid rgba(180, 220, 255, 0.28);
+      padding: 9px 12px;
+      font-size: 13px;
+    }
+    .hh-logo {
+      position: absolute;
+      right: 24px;
+      top: 22px;
+      z-index: 12;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 76px;
+      height: 76px;
+      padding: 8px;
+      border: 1px solid rgba(180, 220, 255, 0.34);
+      border-radius: 50%;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.90);
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.34);
+      backdrop-filter: blur(6px);
+    }
+    .hh-logo img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: contain;
+    }
+    @media (max-width: 820px) {
+      .title {
+        left: 16px;
+        top: 106px;
+        width: calc(100vw - 32px);
+      }
+      .hh-logo {
+        left: 16px;
+        right: auto;
+        top: 16px;
+        width: 70px;
+        height: 70px;
+      }
+      .status {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+      }
+    }
+    .esri-attribution {
+      max-width: 65vw;
+    }
+  </style>
+</head>
+<body>
+  <div id="viewDiv"></div>
+  <a class="hh-logo" href="index.html" aria-label="Back to Healthy Hikers fireworks locations">
+    <img src="assets/hh-logo.png" alt="Healthy Hikers logo">
+  </a>
+  <section class="title">
+    <h1>Washington Monument 3D View</h1>
+    <p>Iwo Jima / Marine Corps War Memorial view toward the Washington Monument. Source scene: DCGIS July 4th Fireworks Web Scene, with DC LiDAR surface data and Open 3D Buildings.</p>
+  </section>
+  <div id="status" class="status">Loading 3D scene...</div>
+  <script>
+    window.__sceneReady = false;
+    window.__sceneError = null;
+
+    const SOURCE_SCENE_ITEM_ID = "fe47067cdfc84a35835581877913768d";
+    const PORTAL_URL = "https://DCGIS.maps.arcgis.com";
+    const CAMERA = {
+  "position": {
+    "latitude": 38.890436,
+    "longitude": -77.069721,
+    "z": 82,
+    "spatialReference": {
+      "wkid": 4326
+    }
+  },
+  "heading": 92,
+  "tilt": 84
+};
+    const MONUMENT = {
+  "latitude": 38.889484,
+  "longitude": -77.035279,
+  "ground_m": 9,
+  "top_m": 178
+};
+
+    require([
+      "esri/WebScene",
+      "esri/views/SceneView",
+      "esri/Camera",
+      "esri/Graphic",
+      "esri/layers/GraphicsLayer",
+      "esri/geometry/Point",
+      "esri/geometry/Polyline",
+      "esri/portal/Portal"
+    ], (WebScene, SceneView, Camera, Graphic, GraphicsLayer, Point, Polyline, Portal) => {
+      const portal = new Portal({ url: PORTAL_URL });
+      const scene = new WebScene({
+        portalItem: {
+          id: SOURCE_SCENE_ITEM_ID,
+          portal
+        }
+      });
+
+      const view = new SceneView({
+        container: "viewDiv",
+        map: scene,
+        qualityProfile: "high",
+        viewingMode: "global",
+        camera: new Camera(CAMERA),
+        environment: {
+          atmosphereEnabled: true,
+          starsEnabled: true,
+          lighting: {
+            type: "sun",
+            date: new Date("2026-07-04T20:45:00-04:00"),
+            directShadowsEnabled: true,
+            ambientOcclusionEnabled: true
+          },
+          weather: {
+            type: "sunny",
+            cloudCover: 0.12
+          }
+        },
+        popup: null,
+        constraints: {
+          altitude: {
+            min: 2,
+            max: 12000
+          }
+        }
+      });
+
+      const graphics = new GraphicsLayer({
+        title: "Washington Monument sightline annotations",
+        elevationInfo: { mode: "absolute-height" }
+      });
+      scene.add(graphics);
+
+      const monumentBase = new Point({
+        latitude: MONUMENT.latitude,
+        longitude: MONUMENT.longitude,
+        z: MONUMENT.ground_m,
+        spatialReference: { wkid: 4326 }
+      });
+      const monumentTop = new Point({
+        latitude: MONUMENT.latitude,
+        longitude: MONUMENT.longitude,
+        z: MONUMENT.top_m,
+        spatialReference: { wkid: 4326 }
+      });
+      const cameraPoint = new Point({
+        latitude: CAMERA.position.latitude,
+        longitude: CAMERA.position.longitude,
+        z: CAMERA.position.z,
+        spatialReference: { wkid: 4326 }
+      });
+
+      graphics.addMany([
+        new Graphic({
+          geometry: new Polyline({
+            paths: [[
+              [MONUMENT.longitude, MONUMENT.latitude, MONUMENT.ground_m],
+              [MONUMENT.longitude, MONUMENT.latitude, MONUMENT.top_m]
+            ]],
+            hasZ: true,
+            spatialReference: { wkid: 4326 }
+          }),
+          symbol: {
+            type: "line-3d",
+            symbolLayers: [{
+              type: "line",
+              material: { color: [255, 226, 89, 1] },
+              size: 5
+            }]
+          }
+        }),
+        new Graphic({
+          geometry: monumentTop,
+          symbol: {
+            type: "point-3d",
+            symbolLayers: [{
+              type: "icon",
+              resource: { primitive: "circle" },
+              material: { color: [255, 226, 89, 1] },
+              size: 15,
+              outline: { color: [15, 24, 30, 1], size: 2 }
+            }],
+            verticalOffset: {
+              screenLength: 80,
+              maxWorldLength: 600,
+              minWorldLength: 20
+            },
+            callout: {
+              type: "line",
+              color: [255, 226, 89, 0.9],
+              size: 1.5
+            }
+          },
+          popupTemplate: { title: "Washington Monument" },
+          attributes: { name: "Washington Monument" }
+        }),
+        new Graphic({
+          geometry: monumentTop,
+          symbol: {
+            type: "label-3d",
+            symbolLayers: [{
+              type: "text",
+              text: "Washington Monument",
+              material: { color: [255, 255, 255, 1] },
+              halo: { color: [0, 0, 0, 0.85], size: 2 },
+              size: 14,
+              font: { family: "Aptos, Segoe UI, Arial", weight: "bold" }
+            }],
+            verticalOffset: {
+              screenLength: 102,
+              maxWorldLength: 800,
+              minWorldLength: 30
+            },
+            callout: {
+              type: "line",
+              color: [255, 255, 255, 0.82],
+              size: 1
+            }
+          }
+        }),
+        new Graphic({
+          geometry: new Polyline({
+            paths: [[
+              [CAMERA.position.longitude, CAMERA.position.latitude, CAMERA.position.z],
+              [MONUMENT.longitude, MONUMENT.latitude, MONUMENT.top_m]
+            ]],
+            hasZ: true,
+            spatialReference: { wkid: 4326 }
+          }),
+          symbol: {
+            type: "line-3d",
+            symbolLayers: [{
+              type: "line",
+              material: { color: [65, 199, 255, 0.88] },
+              size: 2.8
+            }]
+          }
+        })
+      ]);
+
+      view.when(async () => {
+        document.getElementById("status").textContent = "Rendering 3D buildings, LiDAR surface, fireworks layers, and sightline...";
+        try {
+          await view.goTo({
+            target: monumentBase,
+            heading: CAMERA.heading,
+            tilt: CAMERA.tilt,
+            scale: 13500
+          }, { animate: false });
+          view.camera = new Camera(CAMERA);
+          await view.whenLayerView(graphics);
+          setTimeout(() => {
+            document.getElementById("status").textContent = "ArcGIS source scene: July 4th Fireworks | Camera from Arlington toward the Washington Monument";
+            window.__sceneReady = true;
+          }, 9500);
+        } catch (error) {
+          console.error(error);
+          window.__sceneError = String(error && error.message ? error.message : error);
+          document.getElementById("status").textContent = "Scene render error: " + window.__sceneError;
+        }
+      }, (error) => {
+        console.error(error);
+        window.__sceneError = String(error && error.message ? error.message : error);
+      });
+
+      window.__arcgisView = view;
+    });
+  </script>
+</body>
+</html>

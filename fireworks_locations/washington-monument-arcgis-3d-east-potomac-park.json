@@ -1,0 +1,28 @@
+{
+  "source_experience_url": "https://experience.arcgis.com/experience/007ba46c1d884711a8f251adb41d0cf7/page/Page",
+  "source_portal_url": "https://DCGIS.maps.arcgis.com",
+  "source_scene_item_id": "fe47067cdfc84a35835581877913768d",
+  "preset": "east-potomac-park",
+  "camera": {
+    "position": {
+      "latitude": 38.870787,
+      "longitude": -77.027265,
+      "z": 64,
+      "spatialReference": {
+        "wkid": 4326
+      }
+    },
+    "heading": 324,
+    "tilt": 83
+  },
+  "washington_monument": {
+    "latitude": 38.889484,
+    "longitude": -77.035279,
+    "ground_m": 9,
+    "top_m": 178
+  },
+  "html": "output/dc-fireworks-viewpoints/washington-monument-arcgis-3d-east-potomac-park.html",
+  "png": "output/dc-fireworks-viewpoints/washington-monument-arcgis-3d-east-potomac-park.png",
+  "screenshot_status": "failed",
+  "screenshot_error": "ArcGIS scene failed to render: Your WebGL implementation (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)) doesn't seem to support hardware accelerated rendering. Check your browser settings or if your GPU is in a blocklist.\ninfo: Using ArcGIS Maps SDK for JavaScript 4.33.11 [Date: 20250729, Revision: 6617c226]\ninfo: Using Calcite Components 3.2.1 [Date: 2025-05-29, Revision: 618973fec]\nwarning: [esri.views.SceneView] #validate() Your WebGL implementation (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)) doesn't seem to support hardware accelerated rendering. Check your browser settings or if your GPU is in a blocklist.\nerror: o\npageerror: o"
+}
