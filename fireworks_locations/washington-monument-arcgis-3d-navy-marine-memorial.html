@@ -106,7 +106,7 @@
   </a>
   <section class="title">
     <h1>Washington Monument 3D View</h1>
-    <p>Arlington ridge view toward the Washington Monument. Source scene: DCGIS July 4th Fireworks Web Scene, with DC LiDAR surface data and Open 3D Buildings.</p>
+    <p>Navy &amp; Marine Memorial view toward the Washington Monument. Source scene: DCGIS July 4th Fireworks Web Scene, with DC LiDAR surface data and Open 3D Buildings.</p>
     <div id="status" class="status">Loading 3D scene...</div>
   </section>
   <script>
@@ -117,15 +117,15 @@
     const PORTAL_URL = "https://DCGIS.maps.arcgis.com";
     const CAMERA = {
   "position": {
-    "latitude": 38.8896,
-    "longitude": -77.0718,
-    "z": 185,
+    "latitude": 38.8762894,
+    "longitude": -77.0473175,
+    "z": 70,
     "spatialReference": {
       "wkid": 4326
     }
   },
-  "heading": 88,
-  "tilt": 84
+  "heading": 35.4,
+  "tilt": 83
 };
     const MONUMENT = {
   "latitude": 38.889484,
@@ -306,7 +306,7 @@
           view.camera = new Camera(CAMERA);
           await view.whenLayerView(graphics);
           setTimeout(() => {
-            document.getElementById("status").textContent = "ArcGIS source scene: July 4th Fireworks | Camera from Arlington toward the Washington Monument";
+            document.getElementById("status").textContent = "ArcGIS source scene: July 4th Fireworks | Camera from Navy & Marine Memorial toward the Washington Monument";
             window.__sceneReady = true;
           }, 9500);
         } catch (error) {

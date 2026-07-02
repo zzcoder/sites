@@ -1,0 +1,33 @@
+{
+  "source_experience_url": "https://experience.arcgis.com/experience/007ba46c1d884711a8f251adb41d0cf7/page/Page",
+  "source_portal_url": "https://DCGIS.maps.arcgis.com",
+  "source_scene_item_id": "fe47067cdfc84a35835581877913768d",
+  "preset": "navy-marine-memorial",
+  "camera": {
+    "position": {
+      "latitude": 38.8762894,
+      "longitude": -77.0473175,
+      "z": 70,
+      "spatialReference": {
+        "wkid": 4326
+      }
+    },
+    "heading": 35.4,
+    "tilt": 83
+  },
+  "washington_monument": {
+    "latitude": 38.889484,
+    "longitude": -77.035279,
+    "ground_m": 9,
+    "top_m": 178
+  },
+  "html": "fireworks_locations/washington-monument-arcgis-3d-navy-marine-memorial.html",
+  "png": null,
+  "location": {
+    "name": "Navy & Marine Memorial",
+    "latitude": 38.8762894,
+    "longitude": -77.0473175,
+    "formatted_address": "Navy and Marine Memorial, George Washington Mem Pkwy, Washington, DC 20037, USA",
+    "source": "Google Geocoding API"
+  }
+}
