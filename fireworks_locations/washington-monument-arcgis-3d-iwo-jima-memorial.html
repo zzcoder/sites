@@ -6,6 +6,7 @@
   <title>Washington Monument 3D View</title>
   <link rel="stylesheet" href="https://js.arcgis.com/4.33/esri/themes/dark/main.css">
   <script src="https://js.arcgis.com/4.33/"></script>
+  <script src="blue-angels-fleet.js"></script>
   <style>
     html, body, #viewDiv {
       height: 100%;
@@ -106,7 +107,7 @@
   </a>
   <section class="title">
     <h1>Washington Monument 3D View</h1>
-    <p>Iwo Jima / Marine Corps War Memorial view toward the Washington Monument. Source scene: DCGIS July 4th Fireworks Web Scene, with DC LiDAR surface data and Open 3D Buildings.</p>
+    <p>Iwo Jima / Marine Corps War Memorial view toward the Washington Monument. Source scene: DCGIS July 4th Fireworks Web Scene, with DC LiDAR surface data and Open 3D Buildings. A stylized Blue Angels formation is placed along the sightline.</p>
     <div id="status" class="status">Loading 3D scene...</div>
   </section>
   <script>
@@ -205,8 +206,16 @@
         z: CAMERA.position.z,
         spatialReference: { wkid: 4326 }
       });
+      const blueAngelsFleet = window.createBlueAngelsFleetGraphics ? window.createBlueAngelsFleetGraphics({
+        Graphic,
+        Point,
+        Polyline,
+        camera: CAMERA,
+        monument: MONUMENT
+      }) : [];
 
       graphics.addMany([
+        ...blueAngelsFleet,
         new Graphic({
           geometry: new Polyline({
             paths: [[
@@ -295,7 +304,7 @@
       ]);
 
       view.when(async () => {
-        document.getElementById("status").textContent = "Rendering 3D buildings, LiDAR surface, fireworks layers, and sightline...";
+        document.getElementById("status").textContent = "Rendering 3D buildings, LiDAR surface, fireworks layers, Blue Angels formation, and sightline...";
         try {
           await view.goTo({
             target: monumentBase,
@@ -306,7 +315,7 @@
           view.camera = new Camera(CAMERA);
           await view.whenLayerView(graphics);
           setTimeout(() => {
-            document.getElementById("status").textContent = "ArcGIS source scene: July 4th Fireworks | Camera from Arlington toward the Washington Monument";
+            document.getElementById("status").textContent = "ArcGIS source scene: July 4th Fireworks | Camera from Iwo Jima Memorial toward the Washington Monument | Blue Angels formation in sightline";
             window.__sceneReady = true;
           }, 9500);
         } catch (error) {

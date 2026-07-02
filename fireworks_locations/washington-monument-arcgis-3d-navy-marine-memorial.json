@@ -29,5 +29,11 @@
     "longitude": -77.0473175,
     "formatted_address": "Navy and Marine Memorial, George Washington Mem Pkwy, Washington, DC 20037, USA",
     "source": "Google Geocoding API"
+  },
+  "blue_angels_fleet": {
+    "style": "stylized ArcGIS 3D primitive aircraft formation",
+    "count": 6,
+    "placement": "interpolated along the camera-to-Washington-Monument sightline",
+    "illustrative": true
   }
 }

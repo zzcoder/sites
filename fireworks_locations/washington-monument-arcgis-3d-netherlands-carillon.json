@@ -24,5 +24,11 @@
   "html": "output/dc-fireworks-viewpoints/washington-monument-arcgis-3d-netherlands-carillon.html",
   "png": "output/dc-fireworks-viewpoints/washington-monument-arcgis-3d-netherlands-carillon.png",
   "screenshot_status": "failed",
-  "screenshot_error": "ArcGIS scene failed to render: Your WebGL implementation (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)) doesn't seem to support hardware accelerated rendering. Check your browser settings or if your GPU is in a blocklist.\ninfo: Using ArcGIS Maps SDK for JavaScript 4.33.11 [Date: 20250729, Revision: 6617c226]\ninfo: Using Calcite Components 3.2.1 [Date: 2025-05-29, Revision: 618973fec]\nwarning: [esri.views.SceneView] #validate() Your WebGL implementation (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)) doesn't seem to support hardware accelerated rendering. Check your browser settings or if your GPU is in a blocklist.\nerror: o\npageerror: o"
+  "screenshot_error": "ArcGIS scene failed to render: Your WebGL implementation (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)) doesn't seem to support hardware accelerated rendering. Check your browser settings or if your GPU is in a blocklist.\ninfo: Using ArcGIS Maps SDK for JavaScript 4.33.11 [Date: 20250729, Revision: 6617c226]\ninfo: Using Calcite Components 3.2.1 [Date: 2025-05-29, Revision: 618973fec]\nwarning: [esri.views.SceneView] #validate() Your WebGL implementation (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)) doesn't seem to support hardware accelerated rendering. Check your browser settings or if your GPU is in a blocklist.\nerror: o\npageerror: o",
+  "blue_angels_fleet": {
+    "style": "stylized ArcGIS 3D primitive aircraft formation",
+    "count": 6,
+    "placement": "interpolated along the camera-to-Washington-Monument sightline",
+    "illustrative": true
+  }
 }
