@@ -31,9 +31,16 @@
     "source": "Google Geocoding API"
   },
   "blue_angels_fleet": {
-    "style": "stylized ArcGIS 3D primitive aircraft formation",
-    "count": 6,
+    "style": "stylized multi-part ArcGIS 3D primitive aircraft formation",
     "placement": "interpolated along the camera-to-Washington-Monument sightline",
-    "illustrative": true
+    "illustrative": true,
+    "aircraft_count": 6,
+    "per_aircraft_components": [
+      "fuselage",
+      "main wings",
+      "tailplane",
+      "vertical tail",
+      "nose accent"
+    ]
   }
 }

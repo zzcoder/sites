@@ -44,13 +44,24 @@
     });
   }
 
-  function makeJetGraphic(Graphic, Point, position, heading, size, roll) {
+  function makeJetPartGraphic(Graphic, Point, name, position, symbolLayers) {
     return new Graphic({
       geometry: makePoint(Point, position),
-      attributes: { name: "Blue Angels formation jet" },
+      attributes: { name },
       symbol: {
         type: "point-3d",
-        symbolLayers: [
+        symbolLayers
+      }
+    });
+  }
+
+  function makeJetGraphics(Graphic, Point, position, heading, size, roll) {
+    const nose = offsetFormationPoint(position, heading, size * 0.62, 0, 0);
+    const wing = offsetFormationPoint(position, heading, -size * 0.12, 0, 0);
+    const tail = offsetFormationPoint(position, heading, -size * 0.62, 0, size * 0.03);
+
+    return [
+      makeJetPartGraphic(Graphic, Point, "Blue Angels jet fuselage", position, [
           {
             type: "object",
             resource: { primitive: "cone" },
@@ -65,16 +76,79 @@
           },
           {
             type: "object",
-            resource: { primitive: "sphere" },
+            resource: { primitive: "cylinder" },
             material: { color: GOLD },
-            width: size * 0.22,
-            height: size * 0.22,
-            depth: size * 0.22,
+            width: size * 0.18,
+            height: size * 1.28,
+            depth: size * 0.18,
+            heading,
+            tilt: 90,
+            roll,
             castShadows: false
           }
-        ]
-      }
-    });
+      ]),
+      makeJetPartGraphic(Graphic, Point, "Blue Angels jet main wings", wing, [
+          {
+            type: "object",
+            resource: { primitive: "cube" },
+            material: { color: BLUE },
+            width: size * 1.95,
+            height: size * 0.08,
+            depth: size * 0.32,
+            heading: heading + 90,
+            roll,
+            castShadows: false
+          },
+          {
+            type: "object",
+            resource: { primitive: "cube" },
+            material: { color: GOLD },
+            width: size * 1.55,
+            height: size * 0.09,
+            depth: size * 0.08,
+            heading: heading + 90,
+            roll,
+            castShadows: false
+          }
+      ]),
+      makeJetPartGraphic(Graphic, Point, "Blue Angels jet tailplane", tail, [
+          {
+            type: "object",
+            resource: { primitive: "cube" },
+            material: { color: BLUE },
+            width: size * 0.92,
+            height: size * 0.07,
+            depth: size * 0.22,
+            heading: heading + 90,
+            roll,
+            castShadows: false
+          }
+      ]),
+      makeJetPartGraphic(Graphic, Point, "Blue Angels jet vertical tail", offsetFormationPoint(tail, heading, 0, 0, size * 0.22), [
+          {
+            type: "object",
+            resource: { primitive: "cube" },
+            material: { color: BLUE },
+            width: size * 0.14,
+            height: size * 0.54,
+            depth: size * 0.32,
+            heading,
+            roll,
+            castShadows: false
+          }
+      ]),
+      makeJetPartGraphic(Graphic, Point, "Blue Angels jet nose", nose, [
+          {
+            type: "object",
+            resource: { primitive: "sphere" },
+            material: { color: GOLD },
+            width: size * 0.26,
+            height: size * 0.26,
+            depth: size * 0.26,
+            castShadows: false
+          }
+      ])
+    ];
   }
 
   function makeSmokeGraphic(Graphic, Polyline, from, to) {
@@ -125,7 +199,7 @@
       const position = offsetFormationPoint(formationCenter, heading, jet.forward, jet.right, jet.up);
       const smokeStart = offsetFormationPoint(position, heading, -250, 0, -10);
       graphics.push(makeSmokeGraphic(Graphic, Polyline, smokeStart, position));
-      graphics.push(makeJetGraphic(Graphic, Point, position, heading, jet.size, jet.roll));
+      graphics.push(...makeJetGraphics(Graphic, Point, position, heading, jet.size, jet.roll));
     });
 
     graphics.push(new Graphic({
