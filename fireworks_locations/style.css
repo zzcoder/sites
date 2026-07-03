@@ -219,6 +219,7 @@ h1 {
 }
 
 .locations,
+.flyovers,
 .notes {
   padding: 58px 0 0;
 }
@@ -311,6 +312,55 @@ h3 {
   margin-top: auto;
 }
 
+.schedule-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 18px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.schedule-list li {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 12px;
+  min-height: 48px;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 12px 30px rgba(18, 63, 103, 0.06);
+}
+
+.schedule-list time {
+  color: var(--red);
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.schedule-list span {
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 780;
+  line-height: 1.28;
+}
+
+.source-note {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.source-note a {
+  color: var(--navy);
+  font-weight: 850;
+}
+
 .notes {
   margin: 68px 0;
   padding: 28px 30px;
@@ -341,6 +391,10 @@ h3 {
 
   .location-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .schedule-list {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -377,5 +431,19 @@ h3 {
 
   .location-grid article.featured-location {
     grid-column: auto;
+  }
+
+  .schedule-list li {
+    grid-template-columns: 74px minmax(0, 1fr);
+    gap: 10px;
+    padding: 10px 11px;
+  }
+
+  .schedule-list time {
+    font-size: 13px;
+  }
+
+  .schedule-list span {
+    font-size: 14px;
   }
 }
