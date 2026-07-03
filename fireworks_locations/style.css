@@ -379,11 +379,24 @@ h3 {
   padding: 68px 0 38px;
 }
 
+.map-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 330px);
+  align-items: end;
+  gap: 34px;
+  padding: 68px 0 34px;
+}
+
 .lens-hero h1 {
   font-size: 76px;
 }
 
-.lens-recommendation {
+.map-hero h1 {
+  font-size: 72px;
+}
+
+.lens-recommendation,
+.map-details {
   border: 1px solid rgba(18, 63, 103, 0.16);
   border-radius: 8px;
   padding: 22px 24px;
@@ -393,21 +406,44 @@ h3 {
 }
 
 .lens-recommendation strong,
-.lens-recommendation span {
+.lens-recommendation span,
+.map-details strong,
+.map-details span {
   display: block;
 }
 
-.lens-recommendation strong {
+.lens-recommendation strong,
+.map-details strong {
   font-size: 24px;
   font-weight: 930;
   line-height: 1.05;
 }
 
-.lens-recommendation span {
+.lens-recommendation span,
+.map-details span {
   margin-top: 10px;
   color: var(--muted);
   font-size: 16px;
   line-height: 1.48;
+}
+
+.map-details span {
+  color: var(--red);
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.map-frame {
+  overflow: hidden;
+  border: 1px solid rgba(18, 63, 103, 0.18);
+  border-radius: 8px;
+  background: white;
+  box-shadow: var(--shadow);
+}
+
+.map-frame img {
+  width: 100%;
+  height: auto;
 }
 
 .lens-gallery {
@@ -555,12 +591,17 @@ h3 {
   }
 
   .lens-hero,
+  .map-hero,
   .lens-card {
     grid-template-columns: 1fr;
   }
 
   .lens-hero h1 {
     font-size: 58px;
+  }
+
+  .map-hero h1 {
+    font-size: 56px;
   }
 
   .lens-card img {
@@ -622,8 +663,16 @@ h3 {
     padding-top: 38px;
   }
 
+  .map-hero {
+    padding-top: 38px;
+  }
+
   .lens-hero h1 {
     font-size: 46px;
+  }
+
+  .map-hero h1 {
+    font-size: 44px;
   }
 
   .lens-card > div,
