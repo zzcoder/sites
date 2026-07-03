@@ -245,7 +245,7 @@ h2 {
 
 .location-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 18px;
   margin-top: 28px;
 }
@@ -263,6 +263,24 @@ h2 {
   min-height: 290px;
   flex-direction: column;
   padding: 24px;
+}
+
+.location-grid article.featured-location {
+  grid-column: span 2;
+}
+
+.location-grid figure {
+  margin: -10px -10px 18px;
+  overflow: hidden;
+  border: 1px solid rgba(18, 63, 103, 0.16);
+  border-radius: 8px;
+  background: #07111a;
+}
+
+.location-grid figure img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
 }
 
 .location-grid span {
@@ -355,5 +373,9 @@ h3 {
 
   .location-grid article {
     min-height: 0;
+  }
+
+  .location-grid article.featured-location {
+    grid-column: auto;
   }
 }

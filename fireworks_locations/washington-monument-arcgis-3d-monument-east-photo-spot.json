@@ -1,0 +1,56 @@
+{
+  "source_experience_url": "https://experience.arcgis.com/experience/007ba46c1d884711a8f251adb41d0cf7/page/Page",
+  "source_portal_url": "https://DCGIS.maps.arcgis.com",
+  "source_scene_item_id": "fe47067cdfc84a35835581877913768d",
+  "preset": "monument-east-photo-spot",
+  "selection_reason": "The east side of the Washington Monument grounds puts the monument in the foreground and the primary westward fireworks launch direction behind it, creating a clean monument-plus-fireworks photo alignment.",
+  "camera": {
+    "position": {
+      "latitude": 38.8895,
+      "longitude": -77.0315,
+      "z": 34,
+      "spatialReference": {
+        "wkid": 4326
+      }
+    },
+    "heading": 270.5,
+    "tilt": 84
+  },
+  "washington_monument": {
+    "latitude": 38.889484,
+    "longitude": -77.035279,
+    "ground_m": 9,
+    "top_m": 178
+  },
+  "fireworks_launch_reference": {
+    "latitude": 38.88965,
+    "longitude": -77.0462,
+    "z": 22,
+    "description": "Approximate westward fireworks direction from the Washington Monument toward the Lincoln Memorial Reflecting Pool and West Potomac Park launch area."
+  },
+  "html": "fireworks_locations/washington-monument-arcgis-3d-monument-east-photo-spot.html",
+  "preview_png": "fireworks_locations/assets/washington-monument-photo-spot-effects.png",
+  "location": {
+    "name": "East Washington Monument Grounds Photo Spot",
+    "latitude": 38.8895,
+    "longitude": -77.0315,
+    "formatted_address": "East side of the Washington Monument grounds near 14th Street NW, Washington, DC",
+    "source": "geometric alignment from camera, Washington Monument, and westward fireworks launch direction"
+  },
+  "illustrative_effects": {
+    "fireworks_bursts": 5,
+    "blue_angels_fleet": {
+      "style": "stylized multi-part ArcGIS 3D primitive aircraft formation",
+      "placement": "interpolated along the camera-to-Washington-Monument sightline",
+      "illustrative": true,
+      "aircraft_count": 6,
+      "per_aircraft_components": [
+        "fuselage",
+        "main wings",
+        "tailplane",
+        "vertical tail",
+        "nose accent"
+      ]
+    }
+  }
+}
