@@ -434,7 +434,7 @@ h3 {
 }
 
 .map-frame {
-  overflow: hidden;
+  overflow: auto;
   border: 1px solid rgba(18, 63, 103, 0.18);
   border-radius: 8px;
   background: white;
@@ -444,6 +444,12 @@ h3 {
 .map-frame img {
   width: 100%;
   height: auto;
+}
+
+.map-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
 }
 
 .lens-gallery {
@@ -673,6 +679,10 @@ h3 {
 
   .map-hero h1 {
     font-size: 44px;
+  }
+
+  .map-frame img {
+    min-width: 760px;
   }
 
   .lens-card > div,
