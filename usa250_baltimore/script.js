@@ -418,4 +418,150 @@ function initMap() {
   setTimeout(() => map.invalidateSize(), 250);
 }
 
-document.addEventListener("DOMContentLoaded", initMap);
+const pledgeCurrency = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 2
+});
+
+function formatPledgeAmount(amountCents) {
+  return pledgeCurrency.format(Number(amountCents || 0) / 100);
+}
+
+function formatPledgeDate(createdAt) {
+  if (!createdAt) {
+    return "";
+  }
+
+  const isoDate = createdAt.includes("T")
+    ? createdAt
+    : `${createdAt.replace(" ", "T")}Z`;
+  const date = new Date(isoDate);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric"
+  }).format(date);
+}
+
+function renderPledgeSummary(data) {
+  const total = document.querySelector("#pledgeTotal");
+  const count = document.querySelector("#pledgeCount");
+  const list = document.querySelector("#pledgeList");
+
+  if (!total || !count || !list) {
+    return;
+  }
+
+  const pledgeCount = Number(data.pledgeCount || 0);
+  total.textContent = formatPledgeAmount(data.totalCents);
+  count.textContent = `${pledgeCount.toLocaleString()} ${pledgeCount === 1 ? "pledge" : "pledges"}`;
+  list.replaceChildren();
+
+  if (!Array.isArray(data.recentPledges) || data.recentPledges.length === 0) {
+    const empty = document.createElement("li");
+    empty.className = "pledge-empty";
+    empty.textContent = "Be the first to make a pledge.";
+    list.append(empty);
+    return;
+  }
+
+  data.recentPledges.forEach((pledge) => {
+    const item = document.createElement("li");
+    const supporter = document.createElement("span");
+    const name = document.createElement("strong");
+    const date = document.createElement("small");
+    const amount = document.createElement("b");
+
+    name.textContent = pledge.name;
+    date.textContent = formatPledgeDate(pledge.createdAt);
+    amount.textContent = formatPledgeAmount(pledge.amountCents);
+
+    supporter.append(name);
+    if (date.textContent) {
+      supporter.append(date);
+    }
+    item.append(supporter, amount);
+    list.append(item);
+  });
+}
+
+async function loadPledgeSummary() {
+  const response = await fetch("/api/pledges", {
+    headers: {
+      Accept: "application/json"
+    },
+    cache: "no-store"
+  });
+
+  if (!response.ok) {
+    throw new Error("Unable to load pledges.");
+  }
+
+  renderPledgeSummary(await response.json());
+}
+
+function initPledgeForm() {
+  const form = document.querySelector("#pledgeForm");
+  const status = document.querySelector("#pledgeStatus");
+
+  if (!form || !status) {
+    return;
+  }
+
+  loadPledgeSummary().catch(() => {
+    status.dataset.state = "error";
+    status.textContent = "The pledge tally is temporarily unavailable.";
+  });
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const submit = form.querySelector("button[type='submit']");
+    const data = new FormData(form);
+    const name = String(data.get("name") || "").trim();
+    const amount = String(data.get("amount") || "").trim();
+    const website = String(data.get("website") || "");
+
+    status.dataset.state = "loading";
+    status.textContent = "Saving your pledge…";
+    submit.disabled = true;
+
+    try {
+      const response = await fetch("/api/pledges", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({ name, amount, website })
+      });
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Unable to save your pledge.");
+      }
+
+      renderPledgeSummary(result);
+      form.reset();
+      status.dataset.state = "success";
+      status.textContent = `Thank you, ${result.pledge.name}. Your pledge has been added.`;
+    } catch (error) {
+      status.dataset.state = "error";
+      status.textContent = error instanceof Error
+        ? error.message
+        : "Unable to save your pledge.";
+    } finally {
+      submit.disabled = false;
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initMap();
+  initPledgeForm();
+});

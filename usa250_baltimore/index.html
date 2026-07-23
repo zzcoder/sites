@@ -33,6 +33,7 @@
         <a href="#transportation">Transit</a>
         <a href="ships.html">Ship Map</a>
         <a href="#parking">Parking</a>
+        <a href="#pledge">Pledge</a>
         <a class="nav-cta" href="#official-links">Official Links</a>
       </nav>
       <details class="mobile-nav">
@@ -47,6 +48,7 @@
           <a href="#transportation">Transit</a>
           <a href="ships.html">Ship Map</a>
           <a href="#parking">Parking</a>
+          <a href="#pledge">Pledge</a>
           <a class="nav-cta" href="#official-links">Official Links</a>
         </nav>
       </details>
@@ -498,6 +500,68 @@
         </div>
       </section>
 
+      <section class="pledge-section section-pad" id="pledge" aria-labelledby="pledge-title">
+        <div class="pledge-shell">
+          <div class="pledge-intro">
+            <p class="eyebrow">Support the adventure</p>
+            <h2 id="pledge-title">Make a donation pledge</h2>
+            <p>
+              Help show community support for Healthy Hikers activities around America’s 250th anniversary.
+              This records a pledge only—no payment is collected on this page.
+            </p>
+
+            <div class="pledge-tally" aria-live="polite">
+              <span>Community pledge total</span>
+              <strong id="pledgeTotal">$0</strong>
+              <em id="pledgeCount">Loading pledges…</em>
+            </div>
+          </div>
+
+          <form class="pledge-form" id="pledgeForm">
+            <div class="pledge-field">
+              <label for="pledgeName">Your name</label>
+              <input id="pledgeName" name="name" type="text" autocomplete="name" maxlength="80" required>
+            </div>
+            <div class="pledge-field">
+              <label for="pledgeAmount">Pledge amount</label>
+              <div class="money-input">
+                <span aria-hidden="true">$</span>
+                <input
+                  id="pledgeAmount"
+                  name="amount"
+                  type="number"
+                  inputmode="decimal"
+                  min="1"
+                  max="1000000"
+                  step="0.01"
+                  placeholder="25.00"
+                  required
+                >
+              </div>
+            </div>
+            <div class="pledge-honeypot" aria-hidden="true">
+              <label for="pledgeWebsite">Website</label>
+              <input id="pledgeWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <button class="pledge-submit" type="submit">Add my pledge</button>
+            <p class="pledge-disclosure">
+              Your name and pledge amount will appear publicly. No card or bank information is requested.
+            </p>
+            <p class="pledge-status" id="pledgeStatus" role="status" aria-live="polite"></p>
+          </form>
+
+          <div class="recent-pledges">
+            <div>
+              <p class="eyebrow">Recent support</p>
+              <h3>Community pledges</h3>
+            </div>
+            <ul id="pledgeList">
+              <li class="pledge-empty">Loading recent pledges…</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <section class="official-links section-pad" id="official-links" aria-labelledby="official-title">
         <div class="section-heading">
           <h2 id="official-title">Official Links</h2>
@@ -532,6 +596,6 @@
       crossorigin=""
     ></script>
     <script src="nav.js?v=20260628-mobile-header"></script>
-    <script src="script.js?v=20260628-stop-coords"></script>
+    <script src="script.js?v=20260723-pledges"></script>
   </body>
 </html>

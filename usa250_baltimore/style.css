@@ -1044,6 +1044,260 @@ h1 {
   font-weight: 800;
 }
 
+.pledge-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+  gap: 22px;
+  border: 1px solid rgba(17, 63, 122, 0.16);
+  border-radius: 14px;
+  padding: clamp(24px, 4vw, 46px);
+  background:
+    radial-gradient(circle at 90% 10%, rgba(212, 166, 66, 0.22), transparent 28%),
+    linear-gradient(135deg, rgba(17, 63, 122, 0.96), rgba(8, 35, 74, 0.98));
+  color: white;
+  box-shadow: var(--shadow);
+}
+
+.pledge-intro {
+  align-self: center;
+}
+
+.pledge-intro .eyebrow,
+.recent-pledges .eyebrow {
+  color: #f5cb67;
+}
+
+.pledge-intro h2 {
+  max-width: 620px;
+  font-size: clamp(38px, 5vw, 68px);
+  font-weight: 950;
+  line-height: 0.96;
+}
+
+.pledge-intro > p:not(.eyebrow) {
+  max-width: 660px;
+  margin-top: 16px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.pledge-tally {
+  display: grid;
+  width: min(100%, 460px);
+  margin-top: 28px;
+  border-left: 5px solid var(--gold);
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.pledge-tally span {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.pledge-tally strong {
+  margin-top: 3px;
+  color: white;
+  font-size: clamp(40px, 6vw, 68px);
+  font-weight: 950;
+  line-height: 1;
+}
+
+.pledge-tally em {
+  margin-top: 8px;
+  color: #f5cb67;
+  font-style: normal;
+  font-weight: 850;
+}
+
+.pledge-form {
+  position: relative;
+  align-self: center;
+  display: grid;
+  gap: 16px;
+  border-radius: 10px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.98);
+  color: var(--ink);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.18);
+}
+
+.pledge-field {
+  display: grid;
+  gap: 7px;
+}
+
+.pledge-field label {
+  color: var(--blue-deep);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.pledge-field input {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid rgba(17, 63, 122, 0.24);
+  border-radius: 8px;
+  padding: 11px 13px;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+}
+
+.pledge-field input:focus {
+  outline: 3px solid rgba(212, 166, 66, 0.34);
+  border-color: var(--blue);
+}
+
+.money-input {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  border: 1px solid rgba(17, 63, 122, 0.24);
+  border-radius: 8px;
+  background: white;
+  overflow: hidden;
+}
+
+.money-input:focus-within {
+  outline: 3px solid rgba(212, 166, 66, 0.34);
+  border-color: var(--blue);
+}
+
+.money-input span {
+  padding-left: 14px;
+  color: var(--blue);
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.money-input input {
+  border: 0;
+  outline: 0;
+}
+
+.pledge-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.pledge-submit {
+  min-height: 50px;
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 18px;
+  background: var(--red);
+  color: white;
+  font: inherit;
+  font-weight: 950;
+  cursor: pointer;
+  box-shadow: 0 12px 26px rgba(180, 50, 45, 0.22);
+}
+
+.pledge-submit:hover {
+  background: #9f2925;
+}
+
+.pledge-submit:focus-visible {
+  outline: 3px solid rgba(212, 166, 66, 0.55);
+  outline-offset: 3px;
+}
+
+.pledge-submit:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.pledge-disclosure,
+.pledge-status {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.pledge-status:empty {
+  display: none;
+}
+
+.pledge-status[data-state="success"] {
+  color: #17623d;
+  font-weight: 800;
+}
+
+.pledge-status[data-state="error"] {
+  color: var(--red);
+  font-weight: 800;
+}
+
+.recent-pledges {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(190px, 0.35fr) minmax(0, 1fr);
+  gap: 22px;
+  margin-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  padding-top: 24px;
+}
+
+.recent-pledges h3 {
+  color: white;
+  font-size: 24px;
+}
+
+.recent-pledges ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recent-pledges li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 58px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  padding: 11px 14px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.recent-pledges li span,
+.recent-pledges li strong,
+.recent-pledges li small {
+  display: block;
+}
+
+.recent-pledges li strong {
+  color: white;
+}
+
+.recent-pledges li small {
+  margin-top: 2px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.recent-pledges li b {
+  color: #f5cb67;
+  white-space: nowrap;
+}
+
+.recent-pledges .pledge-empty {
+  grid-column: 1 / -1;
+  justify-content: flex-start;
+  color: rgba(255, 255, 255, 0.72);
+}
+
 .link-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1501,6 +1755,11 @@ footer {
   .photo-panel figure {
     max-width: 360px;
   }
+
+  .pledge-shell,
+  .recent-pledges {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1656,6 +1915,18 @@ footer {
   }
 
   .ship-detail-body dl {
+    grid-template-columns: 1fr;
+  }
+
+  .pledge-shell {
+    padding: 24px 18px;
+  }
+
+  .pledge-form {
+    padding: 20px;
+  }
+
+  .recent-pledges ul {
     grid-template-columns: 1fr;
   }
 

@@ -30,10 +30,11 @@ const hosting = JSON.parse(
   await readFile(resolve(root, ".openai", "hosting.json"), "utf8"),
 );
 
-if (hosting.d1 !== null || hosting.r2 !== null) {
-  throw new Error("This static site does not use D1 or R2 bindings.");
+if (hosting.d1 !== "DB" || hosting.r2 !== null) {
+  throw new Error("The pledge feature requires the DB binding and does not use R2.");
 }
 
+await access(resolve(root, "drizzle", "0000_create_pledges.sql"));
 await cp(
   resolve(root, "worker", "index.js"),
   resolve(output, "server", "index.js"),
