@@ -1,0 +1,23 @@
+{
+  "name": "Plank Check-in / 平板打卡",
+  "short_name": "Plank Check-in",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#dbe8f2",
+  "theme_color": "#082f59",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

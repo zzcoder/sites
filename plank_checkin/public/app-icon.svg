@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Plank Check-in app icon">
+  <defs>
+    <linearGradient id="bg" x1="64" y1="32" x2="448" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#155f9e"/>
+      <stop offset="1" stop-color="#052b52"/>
+    </linearGradient>
+    <linearGradient id="face" x1="132" y1="108" x2="384" y2="404" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dce9f3"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect x="88" y="88" width="336" height="336" rx="92" fill="url(#face)" stroke="#fff" stroke-opacity=".72" stroke-width="8"/>
+  <path d="M220 142h72" fill="none" stroke="#082b53" stroke-width="24" stroke-linecap="round"/>
+  <path d="M256 166v30" fill="none" stroke="#082b53" stroke-width="20" stroke-linecap="round"/>
+  <circle cx="256" cy="284" r="92" fill="none" stroke="#082b53" stroke-width="26"/>
+  <path d="M256 284l53-45" fill="none" stroke="#ff9e0b" stroke-width="24" stroke-linecap="round"/>
+  <circle cx="256" cy="284" r="15" fill="#082b53"/>
+</svg>

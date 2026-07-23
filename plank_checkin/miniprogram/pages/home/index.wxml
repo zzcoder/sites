@@ -1,0 +1,368 @@
+<view class="screen">
+  <image class="background-image" src="/assets/plank-bg.jpg" mode="aspectFill" />
+  <view class="background-wash"></view>
+
+  <view wx:if="{{status === 'loading'}}" class="center-shell">
+    <view class="splash-mark">
+      <image src="/assets/app-icon.png" mode="aspectFit" />
+    </view>
+    <view class="splash-title">Plank Check-in</view>
+    <view class="splash-subtitle">平板打卡</view>
+    <view class="loader"><view></view></view>
+    <view class="loading-copy">Connecting with WeChat… / 正在连接微信</view>
+  </view>
+
+  <view wx:elif="{{status === 'profile'}}" class="center-shell profile-shell">
+    <view class="profile-card">
+      <image class="profile-logo" src="/assets/app-icon.png" mode="aspectFit" />
+      <view class="profile-title">Welcome to Plank Check-in</view>
+      <view class="profile-zh">欢迎来到平板打卡</view>
+      <view class="profile-copy">
+        WeChat has securely identified your account. Confirm the name your group
+        should see—just once.
+      </view>
+      <view class="profile-copy profile-copy-zh">微信已确认你的账号，请确认群组中显示的名字。</view>
+      <view class="field-label">Your WeChat name / 微信昵称</view>
+      <input
+        class="text-input"
+        type="nickname"
+        maxlength="50"
+        placeholder="Tap to use your WeChat nickname"
+        value="{{profileName}}"
+        bindinput="onProfileName"
+      />
+      <button
+        class="primary-button"
+        loading="{{busy}}"
+        disabled="{{busy || !profileName}}"
+        bindtap="confirmProfile"
+      >Continue / 继续</button>
+      <view class="privacy-note">No password is needed. Future visits are automatic.</view>
+    </view>
+  </view>
+
+  <view wx:elif="{{status === 'error'}}" class="center-shell">
+    <view class="error-card">
+      <image class="error-icon" src="/assets/icons/warning.png" mode="aspectFit" />
+      <view class="error-title">Couldn’t open the board</view>
+      <view class="error-title-zh">暂时无法打开</view>
+      <view class="error-copy">{{errorMessage}}</view>
+      <button class="primary-button" bindtap="retry">Try again / 重试</button>
+    </view>
+  </view>
+
+  <block wx:elif="{{status === 'ready'}}">
+    <view class="app-page">
+      <view class="topbar">
+        <view class="brand">
+          <image class="brand-icon" src="/assets/app-icon.png" mode="aspectFit" />
+          <view class="brand-copy">
+            <view class="brand-title">Plank Check-in</view>
+            <view class="brand-zh">平板打卡</view>
+          </view>
+        </view>
+        <view class="avatar">{{currentUser.initials}}</view>
+      </view>
+
+      <view class="greeting-row">
+        <image class="greeting-icon" src="/assets/icons/greeting.png" mode="aspectFit" />
+        <view class="greeting">{{greeting}}, {{currentUser.displayName}}</view>
+      </view>
+
+      <view class="page-content">
+        <block wx:if="{{activeTab === 'today'}}">
+          <view class="money-strip glass-dark">
+            <view class="money-cell">
+              <view class="metric-label">Total penalty pool / 总罚款池</view>
+              <view class="metric-value">{{totalPool}}</view>
+            </view>
+            <view class="money-divider"></view>
+            <view class="money-cell">
+              <view class="metric-label">My amount due / 我应缴</view>
+              <view class="metric-value accent">{{myDue}}</view>
+            </view>
+          </view>
+
+          <view class="champion-card glass-dark">
+            <view class="champion-cell">
+              <image class="section-icon gold" src="/assets/icons/trophy.png" mode="aspectFit" />
+              <view class="champion-label">Yesterday’s champion / 昨日冠军</view>
+              <view class="champion-name">{{championName}}</view>
+              <view class="champion-seconds">{{championSeconds}}</view>
+            </view>
+            <view class="stats-divider"></view>
+            <view class="small-stat">
+              <view>Average / 平均</view>
+              <text>{{dashboard.yesterday.averageSeconds}}s</text>
+            </view>
+            <view class="stats-divider"></view>
+            <view class="small-stat">
+              <view>Median / 中位数</view>
+              <text>{{dashboard.yesterday.medianSeconds}}s</text>
+            </view>
+          </view>
+
+          <view class="checkin-card light-panel">
+            <view class="card-heading-row">
+              <view>
+                <view class="card-title">Today’s plank time</view>
+                <view class="card-subtitle">今日平板时间（秒）</view>
+              </view>
+              <image class="timer-icon" src="/assets/icons/timer.png" mode="aspectFit" />
+            </view>
+            <view class="seconds-field">
+              <input
+                type="number"
+                value="{{seconds}}"
+                maxlength="4"
+                placeholder="120"
+                placeholder-class="seconds-placeholder"
+                bindinput="onSeconds"
+              />
+              <view class="seconds-unit">sec / 秒</view>
+            </view>
+            <button
+              class="primary-button checkin-button"
+              loading="{{busy}}"
+              disabled="{{busy || !seconds}}"
+              bindtap="submitCheckin"
+            >Check in / 打卡</button>
+          </view>
+
+          <button class="action-row light-panel" bindtap="openLeave">
+            <view class="action-icon-wrap">
+              <image src="/assets/icons/calendar.png" mode="aspectFit" />
+            </view>
+            <view class="action-copy">
+              <view>Need a break? / 需要休息？</view>
+              <text>Request leave / 请假</text>
+            </view>
+            <image class="row-arrow" src="/assets/icons/chevron.png" mode="aspectFit" />
+          </button>
+
+          <view class="motto-row light-panel">
+            <view class="action-icon-wrap">
+              <image src="/assets/icons/heart.png" mode="aspectFit" />
+            </view>
+            <view class="action-copy">
+              <view>Consistency beats intensity. Every second counts.</view>
+              <text>每天坚持一点点，我们更强大。</text>
+            </view>
+          </view>
+        </block>
+
+        <block wx:elif="{{activeTab === 'ranking'}}">
+          <view class="screen-heading">
+            <view class="screen-title">Today’s ranking</view>
+            <view class="screen-subtitle">今日排名 · {{dashboard.exerciseDate}}</view>
+          </view>
+          <view class="ranking-panel light-panel">
+            <view
+              wx:for="{{ranking}}"
+              wx:key="id"
+              class="ranking-row {{item.rankClass}}"
+            >
+              <view class="rank-number">{{item.rank}}</view>
+              <view class="member-avatar">{{item.initials}}</view>
+              <view class="ranking-name">{{item.displayName}}</view>
+              <view class="ranking-score {{item.checked ? 'checked' : ''}}">{{item.secondsText}}</view>
+            </view>
+          </view>
+          <view class="empty-note" wx:if="{{!ranking.length}}">
+            No members yet / 暂无成员
+          </view>
+        </block>
+
+        <block wx:elif="{{activeTab === 'report'}}">
+          <view class="screen-heading">
+            <view class="screen-title">{{currentUser.displayName}}’s report</view>
+            <view class="screen-subtitle">个人报告 · last 180 days</view>
+          </view>
+
+          <view class="report-grid">
+            <view class="report-stat light-panel">
+              <text>Total / 总次数</text>
+              <view>{{dashboard.report.totalCheckins}}</view>
+            </view>
+            <view class="report-stat light-panel">
+              <text>Average / 平均</text>
+              <view>{{dashboard.report.averageSeconds}}s</view>
+            </view>
+            <view class="report-stat light-panel">
+              <text>Median / 中位数</text>
+              <view>{{dashboard.report.medianSeconds}}s</view>
+            </view>
+            <view class="report-stat light-panel accent-stat">
+              <text>Personal best / 最佳</text>
+              <view>{{dashboard.report.bestSeconds}}s</view>
+            </view>
+          </view>
+
+          <view class="trend-panel glass-dark">
+            <view class="panel-title light-text">Group participation / 群组参与</view>
+            <view class="trend-chart">
+              <view wx:for="{{trend}}" wx:key="date" class="trend-column">
+                <view class="trend-count">{{item.participants}}</view>
+                <view class="trend-bar" style="height: {{item.barHeight}}rpx"></view>
+                <view class="trend-date">{{item.shortDate}}</view>
+              </view>
+            </view>
+          </view>
+
+          <view class="history-panel light-panel">
+            <view class="panel-title">My history / 我的记录</view>
+            <view wx:if="{{reportHistory.length}}">
+              <view wx:for="{{reportHistory}}" wx:key="date" class="history-row">
+                <view class="history-date">{{item.shortDate}}</view>
+                <view class="history-track">
+                  <view class="history-fill" style="width: {{item.width}}%"></view>
+                </view>
+                <view class="history-value">{{item.seconds}}s</view>
+              </view>
+            </view>
+            <view wx:else class="inline-empty">Your first check-in will appear here.</view>
+          </view>
+        </block>
+
+        <block wx:elif="{{activeTab === 'admin'}}">
+          <view class="screen-heading">
+            <view class="screen-title">Admin</view>
+            <view class="screen-subtitle">成员与请假管理</view>
+          </view>
+
+          <view class="admin-section light-panel">
+            <view class="panel-title">Pending leave / 待审批请假</view>
+            <view wx:if="{{pendingLeaves.length}}">
+              <view wx:for="{{pendingLeaves}}" wx:key="id" class="leave-request">
+                <view class="request-topline">
+                  <view class="request-name">{{item.displayName}}</view>
+                  <view class="request-date">{{item.dateText}}</view>
+                </view>
+                <view class="request-reason">{{item.reason || 'No reason provided / 未填写原因'}}</view>
+                <view class="request-actions">
+                  <button
+                    class="secondary-button decline"
+                    data-id="{{item.id}}"
+                    data-decision="declined"
+                    bindtap="reviewLeave"
+                  >Decline / 拒绝</button>
+                  <button
+                    class="secondary-button approve"
+                    data-id="{{item.id}}"
+                    data-decision="approved"
+                    bindtap="reviewLeave"
+                  >Approve / 批准</button>
+                </view>
+              </view>
+            </view>
+            <view wx:else class="inline-empty">All caught up / 暂无待审批</view>
+          </view>
+
+          <view class="admin-section light-panel">
+            <view class="panel-title">Add website member / 添加网页成员</view>
+            <input
+              class="text-input admin-input"
+              maxlength="50"
+              placeholder="Name / 名字"
+              value="{{newUserName}}"
+              bindinput="onNewUserName"
+            />
+            <view class="switch-row">
+              <view>
+                <view class="switch-title">Administrator / 管理员</view>
+                <view class="switch-help">Can manage members, payments and leave.</view>
+              </view>
+              <switch
+                color="#0b5ca8"
+                checked="{{newUserIsAdmin}}"
+                bindchange="onNewUserRole"
+              />
+            </view>
+            <button
+              class="primary-button compact-button"
+              loading="{{busy}}"
+              disabled="{{busy || !newUserName}}"
+              bindtap="addUser"
+            >Add member / 添加成员</button>
+          </view>
+
+          <view class="admin-section light-panel">
+            <view class="panel-title">Members / 成员</view>
+            <view wx:for="{{adminUsers}}" wx:key="id" class="admin-user">
+              <view class="member-avatar small">{{item.initials}}</view>
+              <view class="admin-user-copy">
+                <view class="admin-user-name">{{item.displayName}}</view>
+                <view class="admin-user-meta">{{item.roleText}}</view>
+                <view class="admin-user-meta">{{item.passwordText}}</view>
+              </view>
+              <view class="admin-user-side">
+                <view class="due-value">{{item.dueText}}</view>
+                <button
+                  wx:if="{{item.dueCents > 0}}"
+                  class="text-button"
+                  data-id="{{item.id}}"
+                  data-name="{{item.displayName}}"
+                  bindtap="clearDue"
+                >Clear due</button>
+                <button
+                  wx:if="{{item.hasPassword}}"
+                  class="text-button danger"
+                  data-id="{{item.id}}"
+                  data-name="{{item.displayName}}"
+                  bindtap="clearPassword"
+                >Reset password</button>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="bottom-nav safe-bottom">
+      <button
+        wx:for="{{tabs}}"
+        wx:key="id"
+        class="nav-item {{activeTab === item.id ? 'active' : ''}}"
+        data-tab="{{item.id}}"
+        bindtap="selectTab"
+      >
+        <view class="nav-icon-wrap">
+          <image src="{{item.icon}}" mode="aspectFit" />
+        </view>
+        <view class="nav-label">{{item.label}} / {{item.zh}}</view>
+      </button>
+    </view>
+  </block>
+
+  <view
+    wx:if="{{showLeave}}"
+    class="modal-backdrop"
+    catchtap="closeLeave"
+  >
+    <view class="modal-card" catchtap="stopBubble">
+      <view class="modal-handle"></view>
+      <view class="modal-title">Request leave / 请假</view>
+      <view class="modal-copy">Request up to 30 days. An admin will review it.</view>
+      <view class="field-label">Days / 天数</view>
+      <input
+        class="text-input"
+        type="number"
+        value="{{leaveDays}}"
+        maxlength="2"
+        bindinput="onLeaveDays"
+      />
+      <view class="field-label">Reason / 原因</view>
+      <textarea
+        class="reason-input"
+        maxlength="240"
+        placeholder="Optional / 选填"
+        value="{{leaveReason}}"
+        bindinput="onLeaveReason"
+      ></textarea>
+      <view class="modal-actions">
+        <button class="secondary-button cancel" disabled="{{busy}}" bindtap="closeLeave">Cancel</button>
+        <button class="primary-button modal-submit" loading="{{busy}}" disabled="{{busy}}" bindtap="submitLeave">Send / 提交</button>
+      </view>
+    </view>
+  </view>
+</view>
