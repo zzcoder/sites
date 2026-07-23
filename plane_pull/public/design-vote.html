@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b3d26">
+    <title>Team Shirt Design Results | Healthy Hikers</title>
+    <meta name="description" content="View the four Healthy Hikers Plane Pull shirt designs and archived final results.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="/assets/design-vote/design-a-front.webp">
+    <link rel="preload" as="image" href="/assets/design-vote/design-a-back.webp">
+    <link rel="stylesheet" href="/design-vote.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Healthy Hikers Plane Pull home">
+        <img src="/assets/hh-logo.png" alt="">
+        <span>Healthy Hikers</span>
+      </a>
+      <span class="header-divider" aria-hidden="true"></span>
+      <span class="event-name">Plane Pull 2026</span>
+      <a class="roster-link" href="/">Team roster</a>
+    </header>
+
+    <main>
+      <section class="page-intro" aria-labelledby="pageTitle">
+        <div>
+          <p class="eyebrow">Final ballot</p>
+          <h1 id="pageTitle">Shirt design results</h1>
+          <p class="intro-copy">Voting is closed. Review the front and back of all four options and the archived tally.</p>
+        </div>
+        <p class="product-name">Hanes Sport Cool Dri Performance Shirt<br>Safety Orange</p>
+      </section>
+
+      <section class="read-only-notice" aria-labelledby="closedTitle">
+        <div>
+          <p class="action-step">Voting closed</p>
+          <h2 id="closedTitle">Final ballot is read-only</h2>
+        </div>
+        <p>No new design votes or changes can be submitted.</p>
+      </section>
+
+      <section class="design-fieldset read-only-designs" aria-labelledby="optionsTitle">
+        <header class="options-header">
+          <h2 id="optionsTitle">Design options</h2>
+          <p>Front and back artwork from the completed ballot.</p>
+        </header>
+        <div class="design-grid" id="designGrid"></div>
+      </section>
+
+      <section class="results-section" aria-labelledby="resultsTitle">
+        <header class="results-header">
+          <div>
+            <p class="eyebrow">Archived tally</p>
+            <h2 id="resultsTitle">Final results</h2>
+          </div>
+          <strong id="voteTotal">0 votes</strong>
+        </header>
+        <p class="results-status" id="resultsStatus" role="status">Loading final tally...</p>
+        <div class="results-grid" id="resultsGrid" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Healthy Hikers Plane Pull Team</span>
+      <a href="/shirt-vote.html">Shirt color results</a>
+    </footer>
+
+    <script src="/design-vote.js" type="module"></script>
+  </body>
+</html>

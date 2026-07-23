@@ -1,5 +1,7 @@
 const state = {
   members: [],
+  donors: [],
+  donorTotal: null,
   adminPassword: "",
   unlocked: false
 };
@@ -10,6 +12,12 @@ const elements = {
   donationTotal: document.querySelector("#donationTotal"),
   pullersSummary: document.querySelector("#pullersSummary"),
   backupSummary: document.querySelector("#backupSummary"),
+  donorsSummary: document.querySelector("#donorsSummary"),
+  donorsStatus: document.querySelector("#donorsStatus"),
+  donorsBody: document.querySelector("#donorsBody"),
+  donorsUpdated: document.querySelector("#donorsUpdated"),
+  donorsSource: document.querySelector("#donorsSource"),
+  refreshDonors: document.querySelector("#refreshDonors"),
   pullersBody: document.querySelector("#pullersBody"),
   backupBody: document.querySelector("#backupBody"),
   adminBody: document.querySelector("#adminBody"),
@@ -35,6 +43,31 @@ function money(value) {
   }).format(value || 0);
 }
 
+function exactMoney(value) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(value || 0);
+}
+
+function displayDate(value) {
+  if (!value) {
+    return "--";
+  }
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return String(value).slice(0, 10);
+  }
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC"
+  }).format(date);
+}
+
 function setLoading(isLoading) {
   document.body.classList.toggle("loading", isLoading);
 }
@@ -42,6 +75,11 @@ function setLoading(isLoading) {
 function setStatus(message, isError = false) {
   elements.status.textContent = message;
   elements.status.classList.toggle("error", isError);
+}
+
+function setDonorsStatus(message, isError = false) {
+  elements.donorsStatus.textContent = message;
+  elements.donorsStatus.classList.toggle("error", isError);
 }
 
 function byRole(role) {
@@ -58,17 +96,37 @@ function publicRow(member) {
   return row;
 }
 
-function emptyRow(message) {
+function emptyRow(message, colspan = 1) {
   const row = document.createElement("tr");
   row.className = "empty-row";
-  row.innerHTML = `<td>${message}</td>`;
+  row.innerHTML = `<td colspan="${colspan}">${message}</td>`;
+  return row;
+}
+
+function donorRow(donor) {
+  const row = document.createElement("tr");
+  const creditName = escapeHtml(donor.creditedTo || "Healthy Hikers");
+  const credit = donor.type === "offline_donation"
+    ? `${creditName} <span class="donor-type">offline</span>`
+    : creditName;
+  const comment = donor.comment ? `<em>${escapeHtml(donor.comment)}</em>` : "";
+  row.innerHTML = `
+    <td>
+      <strong>${escapeHtml(donor.donor)}</strong>
+      ${comment}
+    </td>
+    <td class="amount">${exactMoney(donor.amount)}</td>
+    <td>${escapeHtml(displayDate(donor.date))}</td>
+    <td>${credit}</td>
+  `;
   return row;
 }
 
 function renderPublicTables() {
   const pullers = byRole("puller");
   const backup = byRole("backup");
-  const total = state.members.reduce((sum, member) => sum + Number(member.donation || 0), 0);
+  const rosterTotal = state.members.reduce((sum, member) => sum + Number(member.donation || 0), 0);
+  const total = state.donorTotal ?? rosterTotal;
 
   elements.pullerCount.textContent = String(pullers.length);
   elements.donationTotal.textContent = money(total);
@@ -81,6 +139,27 @@ function renderPublicTables() {
   elements.backupBody.replaceChildren(
     ...(backup.length ? backup.map(publicRow) : [emptyRow("No backup members listed yet.")])
   );
+}
+
+function renderDonors(payload = {}) {
+  const donors = payload.donors || state.donors;
+  const summary = payload.summary || {};
+  const totalAmount = Number(summary.totalAmount ?? donors.reduce((sum, donor) => sum + Number(donor.amount || 0), 0));
+
+  state.donors = donors;
+  state.donorTotal = totalAmount;
+  elements.donorsSummary.textContent = `${donors.length} ${donors.length === 1 ? "gift" : "gifts"} | ${exactMoney(totalAmount)}`;
+  elements.donationTotal.textContent = exactMoney(totalAmount);
+  elements.donorsBody.replaceChildren(
+    ...(donors.length ? donors.map(donorRow) : [emptyRow("No donations listed yet.", 4)])
+  );
+
+  if (payload.generatedAt) {
+    elements.donorsUpdated.textContent = `Updated ${displayDate(payload.generatedAt)}`;
+  }
+  if (payload.source) {
+    elements.donorsSource.href = payload.source;
+  }
 }
 
 function renderAdminTable() {
@@ -160,6 +239,24 @@ async function loadMembers() {
   }
 }
 
+async function loadDonors({ silent = false } = {}) {
+  elements.refreshDonors.disabled = true;
+  if (!silent) {
+    setDonorsStatus("Loading donor list...");
+  }
+
+  try {
+    const payload = await requestJson("/api/donors");
+    renderDonors(payload);
+    setDonorsStatus("Donor list loaded.");
+  } catch (error) {
+    elements.donorsBody.replaceChildren(emptyRow(error.message, 4));
+    setDonorsStatus(error.message, true);
+  } finally {
+    elements.refreshDonors.disabled = false;
+  }
+}
+
 async function saveMember(event) {
   event.preventDefault();
   setLoading(true);
@@ -233,6 +330,7 @@ elements.passwordForm.addEventListener("submit", async (event) => {
 
 elements.memberForm.addEventListener("submit", saveMember);
 elements.resetForm.addEventListener("click", resetForm);
+elements.refreshDonors.addEventListener("click", () => loadDonors());
 
 elements.adminBody.addEventListener("click", (event) => {
   const editButton = event.target.closest("[data-edit]");
@@ -251,4 +349,17 @@ elements.adminBody.addEventListener("click", (event) => {
   }
 });
 
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    loadDonors({ silent: true });
+  }
+});
+
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted) {
+    loadDonors({ silent: true });
+  }
+});
+
 loadMembers();
+loadDonors();

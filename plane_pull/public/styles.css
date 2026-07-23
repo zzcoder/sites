@@ -66,6 +66,11 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: wait;
+  opacity: 0.68;
+}
+
 .app-shell {
   position: relative;
   z-index: 1;
@@ -210,6 +215,13 @@ h1 {
   color: var(--muted);
 }
 
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -225,6 +237,10 @@ h1 {
 
 .stat:nth-child(2) {
   background: linear-gradient(135deg, var(--blue), #0e4f68);
+}
+
+.stat-light {
+  background: linear-gradient(135deg, var(--gold), #b9821f);
 }
 
 .stat span {
@@ -405,6 +421,7 @@ h1 {
 }
 
 .list-panel,
+.donors-panel,
 .admin-panel {
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -432,6 +449,79 @@ h1 {
 .admin-header p {
   color: var(--muted);
   font-weight: 700;
+}
+
+.donors-panel {
+  margin: 0 0 22px;
+  overflow: hidden;
+}
+
+.donors-header > div {
+  display: grid;
+  gap: 5px;
+}
+
+.donor-status {
+  min-height: 22px;
+  padding: 14px 22px 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.donor-status.error {
+  color: var(--red);
+}
+
+.donors-table {
+  min-width: 760px;
+}
+
+.donors-table td strong,
+.donors-table td em {
+  display: block;
+}
+
+.donors-table td strong {
+  color: var(--text);
+}
+
+.donors-table td em {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.donor-type {
+  display: inline-block;
+  margin-left: 7px;
+  padding: 3px 6px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.donors-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 22px 18px;
+  border-top: 1px solid #edf0eb;
+}
+
+.donors-footer span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 750;
 }
 
 .table-wrap,
@@ -481,6 +571,170 @@ tbody tr:last-child td {
 
 .admin-panel {
   margin-top: 24px;
+}
+
+.competitors-panel {
+  overflow: hidden;
+}
+
+.competitors-table {
+  min-width: 900px;
+}
+
+.competitors-table td {
+  vertical-align: middle;
+}
+
+.rank-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 34px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  color: var(--green);
+  font-size: 14px;
+  font-weight: 900;
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+.team-cell {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 280px;
+}
+
+.team-logo-slot,
+.team-logo,
+.team-initials {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 52px;
+  border-radius: 8px;
+}
+
+.team-logo-slot {
+  display: grid;
+  place-items: center;
+}
+
+.team-logo {
+  display: block;
+  object-fit: contain;
+  padding: 5px;
+  border: 1px solid var(--border);
+  background: white;
+}
+
+.team-initials {
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(11, 90, 54, 0.16);
+  background: linear-gradient(135deg, rgba(11, 90, 54, 0.12), rgba(212, 167, 44, 0.22));
+  color: var(--green);
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.team-cell strong,
+.team-cell em {
+  display: block;
+}
+
+.team-cell strong {
+  color: var(--text);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.team-cell em {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 750;
+}
+
+.progress-cell {
+  display: grid;
+  gap: 7px;
+  min-width: 190px;
+}
+
+.progress-cell span,
+.progress-cell em {
+  color: var(--muted);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.progress-track {
+  height: 9px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e1e8dd;
+}
+
+.progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--green), var(--gold));
+}
+
+.competitor-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.warning-shell {
+  min-height: 100vh;
+}
+
+.warning-card {
+  max-width: 820px;
+  margin: 80px auto 0;
+  padding: 36px;
+  border: 1px solid rgba(214, 223, 210, 0.9);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+}
+
+.warning-label {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.warning-card h1 {
+  font-size: clamp(38px, 6vw, 68px);
+}
+
+.warning-message {
+  margin-top: 18px;
+  color: var(--text);
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.warning-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.no-break {
+  white-space: nowrap;
 }
 
 .admin-panel[hidden] {
@@ -590,13 +844,18 @@ code {
     width: 100%;
   }
 
-  .link-button,
-  .ghost-button {
+  .top-actions .link-button,
+  .top-actions .ghost-button {
     flex: 1;
     text-align: center;
   }
 
   .hero-section {
+    padding: 26px;
+  }
+
+  .warning-card {
+    margin-top: 36px;
     padding: 26px;
   }
 
@@ -627,7 +886,7 @@ code {
 
   .top-actions {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
   }
 
   .hero-section {
@@ -650,7 +909,8 @@ code {
   }
 
   .panel-header,
-  .admin-header {
+  .admin-header,
+  .donors-footer {
     align-items: flex-start;
     flex-direction: column;
   }

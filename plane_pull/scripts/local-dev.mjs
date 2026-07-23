@@ -2,7 +2,10 @@ import { createReadStream, existsSync, readFileSync } from "node:fs";
 import { createServer } from "node:http";
 import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
-import handler from "../api/members.js";
+import donorsHandler from "../api/donors.js";
+import designVotesHandler from "../api/design-votes.js";
+import membersHandler from "../api/members.js";
+import shirtVotesHandler from "../api/shirt-votes.js";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const publicDir = join(root, "public");
@@ -18,17 +21,30 @@ const mime = {
   ".png": "image/png",
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
+  ".webp": "image/webp",
   ".svg": "image/svg+xml"
 };
 
 const server = createServer(async (request, response) => {
   try {
-    if (request.url?.startsWith("/api/members")) {
+    if (
+      request.url?.startsWith("/api/members") ||
+      request.url?.startsWith("/api/donors") ||
+      request.url?.startsWith("/api/design-votes") ||
+      request.url?.startsWith("/api/shirt-votes")
+    ) {
       request.body = await readJsonBody(request);
       response.status = (code) => {
         response.statusCode = code;
         return response;
       };
+      const handler = request.url.startsWith("/api/donors")
+        ? donorsHandler
+        : request.url.startsWith("/api/design-votes")
+          ? designVotesHandler
+        : request.url.startsWith("/api/shirt-votes")
+          ? shirtVotesHandler
+          : membersHandler;
       return handler(request, response);
     }
 

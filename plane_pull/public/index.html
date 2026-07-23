@@ -17,7 +17,16 @@
           </span>
         </a>
         <nav class="top-actions" aria-label="Primary actions">
-          <a class="link-button" href="https://impact.specialolympicsva.org/team/832142" target="_blank" rel="noreferrer">
+          <a class="ghost-button" href="/design-vote.html">
+            Design Results
+          </a>
+          <a class="ghost-button" href="/shirt-vote.html">
+            Shirt Results
+          </a>
+          <a class="ghost-button" href="/competitors.html">
+            Competitors
+          </a>
+          <a class="link-button" href="/donation-warning.html">
             Join / Donate
           </a>
           <button class="ghost-button" id="adminToggle" type="button">Admin</button>
@@ -29,6 +38,11 @@
           <div>
             <h1 id="pageTitle">Plane Pull Team Healthy Hikers</h1>
             <p class="lede">Track pullers, backup teammates, and donations for the Special Olympics Virginia Plane Pull.</p>
+            <div class="hero-actions">
+              <a class="link-button" href="/design-vote.html">View Shirt Design Results</a>
+              <a class="link-button" href="/shirt-vote.html">View Shirt Color Results</a>
+              <a class="link-button" href="/competitors.html">View Competitors</a>
+            </div>
           </div>
           <div class="stats-grid" aria-live="polite">
             <article class="stat">
@@ -48,7 +62,7 @@
               <h2 id="donationGuideTitle">How to Join and Donate</h2>
               <p>Use the team page to join Healthy Hikers, make your donation, and request any employer match.</p>
             </div>
-            <a class="small-link" href="https://impact.specialolympicsva.org/team/832142" target="_blank" rel="noreferrer">
+            <a class="small-link" href="/donation-warning.html">
               Open Team Page
             </a>
           </header>
@@ -57,7 +71,7 @@
             <ol class="donation-steps">
               <li>
                 <strong>Open the Healthy Hikers team page.</strong>
-                <span>Go to <a href="https://impact.specialolympicsva.org/team/832142" target="_blank" rel="noreferrer">impact.specialolympicsva.org/team/832142</a>.</span>
+                <span>Go to <a href="/donation-warning.html">impact.specialolympicsva.org/team/832142</a>.</span>
               </li>
               <li>
                 <strong>Create an account if needed.</strong>
@@ -94,6 +108,36 @@
         </section>
 
         <p class="status" id="status" role="status">Loading team roster...</p>
+
+        <section class="donors-panel" aria-labelledby="donorsTitle">
+          <header class="panel-header donors-header">
+            <div>
+              <h2 id="donorsTitle">Donors</h2>
+              <span id="donorsSummary">Loading donations</span>
+            </div>
+            <button class="small-link" id="refreshDonors" type="button">Refresh Donors</button>
+          </header>
+          <p class="donor-status" id="donorsStatus" role="status">Loading donor list...</p>
+          <div class="table-wrap">
+            <table class="donors-table">
+              <thead>
+                <tr>
+                  <th>Donor</th>
+                  <th class="amount">Amount</th>
+                  <th>Date</th>
+                  <th>Credit</th>
+                </tr>
+              </thead>
+              <tbody id="donorsBody"></tbody>
+            </table>
+          </div>
+          <footer class="donors-footer">
+            <span id="donorsUpdated">Not updated yet</span>
+            <a class="small-link" id="donorsSource" href="https://impact.specialolympicsva.org/team/832142" target="_blank" rel="noreferrer">
+              Source
+            </a>
+          </footer>
+        </section>
 
         <section class="lists-grid" aria-label="Team lists">
           <article class="list-panel">
@@ -137,7 +181,7 @@
               <h2 id="adminTitle">Admin</h2>
               <p>Edit the Supabase <code>plane-pull</code> table.</p>
             </div>
-            <a class="small-link" href="https://impact.specialolympicsva.org/team/832142" target="_blank" rel="noreferrer">
+            <a class="small-link" href="/donation-warning.html">
               Team donation page
             </a>
           </header>

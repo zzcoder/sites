@@ -7,7 +7,8 @@
     "dev": "npx vercel dev",
     "start": "npx vercel dev",
     "local": "node scripts/local-dev.mjs",
-    "check": "node --check api/members.js"
+    "vote-results": "node scripts/vote-results.mjs",
+    "check": "node --check api/members.js && node --check api/donors.js && node --check api/shirt-votes.js && node --check api/design-votes.js && node --check public/app.js && node --check public/shirt-vote.js && node --check public/design-vote.js && node --check scripts/local-dev.mjs && node --check scripts/vote-results.mjs"
   },
   "dependencies": {
     "pg": "^8.22.0"
