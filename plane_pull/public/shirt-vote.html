@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b3d26">
+    <title>Team Shirt Results | Healthy Hikers</title>
+    <meta name="description" content="View the finalized Healthy Hikers Plane Pull team shirt and archived color results.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="/assets/shirt-vote/safety-orange-front.png">
+    <link rel="preload" as="image" href="/assets/shirt-vote/safety-orange-back.png">
+    <link rel="stylesheet" href="/shirt-vote.css">
+  </head>
+  <body>
+    <header class="vote-header">
+      <a class="vote-brand" href="/" aria-label="Healthy Hikers Plane Pull home">
+        <img src="/assets/hh-logo.png" alt="">
+        <span>Healthy Hikers</span>
+      </a>
+      <span class="header-divider" aria-hidden="true"></span>
+      <span class="event-name">Plane Pull 2026</span>
+      <a class="back-link" href="/">Team roster</a>
+    </header>
+
+    <main>
+      <section class="vote-intro" aria-labelledby="voteTitle">
+        <div>
+          <h1 id="voteTitle">Team shirt results</h1>
+          <p>Voting is closed. Review the finalized shirt and archived color tally.</p>
+        </div>
+        <p class="product-name">Hanes Sport Cool Dri Performance Shirt</p>
+      </section>
+
+      <section class="vote-workspace" aria-label="Final team shirt">
+        <div class="preview-column">
+          <div class="view-switch" role="group" aria-label="Shirt view">
+            <button class="view-button active" type="button" data-view="front" aria-pressed="true">Front</button>
+            <button class="view-button" type="button" data-view="back" aria-pressed="false">Back</button>
+          </div>
+
+          <div class="shirt-previews" id="shirtPreviews">
+            <figure class="shirt-preview" data-side="front">
+              <img id="frontPreview" src="/assets/shirt-vote/safety-orange-front.png" alt="Safety Orange shirt, front view">
+              <figcaption>Front</figcaption>
+            </figure>
+            <figure class="shirt-preview" data-side="back">
+              <img id="backPreview" src="/assets/shirt-vote/safety-orange-back.png" alt="Safety Orange shirt, back view">
+              <figcaption>Back</figcaption>
+            </figure>
+          </div>
+          <p class="preview-caption"><strong>Safety Orange</strong><span>Final front and back design</span></p>
+        </div>
+
+        <aside class="closed-panel" aria-labelledby="closedTitle">
+          <p class="closed-kicker">Voting closed</p>
+          <h2 id="closedTitle">Final selection</h2>
+          <div class="final-color">
+            <span class="final-swatch" aria-hidden="true"></span>
+            <div>
+              <strong>Safety Orange</strong>
+              <span>Team shirt color</span>
+            </div>
+          </div>
+          <dl class="final-details">
+            <div>
+              <dt>Shirt</dt>
+              <dd>Hanes Sport Cool Dri Performance</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>Color and sizes finalized</dd>
+            </div>
+          </dl>
+          <p class="closed-copy">The ballot is read-only and no new votes or changes can be submitted.</p>
+        </aside>
+      </section>
+
+      <section class="results-section" aria-labelledby="resultsTitle">
+        <header class="results-header">
+          <div>
+            <h2 id="resultsTitle">Final color results</h2>
+            <p>Archived ballot totals. Voting is closed.</p>
+          </div>
+          <strong id="voteTotal">0 votes</strong>
+        </header>
+        <p class="results-status" id="resultsStatus" role="status">Loading final tally...</p>
+        <div class="results-grid" id="resultsGrid" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="vote-footer">
+      <span>Healthy Hikers Plane Pull Team</span>
+      <a href="/design-vote.html">Shirt design results</a>
+      <a href="https://www.customink.com/designs/plane-pull-v1/kcd0-00d2-vsnp/share" target="_blank" rel="noreferrer">View original design</a>
+    </footer>
+
+    <script src="/shirt-vote.js" type="module"></script>
+  </body>
+</html>

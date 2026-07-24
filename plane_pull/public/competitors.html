@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Competitors | Plane Pull Team Healthy Hikers</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="Plane Pull Team Healthy Hikers home">
+          <img src="/assets/hh-logo.png" alt="Healthy Hikers logo">
+          <span>
+            <strong>Plane Pull Team</strong>
+            <em>Healthy Hikers</em>
+          </span>
+        </a>
+        <nav class="top-actions" aria-label="Primary actions">
+          <a class="ghost-button" href="/">Home</a>
+          <a class="link-button" href="/donation-warning.html">
+            Join / Donate
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero-section competitors-hero" aria-labelledby="pageTitle">
+          <div>
+            <h1 id="pageTitle">Competitors</h1>
+            <p class="lede">Plane Pull team standings from the Special Olympics Virginia registration list.</p>
+          </div>
+          <div class="stats-grid" aria-live="polite">
+            <article class="stat">
+              <span>Teams</span>
+              <strong id="teamCount">0</strong>
+            </article>
+            <article class="stat">
+              <span>Total Raised</span>
+              <strong id="totalRaised">$0</strong>
+            </article>
+            <article class="stat stat-light">
+              <span>Healthy Hikers</span>
+              <strong id="healthyRank">--</strong>
+            </article>
+          </div>
+        </section>
+
+        <p class="status" id="competitorsStatus" role="status">Loading competitors...</p>
+
+        <section class="list-panel competitors-panel" aria-labelledby="competitorsTitle">
+          <header class="panel-header">
+            <div>
+              <h2 id="competitorsTitle">Team List</h2>
+              <span id="competitorsSummary">0 teams</span>
+            </div>
+            <a class="small-link" id="sourceLink" href="https://impact.specialolympicsva.org/event/2026-dulles-plane-pull-r/e777136/search?type=team" target="_blank" rel="noreferrer">
+              Registration List
+            </a>
+          </header>
+          <div class="table-wrap competitors-table-wrap">
+            <table class="competitors-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Team</th>
+                  <th class="amount">Raised</th>
+                  <th>Progress</th>
+                  <th class="amount">Members</th>
+                  <th class="actions-col">Team Page</th>
+                </tr>
+              </thead>
+              <tbody id="competitorsBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="/competitors.js" type="module"></script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "desc": "Plank Check-in Mini Program sitemap",
+  "rules": [
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
+}
