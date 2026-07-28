@@ -114,6 +114,45 @@ const revealObserver = new IntersectionObserver(
 
 document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
 
+const todoInputs = [...document.querySelectorAll("[data-trip-todo]")];
+const todoProgress = document.querySelector("[data-todo-progress]");
+const todoStorageKey = "rafting2026-trip-todos";
+
+function updateTodoProgress() {
+  const completed = todoInputs.filter((input) => input.checked).length;
+  if (todoProgress) {
+    todoProgress.textContent = `${completed} of ${todoInputs.length} done`;
+  }
+}
+
+function restoreTodoProgress() {
+  try {
+    const saved = JSON.parse(window.localStorage.getItem(todoStorageKey) || "{}");
+    todoInputs.forEach((input) => {
+      input.checked = saved[input.dataset.tripTodo] === true;
+    });
+  } catch {
+    // The checklist still works when storage is unavailable or contains invalid data.
+  }
+  updateTodoProgress();
+}
+
+todoInputs.forEach((input) => {
+  input.addEventListener("change", () => {
+    const saved = Object.fromEntries(
+      todoInputs.map((todo) => [todo.dataset.tripTodo, todo.checked]),
+    );
+    try {
+      window.localStorage.setItem(todoStorageKey, JSON.stringify(saved));
+    } catch {
+      // Keep the in-page state even when persistence is unavailable.
+    }
+    updateTodoProgress();
+  });
+});
+
+restoreTodoProgress();
+
 function openLightbox(button) {
   if (!lightbox || !lightboxImage || !lightboxCaption) return;
   const source = button.dataset.lightbox;

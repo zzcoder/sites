@@ -15,9 +15,9 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260728b" />
+    <link rel="stylesheet" href="styles.css?v=20260728c" />
     <script src="config.js"></script>
-    <script src="script.js?v=20260728b" defer></script>
+    <script src="script.js?v=20260728c" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to itinerary</a>
@@ -41,6 +41,7 @@
         <a href="#day-one">Day 1</a>
         <a href="#day-two">Day 2</a>
         <a href="#route">Map</a>
+        <a href="#checklist">Checklist</a>
         <a href="#notes">Trip notes</a>
       </nav>
     </header>
@@ -465,6 +466,179 @@
               <a href="https://www.google.com/maps/search/?api=1&query=162+Visitor+Center+Rd%2C+Lansing%2C+WV+25862" target="_blank" rel="noreferrer" aria-label="Open Canyon Rim in Google Maps">↗</a>
             </li>
           </ol>
+        </div>
+      </section>
+
+      <section class="trip-checklist paper-section" id="checklist" aria-labelledby="checklist-title">
+        <div class="checklist-intro reveal">
+          <div>
+            <p class="section-label">Before you go</p>
+            <h2 id="checklist-title">Everyone signs.<br /><em>Then we ride.</em></h2>
+          </div>
+          <p>
+            You’re going to be here soon, Zhihong Zhang. Knock out these details before departure
+            so arrival at Adventures on the Gorge is quick, smooth, and ready for the river.
+          </p>
+        </div>
+
+        <div class="checklist-layout">
+          <div class="checklist-summary">
+            <article class="waiver-callout reveal">
+              <p class="callout-label"><span>Required</span> Every participant</p>
+              <h3>Sign your activity waiver now.</h3>
+              <p>
+                Each participant must sign a liability form. A parent or legal guardian must sign
+                for anyone under 18. If the guardian is not traveling, the waiver can be signed in
+                advance.
+              </p>
+              <p class="lodging-note">
+                Lodging note: only the lead client needs to sign the lodging waiver.
+              </p>
+              <a
+                class="button button-primary"
+                href="https://go.theflybook.com/manage/HES5UE#/lite"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Complete activity / lodging waivers
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5" /></svg>
+              </a>
+            </article>
+
+            <article class="reservation-card reveal">
+              <p class="callout-label">Reservation</p>
+              <div class="reservation-detail">
+                <span>Lookup code</span>
+                <strong>HES5UE</strong>
+              </div>
+              <div class="reservation-detail">
+                <span>Lead guest</span>
+                <strong>Zhihong Zhang</strong>
+              </div>
+              <a
+                class="reservation-link"
+                href="https://go.theflybook.com/Manage/HES5UE"
+                target="_blank"
+                rel="noreferrer"
+              >
+                View reservation and verify the itinerary <span>↗</span>
+              </a>
+            </article>
+          </div>
+
+          <div class="todo-panel reveal">
+            <div class="todo-panel-heading">
+              <div>
+                <p class="section-label">Group checklist</p>
+                <h3>Trip to-do list</h3>
+              </div>
+              <span class="todo-progress" data-todo-progress aria-live="polite">0 of 7 done</span>
+            </div>
+
+            <ul class="todo-list">
+              <li class="todo-item">
+                <label>
+                  <input type="checkbox" data-trip-todo="waivers" />
+                  <span class="todo-check" aria-hidden="true"></span>
+                  <span>
+                    <strong>Everyone completes the activity waiver</strong>
+                    <small>Parents or legal guardians sign for all participants under 18.</small>
+                  </span>
+                </label>
+                <a href="https://go.theflybook.com/manage/HES5UE#/lite" target="_blank" rel="noreferrer">Sign waiver ↗</a>
+              </li>
+              <li class="todo-item">
+                <label>
+                  <input type="checkbox" data-trip-todo="reservation" />
+                  <span class="todo-check" aria-hidden="true"></span>
+                  <span>
+                    <strong>Review the reservation and invoice</strong>
+                    <small>Confirm every activity, lodging detail, participant, and time is accurate.</small>
+                  </span>
+                </label>
+                <a href="https://go.theflybook.com/Manage/HES5UE" target="_blank" rel="noreferrer">View booking ↗</a>
+              </li>
+              <li class="todo-item">
+                <label>
+                  <input type="checkbox" data-trip-todo="schedule" />
+                  <span class="todo-check" aria-hidden="true"></span>
+                  <span>
+                    <strong>Check this week’s resort schedule</strong>
+                    <small>See what food, activities, and entertainment are available on campus.</small>
+                  </span>
+                </label>
+                <a href="https://www.adventuresonthegorge.com/this-week-at-aotg" target="_blank" rel="noreferrer">View schedule ↗</a>
+              </li>
+              <li class="todo-item">
+                <label>
+                  <input type="checkbox" data-trip-todo="directions" />
+                  <span class="todo-check" aria-hidden="true"></span>
+                  <span>
+                    <strong>Save and print directions</strong>
+                    <small>Use “Adventures on the Gorge” in GPS; service can get unreliable in the hills.</small>
+                  </span>
+                </label>
+                <a href="https://www.adventuresonthegorge.com/contact-us" target="_blank" rel="noreferrer">Directions ↗</a>
+              </li>
+              <li class="todo-item">
+                <label>
+                  <input type="checkbox" data-trip-todo="clothing" />
+                  <span class="todo-check" aria-hidden="true"></span>
+                  <span>
+                    <strong>Review what to wear</strong>
+                    <small>Bring secure water shoes and quick-dry layers—leave the Crocs for camp.</small>
+                  </span>
+                </label>
+                <a href="https://adventuresonthegorge.com/information/faqs/" target="_blank" rel="noreferrer">Read FAQs ↗</a>
+              </li>
+              <li class="todo-item">
+                <label>
+                  <input type="checkbox" data-trip-todo="payment" />
+                  <span class="todo-check" aria-hidden="true"></span>
+                  <span>
+                    <strong>Pack a card or mobile payment</strong>
+                    <small>Adventures on the Gorge is a cashless property.</small>
+                  </span>
+                </label>
+              </li>
+              <li class="todo-item">
+                <label>
+                  <input type="checkbox" data-trip-todo="contacts" />
+                  <span class="todo-check" aria-hidden="true"></span>
+                  <span>
+                    <strong>Save the help numbers</strong>
+                    <small>Keep the welcome center and after-hours contacts available offline.</small>
+                  </span>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="arrival-info">
+          <article class="arrival-card reveal">
+            <p class="section-label">Need help?</p>
+            <h3>Adventures on the Gorge contacts</h3>
+            <ul class="contact-list">
+              <li><span>Reservations · business hours</span><a href="tel:+18448232684">844-823-2684</a></li>
+              <li><span>Welcome Center</span><a href="tel:+13045744454">304-574-4454</a></li>
+              <li><span>After-hours help</span><a href="tel:+13046407425">304-640-7425</a></li>
+              <li><span>Email</span><a href="mailto:aotg-info@aramark.com">aotg-info@aramark.com</a></li>
+            </ul>
+          </article>
+          <article class="arrival-card reveal">
+            <p class="section-label">Arrival tip</p>
+            <h3>GPS can get funky in the hills.</h3>
+            <p>
+              Search for <strong>“Adventures on the Gorge”</strong> instead of entering the street
+              address, and keep printed directions in the vehicle as a backup.
+            </p>
+          </article>
+          <article class="arrival-card cashless-card reveal">
+            <p class="section-label">On property</p>
+            <h3>It’s cashless.</h3>
+            <p>Plan to use a credit/debit card or mobile payment throughout the resort.</p>
+          </article>
         </div>
       </section>
 
