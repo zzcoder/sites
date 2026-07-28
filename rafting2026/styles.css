@@ -118,7 +118,10 @@ h3 {
   height: 78px;
   padding: 0 max(28px, calc((100vw - 1460px) / 2));
   color: var(--white);
+  background: rgba(3, 25, 29, 0.72);
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  backdrop-filter: blur(12px) saturate(120%);
   transition:
     height 260ms var(--ease),
     color 260ms ease,
@@ -131,6 +134,7 @@ h3 {
   color: var(--ink);
   background: rgba(244, 240, 231, 0.94);
   border-color: var(--line);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
 }
 
