@@ -393,8 +393,8 @@
         <div class="route-heading reveal">
           <h2 id="route-title">The route · <em>Virginia to the New River</em></h2>
           <p>
-            The live map uses Google’s Maps JavaScript and Routes APIs. Without a configured key,
-            the journey sketch below remains available.
+            Google’s Routes and Static Maps APIs trace the actual driving route. Use the filters
+            to see the full weekend or focus on either day.
           </p>
         </div>
 
@@ -411,25 +411,18 @@
           <div class="map-frame">
             <div id="google-map" class="google-map" aria-label="Interactive trip route map"></div>
             <div id="map-fallback" class="map-fallback">
-              <svg viewBox="0 0 900 620" role="img" aria-labelledby="fallback-map-title fallback-map-desc">
-                <title id="fallback-map-title">Schematic route from Great Falls to New River Gorge</title>
-                <desc id="fallback-map-desc">A route sketch with eight numbered stops across Virginia and West Virginia.</desc>
-                <path class="map-state" d="M-25 525C78 463 167 477 245 427c83-53 155-73 226-44 88 37 128 7 177-56 55-70 107-106 192-86l83 20" />
-                <path class="map-route map-route-day1" d="M735 500C670 474 612 447 558 413S462 348 408 298s-106-83-174-65-95 69-92 137" />
-                <path class="map-route map-route-day2" d="M142 370c29-7 58-13 90-11 71 5 100 31 168 50 90 25 171 67 335 91" />
-                <g class="map-node" transform="translate(735 500)"><circle r="20" /><text>1</text><tspan x="-112" y="48">Great Falls</tspan></g>
-                <g class="map-node" transform="translate(558 413)"><circle r="20" /><text>2</text><tspan x="-52" y="49">Buc-ee’s</tspan></g>
-                <g class="map-node" transform="translate(408 298)"><circle r="20" /><text>3</text><tspan x="-50" y="-33">Grandview</tspan></g>
-                <g class="map-node" transform="translate(278 241)"><circle r="20" /><text>4</text><tspan x="-45" y="-33">Babcock</tspan></g>
-                <g class="map-node" transform="translate(174 284)"><circle r="20" /><text>5</text><tspan x="-118" y="-31">Adventures</tspan></g>
-                <g class="map-node" transform="translate(139 335)"><circle r="20" /><text>6</text><tspan x="34" y="8">Pies &amp; Pints</tspan></g>
-                <g class="map-node map-node-gold" transform="translate(142 370)"><circle r="20" /><text>7</text><tspan x="35" y="8">Canyon Rim</tspan></g>
-                <text class="map-state-label" x="555" y="552">VIRGINIA</text>
-                <text class="map-state-label" x="74" y="177">WEST VIRGINIA</text>
-              </svg>
-              <div class="map-key-message">
-                <strong>Activate the live route</strong>
-                <span>Add a Google Maps API key in <code>config.js</code>.</span>
+              <img
+                id="static-route-map"
+                class="static-route-map"
+                src="assets/images/google-route-map.png"
+                alt="Google road map showing the complete two-day route from Great Falls, Virginia to New River Gorge, West Virginia"
+                width="1280"
+                height="1280"
+                loading="lazy"
+              />
+              <div class="map-legend" aria-hidden="true">
+                <span><i class="map-legend-day1"></i>Day 1</span>
+                <span><i class="map-legend-day2"></i>Day 2</span>
               </div>
             </div>
             <div id="map-error" class="map-error" hidden></div>

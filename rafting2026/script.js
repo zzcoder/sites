@@ -7,7 +7,23 @@ const lightboxCaption = lightbox?.querySelector("figcaption");
 const mapElement = document.querySelector("#google-map");
 const mapFallback = document.querySelector("#map-fallback");
 const mapError = document.querySelector("#map-error");
+const staticMapImage = document.querySelector("#static-route-map");
 const routeButtons = [...document.querySelectorAll("[data-route-filter]")];
+
+const staticMapViews = {
+  all: {
+    src: "assets/images/google-route-map.png",
+    alt: "Google road map showing the complete two-day route from Great Falls, Virginia to New River Gorge, West Virginia",
+  },
+  day1: {
+    src: "assets/images/google-route-map-day1.png",
+    alt: "Google road map showing the Day 1 route from Great Falls, Virginia through the planned stops to New River Gorge, West Virginia",
+  },
+  day2: {
+    src: "assets/images/google-route-map-day2.png",
+    alt: "Google road map showing the Day 2 route around New River Gorge and the return to Great Falls, Virginia",
+  },
+};
 
 const tripMapState = {
   map: null,
@@ -212,6 +228,12 @@ async function fitRoutes(routeKeys = ["day1", "day2"]) {
 
 function applyRouteFilter(filter) {
   tripMapState.currentFilter = filter;
+  const staticView = staticMapViews[filter] || staticMapViews.all;
+  if (staticMapImage) {
+    staticMapImage.src = staticView.src;
+    staticMapImage.alt = staticView.alt;
+    mapFallback.dataset.routeView = filter;
+  }
   routeButtons.forEach((button) => {
     const isActive = button.dataset.routeFilter === filter;
     button.classList.toggle("is-active", isActive);
@@ -251,11 +273,11 @@ document.querySelectorAll("[data-map-stop]").forEach((row) => {
     if (event.target.closest("a")) return;
     const stop = Number(row.dataset.mapStop);
     const marker = tripMapState.primaryMarkers.get(stop);
-    if (!tripMapState.map || !marker?.position) return;
     applyRouteFilter("day1");
+    row.classList.add("is-focused");
+    if (!tripMapState.map || !marker?.position) return;
     tripMapState.map.panTo(marker.position);
     tripMapState.map.setZoom(stop === 1 ? 10 : 11);
-    row.classList.add("is-focused");
   });
 });
 

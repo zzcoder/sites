@@ -26,6 +26,7 @@ The live map uses the current Google Maps JavaScript **Routes Library** rather t
 2. Enable:
    - [Maps JavaScript API](https://console.cloud.google.com/apis/library/maps-backend.googleapis.com)
    - [Routes API](https://console.cloud.google.com/apis/library/routes.googleapis.com)
+   - [Maps Static API](https://console.cloud.google.com/apis/library/static-maps-backend.googleapis.com)
 3. Create a browser API key under **APIs & Services → Credentials**.
 4. Restrict the key:
    - **Application restriction:** Websites (HTTP referrers)
@@ -43,6 +44,32 @@ window.RAFTING_CONFIG = {
 6. Reload the page. Day 1, Day 2, and All stops controls will filter the live route.
 
 Static browser map keys are visible to visitors by design. Security comes from strict HTTP-referrer and API restrictions, not from trying to hide the key in client-side JavaScript.
+
+## Generate the static Google route map
+
+The included generator calls the Routes API for accurate road polylines, then sends
+those polylines to the Maps Static API. It creates three 1280×1280 PNGs for the full
+trip, Day 1, and Day 2. The key is never written into the images or committed source.
+
+From this folder:
+
+```zsh
+read -s "GOOGLE_MAPS_API_KEY?Google Maps API key: "
+echo
+GOOGLE_MAPS_API_KEY="$GOOGLE_MAPS_API_KEY" node tools/generate-google-static-map.mjs
+unset GOOGLE_MAPS_API_KEY
+```
+
+The outputs are:
+
+```text
+assets/images/google-route-map.png
+assets/images/google-route-map-day1.png
+assets/images/google-route-map-day2.png
+```
+
+For this server-side generation command, use a key that can call **Routes API** and
+**Maps Static API**. An IP-restricted server key is ideal. Do not commit the key.
 
 ## Project structure
 
