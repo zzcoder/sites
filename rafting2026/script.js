@@ -12,15 +12,15 @@ const routeButtons = [...document.querySelectorAll("[data-route-filter]")];
 
 const staticMapViews = {
   all: {
-    src: "assets/images/google-route-map.png",
+    src: "assets/images/google-route-map.png?v=20260728b",
     alt: "Google road map showing the complete two-day route from Great Falls, Virginia to New River Gorge, West Virginia",
   },
   day1: {
-    src: "assets/images/google-route-map-day1.png",
+    src: "assets/images/google-route-map-day1.png?v=20260728b",
     alt: "Google road map showing the Day 1 route from Great Falls, Virginia through the planned stops to New River Gorge, West Virginia",
   },
   day2: {
-    src: "assets/images/google-route-map-day2.png",
+    src: "assets/images/google-route-map-day2.png?v=20260728b",
     alt: "Google road map showing the Day 2 route around New River Gorge and the return to Great Falls, Virginia",
   },
 };

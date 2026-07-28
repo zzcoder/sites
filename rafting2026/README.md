@@ -48,7 +48,7 @@ Static browser map keys are visible to visitors by design. Security comes from s
 ## Generate the static Google route map
 
 The included generator calls the Routes API for accurate road polylines, then sends
-those polylines to the Maps Static API. It creates three 1280×1280 PNGs for the full
+those polylines to the Maps Static API. It creates three 1280×960 PNGs for the full
 trip, Day 1, and Day 2. The key is never written into the images or committed source.
 
 From this folder:

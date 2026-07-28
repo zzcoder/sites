@@ -1896,7 +1896,7 @@ h3 {
 
   .map-frame {
     min-height: 0;
-    aspect-ratio: 1;
+    aspect-ratio: 4 / 3;
   }
 
   .route-shell {

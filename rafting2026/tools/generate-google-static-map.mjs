@@ -224,7 +224,7 @@ function simplifyEncodedPolyline(encoded, maxLength = 2500) {
 
 function mapParams() {
   const params = new URLSearchParams({
-    size: "640x640",
+    size: "640x480",
     scale: "2",
     format: "png",
     maptype: "roadmap",
