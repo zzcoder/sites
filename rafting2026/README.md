@@ -41,7 +41,8 @@ window.RAFTING_CONFIG = {
 };
 ```
 
-6. Reload the page. Day 1, Day 2, and All stops controls will filter the live route.
+6. Reload the page. The live map will show the four-stop West Virginia route, and the three
+   expandable driving legs will display Google’s turn-by-turn instructions.
 
 Static browser map keys are visible to visitors by design. Security comes from strict HTTP-referrer and API restrictions, not from trying to hide the key in client-side JavaScript.
 

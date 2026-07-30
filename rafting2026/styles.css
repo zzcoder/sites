@@ -1107,7 +1107,10 @@ h3 {
 }
 
 .route-filter,
+.route-chip,
 .route-external {
+  display: inline-flex;
+  align-items: center;
   min-height: 44px;
   padding: 0 20px;
   color: var(--ink);
@@ -1118,6 +1121,13 @@ h3 {
   font-size: 0.84rem;
   font-weight: 600;
   text-decoration: none;
+}
+
+.route-chip {
+  color: var(--river);
+  background: rgba(13, 80, 83, 0.07);
+  border-color: rgba(13, 80, 83, 0.18);
+  cursor: default;
 }
 
 .route-filter.is-active {
@@ -1241,17 +1251,20 @@ h3 {
 
 .stop-ledger li {
   display: grid;
+  flex: 1;
   grid-template-columns: 36px 1fr 28px;
   gap: 14px;
   min-height: 82px;
   padding: 17px 22px;
   border-bottom: 1px solid var(--line);
   align-items: center;
+  cursor: pointer;
   transition: background 170ms ease;
 }
 
 .stop-ledger li:hover,
-.stop-ledger li.is-focused {
+.stop-ledger li.is-focused,
+.stop-ledger li.is-active {
   background: var(--river-soft);
 }
 
@@ -1267,7 +1280,7 @@ h3 {
   place-items: center;
 }
 
-.stop-ledger li:nth-child(7) > span {
+.stop-ledger li:nth-child(4) > span {
   background: var(--sand);
 }
 
@@ -1307,6 +1320,167 @@ h3 {
 
 .trip-marker.day2 {
   background: var(--sand);
+}
+
+.directions-card {
+  margin-top: 24px;
+  padding: 34px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.directions-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 36px;
+  align-items: end;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+
+.directions-heading h3 {
+  margin: 8px 0 0;
+  font-family: var(--serif);
+  font-size: clamp(2.1rem, 3.5vw, 3.8rem);
+  font-weight: 500;
+  line-height: 0.98;
+}
+
+.route-summary {
+  margin: 0;
+  padding: 12px 16px;
+  color: var(--white);
+  background: var(--river);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.route-directions {
+  display: grid;
+  gap: 12px;
+  padding-top: 24px;
+}
+
+.direction-leg {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.direction-leg.is-active {
+  border-color: rgba(13, 80, 83, 0.46);
+  box-shadow: 0 12px 30px rgba(16, 47, 50, 0.08);
+}
+
+.direction-leg-summary {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) 28px;
+  gap: 14px;
+  align-items: center;
+  min-height: 76px;
+  padding: 14px 18px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.direction-leg-summary::-webkit-details-marker {
+  display: none;
+}
+
+.direction-leg-number,
+.direction-step-number {
+  display: grid;
+  color: var(--white);
+  background: var(--river);
+  border-radius: 50%;
+  font-weight: 700;
+  place-items: center;
+}
+
+.direction-leg-number {
+  width: 32px;
+  height: 32px;
+  font-size: 0.78rem;
+}
+
+.direction-leg-title strong,
+.direction-leg-title small {
+  display: block;
+}
+
+.direction-leg-title strong {
+  font-size: 0.93rem;
+}
+
+.direction-leg-title small {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.direction-leg-toggle {
+  color: var(--sand);
+  font-size: 1.4rem;
+  text-align: center;
+  transition: transform 180ms ease;
+}
+
+.direction-leg[open] .direction-leg-toggle {
+  transform: rotate(45deg);
+}
+
+.direction-steps {
+  margin: 0;
+  padding: 0 18px 10px 68px;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+.direction-step {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  min-height: 58px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(16, 47, 50, 0.1);
+}
+
+.direction-step:last-child {
+  border-bottom: 0;
+}
+
+.direction-step-number {
+  width: 24px;
+  height: 24px;
+  color: var(--river);
+  background: var(--river-soft);
+  font-size: 0.68rem;
+}
+
+.direction-step-instruction {
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.direction-step-meta {
+  color: var(--muted);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.directions-empty {
+  margin: 0;
+  padding: 22px;
+  color: var(--muted);
+  background: var(--river-soft);
+  font-size: 0.84rem;
 }
 
 .trip-checklist {
@@ -2064,10 +2238,6 @@ h3 {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .stop-ledger li:nth-last-child(1) {
-    grid-column: 1 / -1;
-  }
-
   .field-notes {
     grid-template-columns: 1fr;
   }
@@ -2451,6 +2621,11 @@ h3 {
     justify-content: center;
   }
 
+  .route-chip {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
   .map-frame {
     min-height: 0;
     aspect-ratio: 4 / 3;
@@ -2470,6 +2645,37 @@ h3 {
 
   .stop-ledger li:nth-last-child(1) {
     grid-column: auto;
+  }
+
+  .directions-card {
+    padding: 24px 18px;
+  }
+
+  .directions-heading {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .route-summary {
+    justify-self: start;
+  }
+
+  .direction-leg-summary {
+    grid-template-columns: 34px minmax(0, 1fr) 22px;
+    padding-inline: 12px;
+  }
+
+  .direction-steps {
+    padding-inline: 14px;
+  }
+
+  .direction-step {
+    grid-template-columns: 24px minmax(0, 1fr);
+  }
+
+  .direction-step-meta {
+    grid-column: 2;
   }
 
   .map-node tspan,

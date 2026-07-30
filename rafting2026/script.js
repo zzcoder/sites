@@ -7,73 +7,31 @@ const lightboxCaption = lightbox?.querySelector("figcaption");
 const mapElement = document.querySelector("#google-map");
 const mapFallback = document.querySelector("#map-fallback");
 const mapError = document.querySelector("#map-error");
-const staticMapImage = document.querySelector("#static-route-map");
-const routeButtons = [...document.querySelectorAll("[data-route-filter]")];
-
-const staticMapViews = {
-  all: {
-    src: "assets/images/google-route-map.png?v=20260728b",
-    alt: "Google road map showing the complete two-day route from Great Falls, Virginia to New River Gorge, West Virginia",
-  },
-  day1: {
-    src: "assets/images/google-route-map-day1.png?v=20260728b",
-    alt: "Google road map showing the Day 1 route from Great Falls, Virginia through the planned stops to New River Gorge, West Virginia",
-  },
-  day2: {
-    src: "assets/images/google-route-map-day2.png?v=20260728b",
-    alt: "Google road map showing the Day 2 route around New River Gorge and the return to Great Falls, Virginia",
-  },
-};
+const routeSummary = document.querySelector("#route-summary");
+const routeDirections = document.querySelector("#route-directions");
 
 const tripMapState = {
   map: null,
-  currentFilter: "all",
-  routes: {},
-  markers: {},
-  primaryMarkers: new Map(),
+  route: null,
+  polylines: [],
+  markers: new Map(),
 };
 
-const routeDefinitions = {
-  day1: {
-    color: "#0d5053",
-    origin: "12003 Holly Leaf Ct, Great Falls, VA 22066",
-    destination: "219 Chestnutburg Road, Lansing, WV 25862",
-    intermediates: [
-      "6500 Buc-ee's Blvd, Mount Crawford, VA 22841",
-      "4700 Grandview Rd, Beaver, WV 25813",
-      "486 Babcock Road, Clifftop, WV 25831",
-      "219 Chestnutburg Road, Lansing, WV 25862",
-      "219 W Maple Ave, Fayetteville, WV 25840",
-      "162 Visitor Center Rd, Lansing, WV 25862",
-    ],
-    markerLabels: ["1", "2", "3", "4", "5", "6", "7", "L"],
-    markerTitles: [
-      "Great Falls · departure",
-      "Buc-ee’s · Mount Crawford",
-      "Grandview Visitor Center",
-      "Babcock State Park",
-      "Adventures on the Gorge · check-in",
-      "Pies & Pints",
-      "Canyon Rim Visitor Center",
-      "Adventures on the Gorge · lodge return",
-    ],
-  },
-  day2: {
-    color: "#d7a14d",
-    origin: "219 Chestnutburg Road, Lansing, WV 25862",
-    destination: "12003 Holly Leaf Ct, Great Falls, VA 22066",
-    intermediates: [
-      "162 Visitor Center Rd, Lansing, WV 25862",
-      "219 Chestnutburg Road, Lansing, WV 25862",
-    ],
-    markerLabels: ["A", "B", "C", "H"],
-    markerTitles: [
-      "Adventures on the Gorge · lodge",
-      "Canyon Rim · morning fog",
-      "Adventures on the Gorge · rafting",
-      "Great Falls · home",
-    ],
-  },
+const routeDefinition = {
+  color: "#0d5053",
+  origin: "4700 Grandview Rd, Beaver, WV 25813",
+  destination: "162 Visitor Center Rd, Lansing, WV 25862",
+  intermediates: [
+    "486 Babcock Road, Clifftop, WV 25831",
+    "219 Chestnutburg Road, Lansing, WV 25862",
+  ],
+  markerLabels: ["1", "2", "3", "4"],
+  stopNames: [
+    "Grandview Visitor Center",
+    "Babcock State Park",
+    "Adventures on the Gorge",
+    "Canyon Rim Visitor Center",
+  ],
 };
 
 function updateHeader() {
@@ -202,35 +160,156 @@ function loadGoogleMaps(apiKey) {
   });
 }
 
-function makeMarkerContent(label, routeKey) {
+function makeMarkerContent(label) {
   const marker = document.createElement("div");
-  marker.className = `trip-marker ${routeKey}`;
+  marker.className = "trip-marker";
   marker.textContent = label;
   return marker;
 }
 
-async function computeAndDrawRoute(Route, AdvancedMarkerElement, routeKey) {
-  const definition = routeDefinitions[routeKey];
+function formatDistance(distanceMeters) {
+  if (!Number.isFinite(distanceMeters)) return "";
+  const miles = distanceMeters / 1609.344;
+  if (miles < 0.1) return `${Math.max(50, Math.round((distanceMeters * 3.28084) / 50) * 50)} ft`;
+  return `${miles < 10 ? miles.toFixed(1) : Math.round(miles)} mi`;
+}
+
+function formatDuration(durationMillis) {
+  if (!Number.isFinite(durationMillis)) return "";
+  const totalMinutes = Math.max(1, Math.round(durationMillis / 60000));
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  if (!hours) return `${minutes} min`;
+  return minutes ? `${hours} hr ${minutes} min` : `${hours} hr`;
+}
+
+function makeElement(tagName, className, text) {
+  const element = document.createElement(tagName);
+  if (className) element.className = className;
+  if (text !== undefined) element.textContent = text;
+  return element;
+}
+
+function focusRouteLeg(legIndex) {
+  const leg = tripMapState.route?.legs?.[legIndex];
+  if (!tripMapState.map || !leg || !window.google?.maps) return;
+
+  document.querySelectorAll(".direction-leg").forEach((element, index) => {
+    element.classList.toggle("is-active", index === legIndex);
+  });
+
+  const bounds = new google.maps.LatLngBounds();
+  const points = leg.path?.length ? leg.path : [leg.startLocation, leg.endLocation];
+  points.filter(Boolean).forEach((point) => bounds.extend(point));
+  if (!bounds.isEmpty()) tripMapState.map.fitBounds(bounds, 72);
+}
+
+function renderRouteDirections(route) {
+  if (!routeDirections || !routeSummary) return;
+
+  const totalDistance = formatDistance(route.distanceMeters);
+  const totalDuration = formatDuration(route.durationMillis);
+  routeSummary.textContent = [totalDistance, totalDuration, "4 stops"].filter(Boolean).join(" · ");
+  routeDirections.replaceChildren();
+
+  route.legs?.forEach((leg, legIndex) => {
+    const details = makeElement("details", "direction-leg");
+    details.open = legIndex === 0;
+    details.dataset.legIndex = String(legIndex);
+
+    const summary = makeElement("summary", "direction-leg-summary");
+    summary.append(makeElement("span", "direction-leg-number", String(legIndex + 1)));
+
+    const title = makeElement("span", "direction-leg-title");
+    title.append(
+      makeElement(
+        "strong",
+        "",
+        `${routeDefinition.stopNames[legIndex]} → ${routeDefinition.stopNames[legIndex + 1]}`,
+      ),
+      makeElement(
+        "small",
+        "",
+        [
+          leg.localizedValues?.distance || formatDistance(leg.distanceMeters),
+          leg.localizedValues?.duration || formatDuration(leg.durationMillis),
+        ]
+          .filter(Boolean)
+          .join(" · "),
+      ),
+    );
+    summary.append(title, makeElement("span", "direction-leg-toggle", "＋"));
+
+    const stepList = makeElement("ol", "direction-steps");
+    leg.steps?.forEach((step, stepIndex) => {
+      const item = makeElement("li", "direction-step");
+      item.append(
+        makeElement("span", "direction-step-number", String(stepIndex + 1)),
+        makeElement("span", "direction-step-instruction", step.instructions || "Continue"),
+      );
+
+      const stepMeta = [
+        step.localizedValues?.distance || formatDistance(step.distanceMeters),
+        step.localizedValues?.staticDuration || formatDuration(step.staticDurationMillis),
+      ]
+        .filter(Boolean)
+        .join(" · ");
+      if (stepMeta) item.append(makeElement("small", "direction-step-meta", stepMeta));
+      stepList.append(item);
+    });
+
+    if (!leg.steps?.length) {
+      stepList.append(makeElement("li", "directions-empty", "No step details were returned for this leg."));
+    }
+
+    details.append(summary, stepList);
+    summary.addEventListener("click", () => {
+      window.requestAnimationFrame(() => {
+        if (details.open) focusRouteLeg(legIndex);
+      });
+    });
+    routeDirections.append(details);
+  });
+
+  routeDirections.setAttribute("aria-busy", "false");
+  routeDirections.querySelector(".direction-leg")?.classList.add("is-active");
+}
+
+function renderDirectionsFailure(message) {
+  if (routeSummary) routeSummary.textContent = "Live directions unavailable";
+  if (!routeDirections) return;
+  routeDirections.replaceChildren(
+    makeElement(
+      "p",
+      "directions-empty",
+      `${message} Use “Open in Google Maps” above for the same four-stop driving route.`,
+    ),
+  );
+  routeDirections.setAttribute("aria-busy", "false");
+}
+
+async function computeAndDrawRoute(Route, AdvancedMarkerElement) {
   const request = {
-    origin: definition.origin,
-    destination: definition.destination,
-    intermediates: definition.intermediates.map((location) => ({ location })),
+    origin: routeDefinition.origin,
+    destination: routeDefinition.destination,
+    intermediates: routeDefinition.intermediates.map((location) => ({ location })),
     travelMode: "DRIVING",
     routingPreference: "TRAFFIC_UNAWARE",
     fields: ["path", "legs", "distanceMeters", "durationMillis"],
+    language: "en-US",
   };
 
   const { routes } = await Route.computeRoutes(request);
   const route = routes?.[0];
-  if (!route) throw new Error(`No ${routeKey} route was returned.`);
+  if (!route) throw new Error("No driving route was returned.");
 
   const polylines = route.createPolylines();
   polylines.forEach((polyline) => {
     polyline.setOptions({
-      strokeColor: definition.color,
-      strokeOpacity: 0.9,
-      strokeWeight: routeKey === "day1" ? 6 : 5,
-      zIndex: routeKey === "day1" ? 2 : 3,
+      strokeColor: routeDefinition.color,
+      strokeOpacity: 0.92,
+      strokeWeight: 6,
+      zIndex: 2,
     });
     polyline.setMap(tripMapState.map);
   });
@@ -240,70 +319,31 @@ async function computeAndDrawRoute(Route, AdvancedMarkerElement, routeKey) {
     const marker = new AdvancedMarkerElement({
       map: tripMapState.map,
       position,
-      title: definition.markerTitles[index] || `Route stop ${index + 1}`,
-      content: makeMarkerContent(definition.markerLabels[index] || String(index + 1), routeKey),
+      title: routeDefinition.stopNames[index] || `Route stop ${index + 1}`,
+      content: makeMarkerContent(routeDefinition.markerLabels[index] || String(index + 1)),
     });
-
-    if (routeKey === "day1" && index < 7) {
-      tripMapState.primaryMarkers.set(index + 1, marker);
-    }
+    tripMapState.markers.set(index + 1, marker);
     return marker;
   });
 
-  tripMapState.routes[routeKey] = { route, polylines };
-  tripMapState.markers[routeKey] = markers;
+  tripMapState.route = route;
+  tripMapState.polylines = polylines;
+  renderRouteDirections(route);
   return route;
 }
 
-async function fitRoutes(routeKeys = ["day1", "day2"]) {
+async function fitRoute() {
   if (!tripMapState.map || !window.google?.maps) return;
   const { LatLngBounds } = await google.maps.importLibrary("core");
   const bounds = new LatLngBounds();
-  routeKeys.forEach((key) => {
-    tripMapState.routes[key]?.route.path?.forEach((point) => bounds.extend(point));
+  tripMapState.route?.path?.forEach((point) => bounds.extend(point));
+  tripMapState.route?.legs?.forEach((leg) => {
+    if (leg.startLocation) bounds.extend(leg.startLocation);
+    if (leg.endLocation) bounds.extend(leg.endLocation);
+    leg.path?.forEach((point) => bounds.extend(point));
   });
   if (!bounds.isEmpty()) tripMapState.map.fitBounds(bounds, 54);
 }
-
-function applyRouteFilter(filter) {
-  tripMapState.currentFilter = filter;
-  const staticView = staticMapViews[filter] || staticMapViews.all;
-  if (staticMapImage) {
-    staticMapImage.src = staticView.src;
-    staticMapImage.alt = staticView.alt;
-    mapFallback.dataset.routeView = filter;
-  }
-  routeButtons.forEach((button) => {
-    const isActive = button.dataset.routeFilter === filter;
-    button.classList.toggle("is-active", isActive);
-    button.setAttribute("aria-pressed", String(isActive));
-  });
-
-  const showDay1 = filter === "all" || filter === "day1";
-  const showDay2 = filter === "all" || filter === "day2";
-  const visibility = { day1: showDay1, day2: showDay2 };
-
-  Object.entries(visibility).forEach(([key, visible]) => {
-    tripMapState.routes[key]?.polylines.forEach((polyline) => {
-      polyline.setMap(visible ? tripMapState.map : null);
-    });
-    tripMapState.markers[key]?.forEach((marker) => {
-      marker.map = visible ? tripMapState.map : null;
-    });
-  });
-
-  document.querySelector(".map-route-day1")?.classList.toggle("is-hidden", !showDay1);
-  document.querySelector(".map-route-day2")?.classList.toggle("is-hidden", !showDay2);
-
-  if (tripMapState.map) {
-    const keys = filter === "all" ? ["day1", "day2"] : [filter];
-    fitRoutes(keys);
-  }
-}
-
-routeButtons.forEach((button) => {
-  button.addEventListener("click", () => applyRouteFilter(button.dataset.routeFilter));
-});
 
 document.querySelectorAll("[data-map-stop]").forEach((row) => {
   row.addEventListener("mouseenter", () => row.classList.add("is-focused"));
@@ -311,19 +351,20 @@ document.querySelectorAll("[data-map-stop]").forEach((row) => {
   row.addEventListener("click", (event) => {
     if (event.target.closest("a")) return;
     const stop = Number(row.dataset.mapStop);
-    const marker = tripMapState.primaryMarkers.get(stop);
-    applyRouteFilter("day1");
-    row.classList.add("is-focused");
+    const marker = tripMapState.markers.get(stop);
+    document.querySelectorAll("[data-map-stop]").forEach((stopRow) => {
+      stopRow.classList.toggle("is-active", stopRow === row);
+    });
     if (!tripMapState.map || !marker?.position) return;
     tripMapState.map.panTo(marker.position);
-    tripMapState.map.setZoom(stop === 1 ? 10 : 11);
+    tripMapState.map.setZoom(13);
   });
 });
 
 async function initTripMap() {
   const apiKey = window.RAFTING_CONFIG?.googleMapsApiKey?.trim();
   if (!apiKey || !mapElement) {
-    applyRouteFilter("all");
+    renderDirectionsFailure("The Google Maps key is not configured.");
     return;
   }
 
@@ -336,8 +377,8 @@ async function initTripMap() {
     ]);
 
     tripMapState.map = new Map(mapElement, {
-      center: { lat: 38.1, lng: -79.6 },
-      zoom: 7,
+      center: { lat: 38.02, lng: -81.03 },
+      zoom: 9,
       mapId: "DEMO_MAP_ID",
       mapTypeId: "terrain",
       mapTypeControl: false,
@@ -346,18 +387,16 @@ async function initTripMap() {
       gestureHandling: "cooperative",
     });
 
-    await Promise.all([
-      computeAndDrawRoute(Route, AdvancedMarkerElement, "day1"),
-      computeAndDrawRoute(Route, AdvancedMarkerElement, "day2"),
-    ]);
+    await computeAndDrawRoute(Route, AdvancedMarkerElement);
 
     mapFallback.hidden = true;
-    await fitRoutes();
-    applyRouteFilter(tripMapState.currentFilter);
+    await fitRoute();
   } catch (error) {
     mapFallback.hidden = false;
     mapError.hidden = false;
-    mapError.textContent = `${error.message} Check that Maps JavaScript API and Routes API are enabled and that this site is allowed by the key’s HTTP-referrer restriction.`;
+    mapError.textContent =
+      "The live Google route could not load. The four-stop itinerary and Google Maps link remain available.";
+    renderDirectionsFailure(error.message || "The Google route could not load.");
   }
 }
 

@@ -15,9 +15,9 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260728e" />
+    <link rel="stylesheet" href="styles.css?v=20260730a" />
     <script src="config.js"></script>
-    <script src="script.js?v=20260728c" defer></script>
+    <script src="script.js?v=20260730a" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to itinerary</a>
@@ -407,18 +407,17 @@
 
       <section class="route-section paper-section" id="route" aria-labelledby="route-title">
         <div class="route-heading reveal">
-          <h2 id="route-title">The route · <em>Virginia to the New River</em></h2>
+          <h2 id="route-title">The gorge route · <em>four scenic stops</em></h2>
           <p>
-            Google’s Routes and Static Maps APIs trace the actual driving route. Use the filters
-            to see the full weekend or focus on either day.
+            Grandview to Babcock, then Adventures on the Gorge and Canyon Rim. Google’s Routes API
+            traces the roads and provides leg-by-leg driving directions.
           </p>
         </div>
 
         <div class="route-controls reveal" aria-label="Route display">
-          <button class="route-filter is-active" type="button" data-route-filter="all" aria-pressed="true">All stops</button>
-          <button class="route-filter" type="button" data-route-filter="day1" aria-pressed="false">Day 1</button>
-          <button class="route-filter" type="button" data-route-filter="day2" aria-pressed="false">Day 2</button>
-          <a class="route-external" href="https://www.google.com/maps/dir/12003+Holly+Leaf+Ct,+Great+Falls,+VA+22066/6500+Buc-ee%27s+Blvd,+Mount+Crawford,+VA+22841/4700+Grandview+Rd,+Beaver,+WV+25813/486+Babcock+Road,+Clifftop,+WV+25831/Adventures+on+the+Gorge,+Lansing,+WV/219+W+Maple+Ave,+Fayetteville,+WV+25840/162+Visitor+Center+Rd,+Lansing,+WV+25862/" target="_blank" rel="noreferrer">
+          <span class="route-chip">Saturday · West Virginia</span>
+          <span class="route-chip">4 stops · 3 driving legs</span>
+          <a class="route-external" href="https://www.google.com/maps/dir/?api=1&amp;origin=Grandview+Visitor+Center%2C+4700+Grandview+Rd%2C+Beaver%2C+WV+25813&amp;destination=Canyon+Rim+Visitor+Center%2C+162+Visitor+Center+Rd%2C+Lansing%2C+WV+25862&amp;waypoints=Babcock+State+Park%2C+486+Babcock+Road%2C+Clifftop%2C+WV+25831%7CAdventures+on+the+Gorge%2C+219+Chestnutburg+Road%2C+Lansing%2C+WV+25862&amp;travelmode=driving" target="_blank" rel="noreferrer">
             Open in Google Maps <span>↗</span>
           </a>
         </div>
@@ -430,15 +429,14 @@
               <img
                 id="static-route-map"
                 class="static-route-map"
-                src="assets/images/google-route-map.png?v=20260728b"
-                alt="Google road map showing the complete two-day route from Great Falls, Virginia to New River Gorge, West Virginia"
+                src="assets/images/google-route-map-day1.png?v=20260728b"
+                alt="Google road map preview of the drive through New River Gorge, West Virginia"
                 width="1280"
                 height="960"
                 loading="lazy"
               />
-              <div class="map-legend" aria-hidden="true">
-                <span><i class="map-legend-day1"></i>Day 1</span>
-                <span><i class="map-legend-day2"></i>Day 2</span>
+              <div class="map-legend">
+                <span><i class="map-legend-day1"></i>Grandview → Canyon Rim</span>
               </div>
             </div>
             <div id="map-error" class="map-error" hidden></div>
@@ -447,41 +445,40 @@
           <ol class="stop-ledger">
             <li data-map-stop="1">
               <span>1</span>
-              <div><strong>Great Falls</strong><small>Start + return</small></div>
-              <a href="https://www.google.com/maps/search/?api=1&query=12003+Holly+Leaf+Ct%2C+Great+Falls%2C+VA+22066" target="_blank" rel="noreferrer" aria-label="Open Great Falls stop in Google Maps">↗</a>
+              <div><strong>Grandview Visitor Center</strong><small>4700 Grandview Rd · Beaver</small></div>
+              <a href="https://www.google.com/maps/search/?api=1&amp;query=4700+Grandview+Rd%2C+Beaver%2C+WV+25813" target="_blank" rel="noreferrer" aria-label="Open Grandview Visitor Center in Google Maps">↗</a>
             </li>
             <li data-map-stop="2">
               <span>2</span>
-              <div><strong>Buc-ee’s · Mount Crawford</strong><small>Brisket + stretch</small></div>
-              <a href="https://www.google.com/maps/search/?api=1&query=6500+Buc-ee%27s+Blvd%2C+Mount+Crawford%2C+VA+22841" target="_blank" rel="noreferrer" aria-label="Open Buc-ee’s in Google Maps">↗</a>
+              <div><strong>Babcock State Park</strong><small>486 Babcock Rd · Clifftop</small></div>
+              <a href="https://www.google.com/maps/search/?api=1&amp;query=486+Babcock+Road%2C+Clifftop%2C+WV+25831" target="_blank" rel="noreferrer" aria-label="Open Babcock State Park in Google Maps">↗</a>
             </li>
             <li data-map-stop="3">
               <span>3</span>
-              <div><strong>Grandview</strong><small>Rim hike</small></div>
-              <a href="https://www.google.com/maps/search/?api=1&query=4700+Grandview+Rd%2C+Beaver%2C+WV+25813" target="_blank" rel="noreferrer" aria-label="Open Grandview in Google Maps">↗</a>
+              <div><strong>Adventures on the Gorge</strong><small>219 Chestnutburg Rd · Lansing</small></div>
+              <a href="https://www.google.com/maps/search/?api=1&amp;query=219+Chestnutburg+Road%2C+Lansing%2C+WV+25862" target="_blank" rel="noreferrer" aria-label="Open Adventures on the Gorge in Google Maps">↗</a>
             </li>
             <li data-map-stop="4">
               <span>4</span>
-              <div><strong>Babcock</strong><small>Optional mill stop</small></div>
-              <a href="https://www.google.com/maps/search/?api=1&query=486+Babcock+Road%2C+Clifftop%2C+WV+25831" target="_blank" rel="noreferrer" aria-label="Open Babcock in Google Maps">↗</a>
-            </li>
-            <li data-map-stop="5">
-              <span>5</span>
-              <div><strong>Adventures on the Gorge</strong><small>Check-in + rafting</small></div>
-              <a href="https://www.google.com/maps/search/?api=1&query=Adventures+on+the+Gorge%2C+Lansing%2C+WV" target="_blank" rel="noreferrer" aria-label="Open Adventures on the Gorge in Google Maps">↗</a>
-            </li>
-            <li data-map-stop="6">
-              <span>6</span>
-              <div><strong>Pies & Pints</strong><small>Dinner</small></div>
-              <a href="https://www.google.com/maps/search/?api=1&query=219+W+Maple+Ave%2C+Fayetteville%2C+WV+25840" target="_blank" rel="noreferrer" aria-label="Open Pies and Pints in Google Maps">↗</a>
-            </li>
-            <li data-map-stop="7">
-              <span>7</span>
-              <div><strong>Canyon Rim</strong><small>Sunset + morning fog</small></div>
-              <a href="https://www.google.com/maps/search/?api=1&query=162+Visitor+Center+Rd%2C+Lansing%2C+WV+25862" target="_blank" rel="noreferrer" aria-label="Open Canyon Rim in Google Maps">↗</a>
+              <div><strong>Canyon Rim Visitor Center</strong><small>162 Visitor Center Rd · Lansing</small></div>
+              <a href="https://www.google.com/maps/search/?api=1&amp;query=162+Visitor+Center+Rd%2C+Lansing%2C+WV+25862" target="_blank" rel="noreferrer" aria-label="Open Canyon Rim Visitor Center in Google Maps">↗</a>
             </li>
           </ol>
         </div>
+
+        <section class="directions-card reveal" aria-labelledby="directions-title">
+          <header class="directions-heading">
+            <div>
+              <p class="section-label">Google driving directions</p>
+              <h3 id="directions-title">Road by road, stop by stop.</h3>
+            </div>
+            <p id="route-summary" class="route-summary" aria-live="polite">Calculating the route…</p>
+          </header>
+          <div id="route-directions" class="route-directions" aria-live="polite" aria-busy="true"></div>
+          <noscript>
+            <p class="directions-empty">Enable JavaScript to load the live route and turn-by-turn directions.</p>
+          </noscript>
+        </section>
       </section>
 
       <section class="trip-checklist paper-section" id="checklist" aria-labelledby="checklist-title">
