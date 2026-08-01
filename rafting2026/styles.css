@@ -2458,10 +2458,17 @@ h3 {
     height: 64px;
   }
 
+  body.menu-open .site-header {
+    color: var(--white);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
   .menu-button {
     position: relative;
     z-index: 3;
     display: block;
+    touch-action: manipulation;
   }
 
   .menu-button[aria-expanded="true"] span:first-child {
@@ -2474,17 +2481,24 @@ h3 {
 
   .site-nav {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
     z-index: 2;
     display: flex;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
     flex-direction: column;
     gap: 12px;
     justify-content: center;
-    padding: 80px 30px;
+    padding: calc(72px + env(safe-area-inset-top)) 30px calc(32px + env(safe-area-inset-bottom));
+    overflow-y: auto;
     color: var(--white);
     background: var(--ink-deep);
     opacity: 0;
+    overscroll-behavior: contain;
     pointer-events: none;
+    -webkit-overflow-scrolling: touch;
     transform: translateY(-16px);
     transition:
       opacity 220ms ease,
@@ -2500,6 +2514,7 @@ h3 {
   .site-nav a {
     font-family: var(--serif);
     font-size: 2.5rem;
+    touch-action: manipulation;
   }
 
   .hero {
