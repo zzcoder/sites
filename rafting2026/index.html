@@ -15,9 +15,9 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260730a" />
+    <link rel="stylesheet" href="styles.css?v=20260731a" />
     <script src="config.js"></script>
-    <script src="script.js?v=20260730a" defer></script>
+    <script src="script.js?v=20260731a" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to itinerary</a>
@@ -38,6 +38,7 @@
       </button>
       <nav class="site-nav" aria-label="Primary navigation">
         <a href="#journey">Journey</a>
+        <a href="#weather">Weather</a>
         <a href="#day-one">Day 1</a>
         <a href="#day-two">Day 2</a>
         <a href="#route">Map</a>
@@ -115,6 +116,89 @@
         <div class="journey-quote reveal">
           <span>01</span>
           <p>Leave room in the schedule for the gorge to surprise you.</p>
+        </div>
+      </section>
+
+      <section class="weekend-weather" id="weather" aria-labelledby="weather-title" data-trip-forecast>
+        <div class="weather-heading reveal">
+          <div>
+            <p class="section-label">Fayetteville · New River Gorge</p>
+            <h2 id="weather-title">Weekend weather</h2>
+          </div>
+          <div class="weather-source">
+            <span data-weather-status aria-live="polite">NWS forecast · Updated Jul 31, 7:56 PM EDT</span>
+            <a
+              href="https://forecast.weather.gov/MapClick.php?lat=38.0521&lon=-81.1055"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open full forecast <b>↗</b>
+            </a>
+          </div>
+        </div>
+
+        <div class="weather-grid">
+          <article class="weather-card reveal" data-weather-date="2026-08-01">
+            <div class="weather-card-top">
+              <div>
+                <span class="weather-date">Day 1 · August 1</span>
+                <h3>Saturday</h3>
+              </div>
+              <svg class="weather-icon" aria-hidden="true" viewBox="0 0 72 72">
+                <circle cx="23" cy="22" r="10" />
+                <path d="M16 14 11 9m12 1V3m8 11 5-5M10 22H3" />
+                <path d="M22 52h31c8 0 13-5 13-12s-5-12-12-12c-2 0-4 .4-5.5 1.2C45.8 22.6 40 19 33 19c-10 0-17 7-17 17v1c-6 .8-10 4-10 8 0 5 5 7 16 7Z" />
+              </svg>
+            </div>
+            <p class="weather-condition" data-weather-summary>Mostly cloudy</p>
+            <div class="weather-temperatures" aria-label="High 82 degrees, low 67 degrees Fahrenheit">
+              <span>High <strong data-weather-high>82°</strong></span>
+              <span>Low <strong data-weather-low>67°</strong></span>
+            </div>
+            <div class="weather-rain">
+              <span>Day rain <strong data-weather-day-rain>4%</strong></span>
+              <span>Night storms <strong data-weather-night-rain>50%</strong></span>
+            </div>
+            <p class="weather-detail" data-weather-detail>
+              Mostly cloudy during the day with south wind near 8 mph. Showers and thunderstorms
+              become possible overnight, with gusts up to 29 mph.
+            </p>
+          </article>
+
+          <article class="weather-card weather-card-storm reveal" data-weather-date="2026-08-02">
+            <div class="weather-card-top">
+              <div>
+                <span class="weather-date">Day 2 · August 2</span>
+                <h3>Sunday</h3>
+              </div>
+              <svg class="weather-icon" aria-hidden="true" viewBox="0 0 72 72">
+                <path d="M18 42h37c7 0 12-5 12-12s-5-12-12-12c-2 0-4 .4-5.5 1.2C46 12.6 40 9 33 9 23 9 16 16 16 26v1C9 28 5 31 5 35c0 5 5 7 13 7Z" />
+                <path d="m34 43-7 13h8l-5 13 15-18h-9l5-8" />
+                <path d="m15 49-4 8m42-8-4 8" />
+              </svg>
+            </div>
+            <p class="weather-condition" data-weather-summary>Showers &amp; thunderstorms</p>
+            <div class="weather-temperatures" aria-label="High 78 degrees, low 65 degrees Fahrenheit">
+              <span>High <strong data-weather-high>78°</strong></span>
+              <span>Low <strong data-weather-low>65°</strong></span>
+            </div>
+            <div class="weather-rain">
+              <span>Day rain <strong data-weather-day-rain>90%</strong></span>
+              <span>Night rain <strong data-weather-night-rain>90%</strong></span>
+            </div>
+            <p class="weather-detail" data-weather-detail>
+              Showers and thunderstorms are likely throughout the rafting day. South wind 8–12
+              mph with gusts up to 26 mph.
+            </p>
+          </article>
+        </div>
+
+        <div class="weather-alert reveal">
+          <span aria-hidden="true">!</span>
+          <p>
+            <strong>Check again before launch.</strong> Forecasts can shift quickly in the gorge.
+            Follow your rafting guides’ call, and leave exposed overlooks at the first sound of thunder.
+          </p>
         </div>
       </section>
 

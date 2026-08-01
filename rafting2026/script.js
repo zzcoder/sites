@@ -9,6 +9,11 @@ const mapFallback = document.querySelector("#map-fallback");
 const mapError = document.querySelector("#map-error");
 const routeSummary = document.querySelector("#route-summary");
 const routeDirections = document.querySelector("#route-directions");
+const tripForecast = document.querySelector("[data-trip-forecast]");
+const tripForecastStatus = document.querySelector("[data-weather-status]");
+
+const tripForecastDates = ["2026-08-01", "2026-08-02"];
+const nwsForecastEndpoint = "https://api.weather.gov/gridpoints/RLX/82,56/forecast";
 
 const tripMapState = {
   map: null,
@@ -33,6 +38,81 @@ const routeDefinition = {
     "Canyon Rim Visitor Center",
   ],
 };
+
+function formatRainChance(period) {
+  const chance = period?.probabilityOfPrecipitation?.value;
+  return Number.isFinite(chance) ? `${Math.round(chance)}%` : "—";
+}
+
+function updateForecastCard(date, dayPeriod, nightPeriod) {
+  const card = tripForecast?.querySelector(`[data-weather-date="${date}"]`);
+  if (!card || !dayPeriod) return;
+
+  const high = card.querySelector("[data-weather-high]");
+  const low = card.querySelector("[data-weather-low]");
+  const summary = card.querySelector("[data-weather-summary]");
+  const dayRain = card.querySelector("[data-weather-day-rain]");
+  const nightRain = card.querySelector("[data-weather-night-rain]");
+  const detail = card.querySelector("[data-weather-detail]");
+  const temperatures = card.querySelector(".weather-temperatures");
+
+  if (high) high.textContent = `${dayPeriod.temperature}°`;
+  if (low && nightPeriod) low.textContent = `${nightPeriod.temperature}°`;
+  if (summary) summary.textContent = dayPeriod.shortForecast;
+  if (dayRain) dayRain.textContent = formatRainChance(dayPeriod);
+  if (nightRain) nightRain.textContent = formatRainChance(nightPeriod);
+  if (detail) {
+    detail.textContent = [dayPeriod.detailedForecast, nightPeriod?.detailedForecast]
+      .filter(Boolean)
+      .join(" Overnight: ");
+  }
+  if (temperatures) {
+    temperatures.setAttribute(
+      "aria-label",
+      `High ${dayPeriod.temperature} degrees${nightPeriod ? `, low ${nightPeriod.temperature} degrees` : ""} Fahrenheit`,
+    );
+  }
+}
+
+async function loadTripForecast() {
+  if (!tripForecast) return;
+
+  try {
+    const response = await fetch(nwsForecastEndpoint, {
+      headers: { Accept: "application/geo+json" },
+    });
+    if (!response.ok) throw new Error(`NWS forecast request failed with ${response.status}`);
+
+    const forecast = await response.json();
+    const periods = forecast?.properties?.periods || [];
+
+    tripForecastDates.forEach((date) => {
+      const matchingPeriods = periods.filter((period) => period.startTime?.startsWith(date));
+      const dayPeriod = matchingPeriods.find((period) => period.isDaytime);
+      const nightPeriod = matchingPeriods.find((period) => !period.isDaytime);
+      updateForecastCard(date, dayPeriod, nightPeriod);
+    });
+
+    const generatedAt = forecast?.properties?.generatedAt;
+    if (tripForecastStatus && generatedAt) {
+      const formattedUpdate = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/New_York",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        timeZoneName: "short",
+      }).format(new Date(generatedAt));
+      tripForecastStatus.textContent = `Live NWS forecast · Updated ${formattedUpdate}`;
+    }
+  } catch {
+    if (tripForecastStatus) {
+      tripForecastStatus.textContent = "NWS forecast snapshot · Updated Jul 31, 7:56 PM EDT";
+    }
+  }
+}
+
+loadTripForecast();
 
 function updateHeader() {
   header?.classList.toggle("is-scrolled", window.scrollY > 32);

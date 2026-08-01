@@ -538,6 +538,198 @@ h3 {
   line-height: 1.25;
 }
 
+.weekend-weather {
+  padding: 105px max(32px, calc((100vw - 1460px) / 2));
+  color: var(--white);
+  background:
+    radial-gradient(circle at 82% 8%, rgba(239, 196, 124, 0.18), transparent 30%),
+    var(--river);
+}
+
+.weather-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 48px;
+  margin-bottom: 54px;
+  align-items: end;
+}
+
+.weather-heading .section-label {
+  margin-bottom: 12px;
+  color: var(--sand-light);
+}
+
+.weather-heading h2 {
+  margin: 0;
+  font-size: clamp(3.4rem, 5.6vw, 6.2rem);
+}
+
+.weather-source {
+  display: grid;
+  gap: 8px;
+  justify-items: end;
+  padding-bottom: 8px;
+  font-size: 0.78rem;
+}
+
+.weather-source span {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.weather-source a {
+  color: var(--sand-light);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.weather-source a:hover,
+.weather-source a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.weather-card {
+  min-height: 470px;
+  padding: clamp(32px, 4vw, 58px);
+  background: rgba(3, 35, 39, 0.66);
+}
+
+.weather-card-storm {
+  background: rgba(3, 25, 29, 0.84);
+}
+
+.weather-card-top {
+  display: flex;
+  gap: 28px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.weather-date {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--sand-light);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.weather-card h3 {
+  margin: 0;
+  color: var(--white);
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 4vw, 4.5rem);
+  font-weight: 500;
+}
+
+.weather-icon {
+  width: clamp(64px, 7vw, 92px);
+  flex: 0 0 auto;
+  fill: none;
+  stroke: var(--sand-light);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.weather-condition {
+  min-height: 1.45em;
+  margin: 30px 0 8px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+}
+
+.weather-temperatures {
+  display: flex;
+  gap: 28px;
+  margin-bottom: 28px;
+  align-items: baseline;
+}
+
+.weather-temperatures > span {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.weather-temperatures strong {
+  margin-left: 5px;
+  color: var(--white);
+  font-family: var(--serif);
+  font-size: clamp(2.3rem, 4vw, 4rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+.weather-rain {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.weather-rain span {
+  flex: 1 1 0;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 0.76rem;
+}
+
+.weather-rain strong {
+  display: block;
+  margin-top: 2px;
+  color: var(--sand-light);
+  font-size: 1.08rem;
+}
+
+.weather-detail {
+  max-width: 580px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.88rem;
+}
+
+.weather-alert {
+  display: flex;
+  gap: 18px;
+  margin-top: 24px;
+  padding: 22px 26px;
+  color: var(--ink-deep);
+  background: var(--sand-light);
+  align-items: center;
+}
+
+.weather-alert > span {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  color: var(--sand-light);
+  background: var(--ink-deep);
+  border-radius: 50%;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  place-items: center;
+}
+
+.weather-alert p {
+  margin: 0;
+  font-size: 0.86rem;
+}
+
 .day {
   position: relative;
 }
@@ -2156,6 +2348,7 @@ h3 {
 
   .day-one,
   .day-two,
+  .weekend-weather,
   .route-section,
   .trip-checklist,
   .field-notes,
@@ -2379,6 +2572,45 @@ h3 {
 
   .section-rail {
     grid-row: 1 / 3;
+  }
+
+  .weekend-weather {
+    padding: 76px 20px;
+  }
+
+  .weather-heading {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    margin-bottom: 36px;
+  }
+
+  .weather-source {
+    justify-items: start;
+  }
+
+  .weather-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .weather-card {
+    min-height: 0;
+    padding: 32px 26px;
+  }
+
+  .weather-card-top {
+    gap: 18px;
+  }
+
+  .weather-condition {
+    margin-top: 24px;
+  }
+
+  .weather-temperatures {
+    gap: 20px;
+  }
+
+  .weather-alert {
+    align-items: flex-start;
   }
 
   .day-one,
