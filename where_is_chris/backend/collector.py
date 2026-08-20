@@ -20,6 +20,7 @@ from .database import (
     set_setting,
     utc_now_iso,
 )
+from .neon import best_effort_sync
 
 
 SHIP_ID = int(os.environ.get("MARINETRAFFIC_SHIP_ID", "447122"))
@@ -174,6 +175,7 @@ def run_collection(
         if os.environ.get("AISSTREAM_API_KEY", "").strip():
             evaluate_freshness(connection, latest_position(connection, SHIP_ID), notifier)
             record_run(connection, True, False, "AISStream freshness check")
+            best_effort_sync(str(database) if database else None)
             print("AISStream freshness check complete; MarineTraffic API fallback is not configured.")
             return 0
         record_run(connection, False, False, "No AIS provider is configured")
@@ -184,8 +186,10 @@ def run_collection(
         position = fetcher(api_key, SHIP_ID)
         inserted = insert_position(connection, position)
         record_run(connection, True, inserted, "Position inserted" if inserted else "AIS report unchanged")
+        best_effort_sync(str(database) if database else None)
     except Exception as exc:  # network/provider errors must still trigger freshness checks
         record_run(connection, False, False, str(exc))
+        best_effort_sync(str(database) if database else None)
         evaluate_freshness(connection, latest_position(connection, SHIP_ID), notifier)
         print(f"Collector error: {exc}", file=sys.stderr)
         return 1

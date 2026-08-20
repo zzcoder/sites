@@ -77,7 +77,7 @@ def utc_now_iso() -> str:
     return datetime.now(UTC).isoformat().replace("+00:00", "Z")
 
 
-def insert_position(connection: sqlite3.Connection, position: dict[str, Any]) -> bool:
+def insert_position(connection: sqlite3.Connection, position: dict[str, Any]) -> int | None:
     cursor = connection.execute(
         """
         INSERT OR IGNORE INTO positions (
@@ -93,15 +93,16 @@ def insert_position(connection: sqlite3.Connection, position: dict[str, Any]) ->
         position,
     )
     connection.commit()
-    return cursor.rowcount == 1
+    return int(cursor.lastrowid) if cursor.rowcount == 1 and cursor.lastrowid is not None else None
 
 
-def record_run(connection: sqlite3.Connection, success: bool, inserted: bool, message: str = "") -> None:
-    connection.execute(
+def record_run(connection: sqlite3.Connection, success: bool, inserted: bool, message: str = "") -> int:
+    cursor = connection.execute(
         "INSERT INTO collector_runs (ran_at, success, inserted, message) VALUES (?, ?, ?, ?)",
-        (utc_now_iso(), int(success), int(inserted), message[:1000]),
+        (utc_now_iso(), int(bool(success)), int(bool(inserted)), message[:1000]),
     )
     connection.commit()
+    return int(cursor.lastrowid)
 
 
 def row_to_dict(row: sqlite3.Row | None) -> dict[str, Any] | None:

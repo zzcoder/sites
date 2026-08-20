@@ -12,6 +12,7 @@ from websockets.asyncio.client import connect as websocket_connect
 
 from .collector import SHIP_ID, evaluate_freshness, number, parse_datetime
 from .database import connect, insert_position, latest_position, record_run, utc_now_iso
+from .neon import best_effort_sync, is_configured, mirror_position
 
 
 AISSTREAM_URL = "wss://stream.aisstream.io/v0/stream"
@@ -157,6 +158,11 @@ async def listen_forever(api_key: str, mmsi: str, database: Path | str | None = 
                         if position.get("mmsi") != mmsi:
                             continue
                         inserted = insert_position(connection, position)
+                        if inserted:
+                            try:
+                                mirror_position(position, inserted)
+                            except Exception as exc:
+                                print(f"Neon mirror error: {exc}", file=sys.stderr, flush=True)
                         record_run(
                             connection,
                             True,
@@ -170,6 +176,8 @@ async def listen_forever(api_key: str, mmsi: str, database: Path | str | None = 
                                 f"{position['longitude']:.5f} at {position['ais_timestamp']}.",
                                 flush=True,
                             )
+                        elif is_configured():
+                            best_effort_sync(str(database) if database else None)
             except asyncio.CancelledError:
                 raise
             except Exception as exc:

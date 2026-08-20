@@ -9,6 +9,7 @@ from typing import Any
 
 from .collector import SHIP_ID, number
 from .database import connect, insert_position, record_run, utc_now_iso
+from .neon import best_effort_sync, mirror_position
 
 
 def position_from_har(payload: Any, fetched_at: str | None = None) -> dict[str, Any]:
@@ -67,6 +68,11 @@ def import_har(path: Path | str, database: Path | str | None = None) -> bool:
             inserted,
             "MarineTraffic Firefox backup inserted" if inserted else "MarineTraffic Firefox backup unchanged",
         )
+        if inserted:
+            try:
+                mirror_position(position, inserted)
+            except Exception:
+                best_effort_sync(str(database) if database else None)
         return inserted
     finally:
         connection.close()
