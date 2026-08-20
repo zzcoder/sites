@@ -1,0 +1,11 @@
+[Unit]
+Description=Check AIS freshness and poll the optional MarineTraffic fallback
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/zhihongz/work/sites/where_is_chris
+EnvironmentFile=-/home/zhihongz/work/sites/where_is_chris/.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/zhihongz/venv/3.12/bin/python -m backend.collector

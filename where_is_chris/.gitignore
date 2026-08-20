@@ -1,0 +1,14 @@
+node_modules/
+dist/
+data/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.db
+*.db-shm
+*.db-wal
+playwright-report/
+test-results/
+.vercel/
+.env*
+!.env.example

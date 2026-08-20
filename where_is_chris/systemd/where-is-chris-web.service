@@ -1,0 +1,16 @@
+[Unit]
+Description=Where is Chris public vessel tracker
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/zhihongz/work/sites/where_is_chris
+EnvironmentFile=-/home/zhihongz/work/sites/where_is_chris/.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/zhihongz/venv/3.12/bin/python -m backend.server --host 127.0.0.1 --port 8765
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target

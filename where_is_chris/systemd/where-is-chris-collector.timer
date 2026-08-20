@@ -1,0 +1,12 @@
+[Unit]
+Description=Collect Where is Chris AIS position every five minutes
+
+[Timer]
+OnBootSec=45s
+OnUnitActiveSec=5min
+AccuracySec=10s
+Persistent=true
+Unit=where-is-chris-collector.service
+
+[Install]
+WantedBy=timers.target
